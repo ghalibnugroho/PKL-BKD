@@ -7,6 +7,7 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
+        $this->load->model('data_model');
     }
 
     public function index()
@@ -34,20 +35,10 @@ class Auth extends CI_Controller
             $this->load->view('auth/registration');
             $this->load->view('templates/auth_footer');
         } else {
-            $data = [
-                'name' => $this->input->post('fullName'),
-                'email' => $this->input->post('email'),
-                'image' => 'default.jpg',
-                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-                'role_id' => 2,
-                'is_active' => 1,
-                'date_created' => time(),
-            ];
-
-            $this->db->insert('user', $data);
+            $this->data_model->regist();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Congratulations! Akun anda telah terdaftar. Silahkan Login</div>');
-            redirect('auth');
+            redirect(base_url());
         }
     }
 }
