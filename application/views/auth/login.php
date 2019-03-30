@@ -13,17 +13,15 @@
                     <h1 class="h4 text-gray-900 mb-4">PKL Nih</h1>
                   </div>
                   <?=$this->session->flashdata('message');?>
-                  <form class="user">
+                  <form class="user" method="post" action="<?=base_url();?>">
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                      <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email" value="<?=set_value('email');?>">
+                      <?=form_error('email', '<small class="text-danger pl-3">', '</small>');?>
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox small">
-                      </div>
-                    </div>
+                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" name="password" value="<?=set_value('password');?>">
+                      <?=form_error('password', '<small class="text-danger pl-3">', '</small>');?>
+                    </div><br>
                     <button class="btn btn-primary btn-user btn-block">
                       Login
                     </button>
