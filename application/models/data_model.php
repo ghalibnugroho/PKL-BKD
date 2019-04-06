@@ -20,4 +20,8 @@ class data_model extends CI_Model
         ];
         $this->db->insert('user', $data);
     }
+    public function datalogin(){
+        $data = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        return $data;
+    }
 }
