@@ -11,7 +11,6 @@
                 <div class="p-5">
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">PKL Nih</h1>
-                    <h1>Edit Disini</h1>
                   </div>
                   <?=$this->session->flashdata('message');?>
                   <form class="user" method="post" action="<?=base_url();?>">
