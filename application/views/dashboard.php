@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Dashboard</title>
+  <title>BKD Apps</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -125,9 +125,9 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="<?php echo site_url('home/contohsurat')?>"">
           <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
+          <span>Contoh Surat</span></a>
       </li>
 
       <!-- Divider -->

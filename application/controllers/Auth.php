@@ -8,6 +8,9 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('data_model');
+        
+        $this->load->view('templates/auth_header');
+        $this->load->view('templates/auth_footer');
     }
 
     public function index()
@@ -16,9 +19,7 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         if ($this->form_validation->run() == false) {
             $data['title'] = 'PKL_BKD';
-            $this->load->view('templates/auth_header', $data);
             $this->load->view('auth/login');
-            $this->load->view('templates/auth_footer');
         } else {
             $this->_login();
         }

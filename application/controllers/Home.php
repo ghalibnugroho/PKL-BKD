@@ -6,8 +6,6 @@ class Home extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->view('templates/auth_header');
-        $this->load->view('templates/auth_footer');
     }
 
 
@@ -16,7 +14,11 @@ class Home extends CI_Controller
         $data = $this->data_model->datalogin();
         $this->load->view('dashboard',$data);
         
-
-
+        $this->load->view('templates/auth_header');
+        $this->load->view('templates/auth_footer');
+        
+    }
+    public function contohsurat(){
+        $this->load->view('contohsurat');
     }
 }
