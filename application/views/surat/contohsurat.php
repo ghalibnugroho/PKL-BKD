@@ -168,7 +168,7 @@ ob_start();
 ?>
 		<header>
             <h1>Invoice</h1>
-            <h1>Ini Contoh Surat 1<?php
+            <h1>Ini Contoh Surat<?php
 echo $this->session->userdata('email'); ?>
 
 	</body>
