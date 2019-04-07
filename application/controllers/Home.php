@@ -12,8 +12,7 @@ class Home extends CI_Controller
     {
         $this->load->model('data_model');
         $data = $this->data_model->datalogin();
-        $this->load->view('dashboard', $data);
-
+        $this->load->view('home', $data);
         $this->load->view('templates/auth_header');
         $this->load->view('templates/auth_footer');
 
