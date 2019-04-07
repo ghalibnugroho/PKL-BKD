@@ -8,17 +8,18 @@ class Home extends CI_Controller
         parent::__construct();
     }
 
-
-    public function homes(){
+    public function homes()
+    {
         $this->load->model('data_model');
         $data = $this->data_model->datalogin();
-        $this->load->view('dashboard',$data);
-        
+        $this->load->view('dashboard', $data);
+
         $this->load->view('templates/auth_header');
         $this->load->view('templates/auth_footer');
-        
+
     }
-    public function contohsurat(){
-        $this->load->view('contohsurat');
+    public function contohsurat()
+    {
+        $this->load->view('surat/contohsurat');
     }
 }
