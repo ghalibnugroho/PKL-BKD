@@ -116,7 +116,7 @@ aside h1 { border-color: #999; border-bottom-style: solid; }
 	border-width: 1px;
 	display: block;
 	font-size: .8rem;
-	padding: 0.25em 0.5em;	
+	padding: 0.25em 0.5em;
 	float: left;
 	text-align: center;
 	width: 0.6em;
@@ -155,28 +155,26 @@ tr:hover .cut { opacity: 1; }
 
 @page { margin: 0; }
 		</style>
-		
+
 	</head>
 	<body>
-	
-	
-	
-	
-	<?php
-	ob_start();	
 
-	
-	
-	?>
+
+
+
+	<?php
+ob_start();
+
+?>
 		<header>
             <h1>Invoice</h1>
-            <h1>Ini Contoh Surat <?php
-            echo $this->session->userdata('email');?>
-			
+            <h1>Ini Contoh Surat 1<?php
+echo $this->session->userdata('email'); ?>
+
 	</body>
 </html>
 
-<?php 
+<?php
 
 ob_end_flush();
 
