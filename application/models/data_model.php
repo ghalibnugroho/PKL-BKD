@@ -18,10 +18,11 @@ class data_model extends CI_Model
             'is_active' => 1,
             'date_created' => time(),
         ];
-        $this->db->insert('user', $data);
+        $this->db->insert('account_bkd', $data);
     }
-    public function datalogin(){
-        $data = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+    public function datalogin()
+    {
+        $data = $this->db->get_where('account_bkd', ['email' => $this->session->userdata('email')])->row_array();
         return $data;
     }
 }

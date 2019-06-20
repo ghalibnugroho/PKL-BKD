@@ -8,12 +8,12 @@ class Home extends CI_Controller
         parent::__construct();
     }
 
-    public function homes()
+    public function index()
     {
         $this->load->model('data_model');
         $data = $this->data_model->datalogin();
-        $this->load->view('home', $data);
         $this->load->view('templates/auth_header');
+        $this->load->view('home', $data);
         $this->load->view('templates/auth_footer');
 
     }

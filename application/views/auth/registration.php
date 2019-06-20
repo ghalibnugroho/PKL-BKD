@@ -15,11 +15,11 @@
                     </div>
                     <form class="user" method="post" action="<?=base_url('auth/registration');?>">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-user" id="fullName" name="fullName" placeholder="Full name" value="<?= set_value('fullName'); ?>">
+                            <input type="text" class="form-control form-control-user" id="fullName" name="fullName" placeholder="Full name" value="<?=set_value('fullName');?>">
                             <?=form_error('fullName', '<small class="text-danger pl-3">', '</small>');?>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="email" placeholder="Email Address" value="<?= set_value('email'); ?>">
+                            <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="email" placeholder="Email Address" value="<?=set_value('email');?>">
                             <?=form_error('email', '<small class="text-danger pl-3">', '</small>');?>
                         </div>
                         <div class="form-group row">
