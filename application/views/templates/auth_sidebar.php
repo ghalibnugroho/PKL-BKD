@@ -7,8 +7,8 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="home">
-        <img src="assets/img/logo-bkd-malang.png" width="50">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?=base_url('home');?>">
+        <img src="<?=base_url('assets/');?>img/logo-bkd-malang.png" width="50">
         <div class="sidebar-brand-text mx-auto my-1">BKD MALANG</div>
       </a>
 

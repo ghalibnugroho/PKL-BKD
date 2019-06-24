@@ -9,3 +9,7 @@
 .btn-primary:hover{
     background-color: #bbe6ff;
 }
+.scrollable{
+    height: 300px;
+    overflow: scroll;
+}
