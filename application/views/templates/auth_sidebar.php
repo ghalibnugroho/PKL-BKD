@@ -109,7 +109,12 @@
           <i class="fas fa-fw fa-table"></i>
           <span>Contoh Surat</span></a>
       </li>
-
+      <!-- Nav Item - Buat SPPDs -->
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo site_url('sppdController/buatsppd') ?>"">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Buat SPPD</span></a>
+      </li>
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
