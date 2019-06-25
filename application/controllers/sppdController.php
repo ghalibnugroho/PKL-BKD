@@ -11,17 +11,11 @@ class sppdController extends CI_Controller
     public function listsppd()
     {
         $this->load->helper('url'); 
-        $this->load->view('templates/auth_header');
-        $this->load->view('templates/auth_sidebar');
         $this->load->view('listsppd');
-        $this->load->view('templates/auth_footer');
     }
     public function buatsppd()
     {
         $this->load->helper('url'); 
-        $this->load->view('templates/auth_header');
-        $this->load->view('templates/auth_sidebar');
         $this->load->view('buatsppd');
-        $this->load->view('templates/auth_footer');
     }
 }

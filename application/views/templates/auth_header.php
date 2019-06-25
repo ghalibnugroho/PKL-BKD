@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
 
@@ -21,4 +19,4 @@
 
 </head>
 
-<body class="bg-gradient-primary">
+

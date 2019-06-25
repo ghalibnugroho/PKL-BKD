@@ -1,10 +1,15 @@
 
-
+<!DOCTYPE html>
+<html lang="en">
+  <?php $this->load->view("templates/auth_header") ?>
+<body id="page-top">
+  <div id="wrapper">
+    <?php $this->load->view("templates/auth_sidebar") ?>
 
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
+    
       <!-- Main Content -->
       <div id="content">
 
@@ -162,8 +167,9 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php
-echo $this->session->userdata('email');
-?></span>
+                    echo $this->session->userdata('email');
+                    ?>
+                </span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>
               <!-- Dropdown - User Information -->
@@ -524,22 +530,8 @@ echo $this->session->userdata('email');
     </div>
   </div>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
+  <!-- Footer-->
+  <?php $this->load->view("templates/auth_footer") ?>
 
 </body>
 
