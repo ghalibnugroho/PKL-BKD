@@ -9,8 +9,6 @@ class Auth extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('data_model');
 
-        $this->load->view('templates/auth_header');
-        $this->load->view('templates/auth_footer');
     }
 
     public function index()

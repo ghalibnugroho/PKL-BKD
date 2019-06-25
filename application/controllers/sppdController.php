@@ -10,12 +10,10 @@ class sppdController extends CI_Controller
     }
     public function listsppd()
     {
-        $this->load->helper('url'); 
         $this->load->view('listsppd');
     }
     public function buatsppd()
     {
-        $this->load->helper('url'); 
         $this->load->view('buatsppd');
     }
 }

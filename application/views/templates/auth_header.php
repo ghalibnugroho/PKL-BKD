@@ -7,6 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
+  <title><?php echo SITE_NAME ." : ". ucfirst($this->uri->segment(2)) ?></title>
 
 
   <!-- Custom fonts for this template-->
@@ -16,6 +17,11 @@
   <!-- Custom styles for this template-->
   <link href="<?=base_url('assets/');?>css/sb-admin-2.min.css" rel="stylesheet">
   <link href="<?=base_url('assets/');?>css/custom.css" rel="stylesheet">
+  <link href="<?=base_url('assets/');?>css/jquery-ui.css" rel="stylesheet">
+  <link href="<?=base_url('assets/');?>css/jquery-ui-min.css" rel="stylesheet">
+  <link href="<?=base_url('assets/');?>css/jquery-ui.structure.css" rel="stylesheet">
+  <link href="<?=base_url('assets/');?>css/jquery-ui.structure-min.css" rel="stylesheet">
+
 
 </head>
 
