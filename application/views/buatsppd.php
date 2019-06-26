@@ -318,8 +318,11 @@
                         <hr />
                         <div class="form-group">
                             <label>Dasar Surat</label>
-                            <input type="text" name="letter_content" id="letter_content" 
-                            class="form-control  sc-input-required" placeholder="Dasar Surat">
+                                    <!--<input type="text" name="letter_content" id="letter_content" 
+                            class="form-control  sc-input-required" placeholder="Dasar Surat"> -->
+                            <textarea rows="6" cols="130" id="letter_content" 
+                            class="form-control  sc-input-required">
+                            </textarea>
                         </div>
                         <button type="button" class="btn btn-primary" id="cmdSave" name="cmdSave">Simpan</button>
                     </div>
