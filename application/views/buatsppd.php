@@ -1,4 +1,6 @@
-
+<?php 
+    require_once('templates/session.php');
+?>
 <!DOCTYPE html>
 
 <html lang="en">
