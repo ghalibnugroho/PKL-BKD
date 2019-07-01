@@ -12,11 +12,7 @@ class Home extends CI_Controller
     {
         $this->load->model('data_model');
         $data = $this->data_model->datalogin();
-        if (!empty($this->session->userdata('email'))) {
-            $this->load->view('home', $data);
-        } else {
-            redirect(base_url());
-        }
+        $this->load->view('home', $data);
 
     }
     public function contohsurat()

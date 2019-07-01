@@ -15,16 +15,11 @@ class Auth extends CI_Controller
     {
         $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email'); //trim untuk menghilangkan spasi agar tdk masuk ke database
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
-        if (empty($this->session->userdata('email'))) {
-            if ($this->form_validation->run() == false) {
-                $data['title'] = 'PKL_BKD';
-                $this->load->view('auth/login');
-            } else {
-                $this->_login();
-            }
-        }
-        else{
-            redirect(base_url('home'));
+        if ($this->form_validation->run() == false) {
+            $data['title'] = 'PKL_BKD';
+            $this->load->view('auth/login');
+        } else {
+            $this->_login();
         }
     }
 
