@@ -1,7 +1,8 @@
-  
+
 <!DOCTYPE html>
 <html lang="en">
-  <?php $this->load->view("templates/auth_header") ?>
+
+  <?php $this->load->view("templates/auth_header")?>
 
   <div class="container">
 
@@ -47,5 +48,5 @@
       </div>
     </div>
   </div>
-  <?php $this->load->view("templates/auth_footer") ?>
+  <?php $this->load->view("templates/auth_footer")?>
 </html>
