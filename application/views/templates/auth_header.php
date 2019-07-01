@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title><?php echo SITE_NAME ." : ". ucfirst($this->uri->segment(2)) ?></title>
+  <title><?php echo SITE_NAME . " : " . ucfirst($this->uri->segment(2)) ?></title>
 
 
   <!-- Custom fonts for this template-->
@@ -24,5 +24,4 @@
 
 
 </head>
-
-
+<body class="bg-gradient-primary">
