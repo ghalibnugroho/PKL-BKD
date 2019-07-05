@@ -115,6 +115,13 @@
           <span>Buat SPPD</span></a>
       </li>
       <!-- Divider -->
+      <!-- Nav Item - Buat SPPDs -->
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo site_url('sppdController/surattugas') ?>"">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Surat Tugas</span></a>
+      </li>
+      <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
       <!-- Sidebar Toggler (Sidebar) -->

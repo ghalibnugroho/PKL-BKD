@@ -16,4 +16,8 @@ class sppdController extends CI_Controller
     {
         $this->load->view('buatsppd');
     }
+    public function surattugas()
+    {
+        $this->load->view('surattugas');
+    }
 }

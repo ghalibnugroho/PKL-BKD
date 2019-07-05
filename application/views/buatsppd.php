@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-5">
-                                    <label>Pejabat yang memberi perintah</label>
+                                    <label>Pejabat berwenang yang memberi perintah</label>
                                     <input type="text" name="nip_pejabat" id="nip_pejabat" 
                                     class="form-control sc-input-required sc-select" 
                                     placeholder="Pejabat yang memberi perintah" data-sf="LoadNip">
@@ -45,9 +45,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Maksud Perjalanan Dinas</label>
+                            <label>Pegawai yang diperintah</label>
                             <input type="text" name="purpose" id="purpose"
-                            class="form-control sc-input-required" placeholder="Maksud Perjalanan Dinas">
+                            class="form-control sc-input-required" >
+                        </div>
+                        <div class="form-group">
+                            <label>Maksud perjalanan Dinas</label>
+                            <textarea rows="2" cols="130" id="letter_content" 
+                            class="form-control  sc-input-required">
+                            </textarea>
                         </div>
                         <div class="form-group">
                             <div class="row">
@@ -73,12 +79,7 @@
                         </div>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-sm-3">
-                                    <label>Lama Perjalanan (Hari)</label>
-                                    <input type="text" name="length_journey" id="length_journey" 
-                                    class="form-control sc-input-required sc-number" value="1" 
-                                    placeholder="Lama Perjalanan">
-                                </div>
+
                                 <div class="col-sm-3">
                                     <label>Tgl Berangkat</label>
                                     <input type="text" name="date_go" id="date_go" 
@@ -136,14 +137,7 @@
                             class="form-control" placeholder="Keterangan Lain">
                         </div>
                         <hr />
-                        <div class="form-group">
-                            <label>Dasar Surat</label>
-                                    <!--<input type="text" name="letter_content" id="letter_content" 
-                            class="form-control  sc-input-required" placeholder="Dasar Surat"> -->
-                            <textarea rows="6" cols="130" id="letter_content" 
-                            class="form-control  sc-input-required">
-                            </textarea>
-                        </div>
+
                         <button type="button" class="btn btn-primary" id="cmdSave" name="cmdSave">Simpan</button>
                     </div>
           </div>
