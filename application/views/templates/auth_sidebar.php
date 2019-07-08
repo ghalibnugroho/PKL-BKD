@@ -110,9 +110,9 @@
       </li>
       <!-- Nav Item - Buat SPPDs -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo site_url('sppdController/buatsppd') ?>"">
+        <a class="nav-link" href="<?php echo site_url('sppdController/sppd') ?>"">
           <i class="fas fa-fw fa-table"></i>
-          <span>Buat SPPD</span></a>
+          <span>SPPD</span></a>
       </li>
       <!-- Divider -->
       <!-- Nav Item - Buat SPPDs -->
@@ -120,6 +120,12 @@
         <a class="nav-link" href="<?php echo site_url('sppdController/surattugas') ?>"">
           <i class="fas fa-fw fa-table"></i>
           <span>Surat Tugas</span></a>
+      </li>
+      <!-- Divider -->
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo site_url('sppdController/rincianbiaya') ?>"">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Rincian Biaya</span></a>
       </li>
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">

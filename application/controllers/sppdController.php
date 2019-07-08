@@ -12,12 +12,16 @@ class sppdController extends CI_Controller
     {
         $this->load->view('listsppd');
     }
-    public function buatsppd()
+    public function sppd()
     {
-        $this->load->view('buatsppd');
+        $this->load->view('sppd');
     }
     public function surattugas()
     {
         $this->load->view('surattugas');
+    }
+    public function rincianbiaya()
+    {
+        $this->load->view('rincianbiaya');
     }
 }
