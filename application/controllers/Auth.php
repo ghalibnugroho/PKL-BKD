@@ -13,7 +13,7 @@ class Auth extends CI_Controller
 
     public function index()
     {
-        $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email'); //trim untuk menghilangkan spasi agar tdk masuk ke database
+        $this->form_validation->set_rules('username', 'Username', 'trim|required'); //trim untuk menghilangkan spasi agar tdk masuk ke database
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         if ($this->form_validation->run() == false) {
             $data['title'] = 'PKL_BKD';
@@ -25,20 +25,20 @@ class Auth extends CI_Controller
 
     private function _login()
     {
-        $email = $this->input->post('email');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('account_bkd', ['email' => $email])->row_array(); //var_dump() & die; paket untuk check nilai variable
+        $user = $this->db->get_where('bidang', ['USERNAME' => $username])->row_array(); //var_dump() & die; paket untuk check nilai variable
 
         // jika usernya ada
         if ($user) {
             // jika usernya active
-            if ($user['is_active'] == 1) {
+            if ($user['IS_ACTIVE'] == 1) {
                 // cek password
-                if (password_verify($password, $user['password'])) {
+                if (password_verify($password, $user['PASSWORD'])) {
                     $data = [
-                        'email' => $user['email'],
-                        'role_id' => $user['role_id'],
+                        'username' => $user['USERNAME'],
+                        'role_id' => $user['PASSWORD'],
                     ];
                     $this->session->set_userdata($data);
                     redirect(base_url('home')); // home -> halaman utama user
@@ -49,12 +49,12 @@ class Auth extends CI_Controller
                 }
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                Your Email Address has not been activated!</div>');
+                Your Username has not been activated!</div>');
                 redirect(base_url());
             }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-            Your Email Address is not registered!</div>');
+            Your Username is not registered!</div>');
             redirect(base_url());
         }
     }
@@ -85,7 +85,7 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('email');
+        $this->session->unset_userdata('username');
         $this->session->unset_userdata('role_id');
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">

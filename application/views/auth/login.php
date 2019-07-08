@@ -21,7 +21,7 @@
                   <?=$this->session->flashdata('message');?>
                   <form class="user" method="post" action="<?=base_url();?>">
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email" value="<?=set_value('email');?>">
+                      <input type="text" class="form-control form-control-user" placeholder="Enter Username..." name="username" value="<?=set_value('username');?>">
                       <?=form_error('email', '<small class="text-danger pl-3">', '</small>');?>
                     </div>
                     <div class="form-group">

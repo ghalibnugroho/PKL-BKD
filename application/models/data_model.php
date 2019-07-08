@@ -22,7 +22,7 @@ class data_model extends CI_Model
     }
     public function datalogin()
     {
-        $data = $this->db->get_where('account_bkd', ['email' => $this->session->userdata('email')])->row_array();
+        $data = $this->db->get_where('bidang', ['username' => $this->session->userdata('username')])->row_array();
         return $data;
     }
 }

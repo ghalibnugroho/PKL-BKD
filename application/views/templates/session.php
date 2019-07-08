@@ -1,5 +1,5 @@
 <?php 
-  if(null == $this->session->userdata('email')){
+  if(null == $this->session->userdata('username')){
     redirect(base_url());
   }
 ?>
