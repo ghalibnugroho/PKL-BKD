@@ -35,19 +35,16 @@
                             <div class="row">
                                 <div class="col-sm-5">
                                     <label>Pejabat berwenang yang memberi perintah</label>
-                                    <input type="text" name="nip_pejabat" id="nip_pejabat" 
-                                    class="form-control sc-input-required sc-select" 
+                                    <input type="text" name="nip_pejabat" id="pegawai" 
+                                    class="form-control sc-input-required sc-select pegawai" 
                                     placeholder="Pejabat yang memberi perintah" data-sf="LoadNip">
-                                    <input type="hidden" name="cPageSource" id="cPageSource" 
-                                    value="">
-                                    <input type="hidden" name="code" id="code" >
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Pegawai yang diperintah</label>
-                            <input type="text" name="purpose" id="purpose"
-                            class="form-control sc-input-required" >
+                            <input type="text" id="pegawai"
+                            class="pegawai form-control sc-input-required" >
                         </div>
                         <div class="form-group">
                             <label>Maksud perjalanan Dinas</label>
@@ -189,7 +186,16 @@
   </div>
 
   <!-- Footer-->
+
   <?php $this->load->view("templates/auth_footer") ?>
+  <script type="text/javascript">
+      $(document).ready(function(){
+          $( ".pegawai" ).autocomplete({
+            source: "<?php echo site_url('sppdController/getPegawai/?');?>"
+          });
+      });
+  </script>
+
 <script>
   $(document).ready(
     function() {

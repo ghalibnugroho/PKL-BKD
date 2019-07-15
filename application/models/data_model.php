@@ -25,4 +25,17 @@ class data_model extends CI_Model
         $data = $this->db->get_where('bidang', ['username' => $this->session->userdata('username')])->row_array();
         return $data;
     }
+    public function getPegawai($keyword){
+       $query=$this->db->select("NAMA")
+        ->from('pegawai')
+        ->like('NAMA', $keyword , 'both')
+        ->order_by('NAMA', 'ASC')
+        ->limit(10)
+        ->get();
+
+        //return $query->result();
+        //$query2=$this->db->query("SELECT NAMA FROM pegawai");
+        return $query->result();
+
+    }
 }
