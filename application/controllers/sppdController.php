@@ -18,13 +18,8 @@ class sppdController extends CI_Controller
     }
     public function sppd()
     {
-
-        //$pegawai = $this->data_model->getPegawai('ba'); // memanggil method getAll
-	   // $data['pegawai'] = $pegawai; // menampung di variable $data
         $this->load->view('sppd');
-        
-        //$data = $this->data_model->getPegawai("ba");
-        //$this->load->view('sppd', $data);
+
     }
     public function surattugas()
     {
@@ -44,6 +39,14 @@ class sppdController extends CI_Controller
                 echo json_encode($arr_result);
             }
         }
-
+    }
+    public function getPegawaiAll(){
+            $result = $this->data_model->getPegawaiAll();
+            
+            foreach ($result as $row)
+                $arr_result[] = $row->NAMA;
+            header('Content-Type: application/json');
+            echo json_encode(['suggestions'=>$arr_result]);
+            
     }
 }

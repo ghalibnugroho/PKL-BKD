@@ -36,28 +36,15 @@
                                 <div class="col-sm-5">
                                     <label>Pejabat berwenang yang memberi perintah</label>
                                     <input type="text" name="nip_pejabat" id="pegawai" 
-                                    class="form-control sc-input-required sc-select pegawai" 
-                                    placeholder="Pejabat yang memberi perintah" data-sf="LoadNip">
+                                    class="form-control sc-input-required sc-select pegawai" data-sf="LoadNip">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Pegawai yang diperintah</label>
-                            <input type="text" id="pegawai"
-                            class="pegawai form-control sc-input-required" >
+                            <input type="text" name="pegawai_diperintah"
+                            class="form-control sc-input-required" >
 
-                        </div>
-                        <div>
-                        <select id="paket" name="paket[]" class="abata form-control" multiple="multiple">
-                          <option value=""></option>
-                          <option value="Web Master">Web Master</option>
-                          <option value="Web Programming">Web Programming</option>
-                          <option value="Web Design">Web Design</option>
-                          <option value="Digital Marketing">Digital Marketing</option>
-                          <option value="Coding For Kids">Coding For Kids</option>
-                          <option value="Grafic Desain">Grafic Desain</option>
-                          <option value="Motion Grafic">Motion Grafic</option>
-                        </select>
                         </div>
                         <div class="form-group">
                             <label>Maksud perjalanan Dinas</label>
@@ -210,9 +197,6 @@
   </script>
 
 <script>
-  $(document).ready(function() {
-    $('.abata').select2();
-  });
   $(document).ready(
     function() {
     $(function() {
@@ -225,9 +209,11 @@
    });
 </script>
 <script type="text/javascript">
-	$('input[name="tempat_berangkat"]').amsifySuggestags({
-		type : 'materialize',
-		suggestions: ['Malang', 'Kediri', 'Madiun', 'Surabaya', 'Jayapura', 'Timika']
+	$('input[name="pegawai_diperintah"]').amsifySuggestags({
+    suggestionsAction : {
+						url : '<?php echo site_url('sppdController/getPegawaiAll');?>'
+					}
+		//suggestions: ['Malang', 'Kediri', 'Madiun', 'Surabaya', 'Jayapura', 'Timika']
 	});
 
 </script>

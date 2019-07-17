@@ -38,4 +38,16 @@ class data_model extends CI_Model
         return $query->result();
 
     }
+    public function getPegawaiAll(){
+        $query=$this->db->select("NAMA")
+         ->from('pegawai')
+         ->order_by('NAMA', 'ASC')
+         ->limit(10)
+         ->get();
+ 
+         //return $query->result();
+         //$query2=$this->db->query("SELECT NAMA FROM pegawai");
+         return $query->result();
+ 
+     }
 }
