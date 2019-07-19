@@ -32,7 +32,7 @@ class sppdController extends CI_Controller
 
     public function getPegawai(){
         if (isset($_GET['term'])) {
-            $result = $this->data_model->getPegawai($_GET['term']);
+            $result = $this->data_model->getPegawaiAll();
             if (count($result) > 0) {
             foreach ($result as $row)
                 $arr_result[] = $row->NAMA;

@@ -28,17 +28,14 @@ class Auth extends CI_Controller
         $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('bidang', ['USERNAME' => $username])->row_array(); //var_dump() & die; paket untuk check nilai variable
+        $user = $this->db->get_where('bidang', ['NAMA_BIDANG' => $username])->row_array(); //var_dump() & die; paket untuk check nilai variable
 
         // jika usernya ada
         if ($user) {
             // jika usernya active
-            if ($user['IS_ACTIVE'] == 1) {
-                // cek password
                 if (password_verify($password, $user['PASSWORD'])) {
                     $data = [
-                        'username' => $user['USERNAME'],
-                        'role_id' => $user['PASSWORD'],
+                        'username' => $user['NAMA_BIDANG'],
                     ];
                     $this->session->set_userdata($data);
                     redirect(base_url('home')); // home -> halaman utama user
@@ -47,11 +44,6 @@ class Auth extends CI_Controller
                     Wrong password!</div>');
                     redirect(base_url());
                 }
-            } else {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                Your Username has not been activated!</div>');
-                redirect(base_url());
-            }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
             Your Username is not registered!</div>');
@@ -62,9 +54,6 @@ class Auth extends CI_Controller
     public function registration()
     {
         $this->form_validation->set_rules('fullName', 'Full Name', 'required|trim'); //trim untuk menghilangkan spasi agar tdk masuk ke database
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[account_bkd.email]', [
-            'is_unique' => 'This email has already registered!',
-        ]);
         $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', [
             'matches' => 'Password dont match!',
             'min_length' => 'Password too short!',

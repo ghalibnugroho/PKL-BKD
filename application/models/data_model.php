@@ -10,19 +10,15 @@ class data_model extends CI_Model
     public function regist()
     {
         $data = [
-            'name' => htmlspecialchars($this->input->post('fullName', true)),
-            'email' => htmlspecialchars($this->input->post('email', true)),
-            'image' => 'default.jpg',
-            'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-            'role_id' => 2,
-            'is_active' => 1,
-            'date_created' => time(),
+            'ID_BIDANG' => htmlspecialchars(''),
+            'NAMA_BIDANG' => htmlspecialchars($this->input->post('fullName', true)),
+            'PASSWORD' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
         ];
-        $this->db->insert('account_bkd', $data);
+        $this->db->insert('bidang', $data);
     }
     public function datalogin()
     {
-        $data = $this->db->get_where('bidang', ['username' => $this->session->userdata('username')])->row_array();
+        $data = $this->db->get_where('bidang', ['NAMA_BIDANG' => $this->session->userdata('username')])->row_array();
         return $data;
     }
     public function getPegawai($keyword){
@@ -42,7 +38,6 @@ class data_model extends CI_Model
         $query=$this->db->select("NAMA")
          ->from('pegawai')
          ->order_by('NAMA', 'ASC')
-         ->limit(10)
          ->get();
  
          //return $query->result();
