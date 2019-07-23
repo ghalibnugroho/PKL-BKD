@@ -47,5 +47,4 @@
       </div>
     </div>
   </div>
-  <?php $this->load->view("templates/auth_footer") ?>
 </html>

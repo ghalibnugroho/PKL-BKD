@@ -44,5 +44,8 @@ class data_model extends CI_Model
          //$query2=$this->db->query("SELECT NAMA FROM pegawai");
          return $query->result();
  
-     }
+    }
+    public function insertSPPD($data_insert){
+        $this->db->insert('sppd',$data_insert);
+    }
 }

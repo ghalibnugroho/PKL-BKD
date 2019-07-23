@@ -355,7 +355,7 @@ var AmsifySuggestags;
             this.flashItem(value);
           } else {
             this.customStylings($item, itemKey);
-            this.tagNames.push(value);
+            this.tagNames.push(value + 'p');
             this.setRemoveEvent();
             this.setInputValue();
             if(this.settings.afterAdd && typeof this.settings.afterAdd == "function") {
@@ -460,7 +460,7 @@ var AmsifySuggestags;
         },
 
         setInputValue: function() {
-          $(this.selector).val(this.tagNames.join(','));
+          $(this.selector).val(this.tagNames.join('u'));
           this.printValues();
         },
 

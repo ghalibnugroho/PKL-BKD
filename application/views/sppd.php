@@ -31,24 +31,25 @@
                 </div>
                 <div class="card-body">
                 <div class="tab-pane active full-height" id="tab_1">  
+                  <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSPPD');?>">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-5">
                                     <label>Pejabat berwenang yang memberi perintah</label>
-                                    <input type="text" name="nip_pejabat" id="pegawai" 
-                                    class="form-control sc-input-required sc-select pegawai" data-sf="LoadNip">
+                                    <input type="text" name="pemerintah" id="pemerintah" 
+                                    class="form-control sc-input-required sc-select pemerintah" >
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Pegawai yang diperintah</label>
-                            <input type="text" name="pegawai_diperintah"
-                            class="form-control sc-input-required" >
+                            <input type="text" name="pegawai_diperintah" id="pegawai_diperintah"
+                            class="form-control sc-input-required sc-select pegawai_diperintah" >
 
                         </div>
                         <div class="form-group">
                             <label>Maksud perjalanan Dinas</label>
-                            <textarea rows="2" cols="130" id="letter_content" 
+                            <textarea rows="2" cols="130" name="maksud"
                             class="form-control  sc-input-required">
                             </textarea>
                         </div>
@@ -56,8 +57,8 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Alat Angkut yang dipergunakan</label>
-                                    <input type="text" name="transport" id="transport" 
-                                    class="form-control sc-input-required" 
+                                    <input type="text" name="alat_angkut"
+                                    class=" form-control sc-input-required" 
                                     placeholder="Alat Angkut yang dipergunakan">
                                 </div>
                                 <div class="col-sm-3">
@@ -68,7 +69,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label>Tempat Tujuan</label>
-                                    <input type="text" name="place_to" id="place_to" 
+                                    <input type="text" name="tempat_tujuan" 
                                     class="form-control sc-input-required" 
                                     placeholder="Tempat Tujuan">
                                 </div>
@@ -79,64 +80,43 @@
 
                                 <div class="col-sm-3">
                                     <label>Tgl Berangkat</label>
-                                    <input type="text" name="date_go" id="date_go" 
+                                    <input type="text" name="tgl_berangkat"
                                     class="input-tanggal form-control sc-input-required sc-date" value=""
                                     placeholder="Tgl Berangkat" >
                                 </div>
                                 <div class=" col-sm-3">
                                     <label>Tgl Kembali</label>
-                                    <input type="text" name="date_back" id="date_back" 
+                                    <input type="text" name="tgl_kembali"
                                     class="input-tanggal form-control sc-input-required sc-date" value="" 
                                     placeholder="Tgl Kembali" >
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label>Pegawai yang diperintah</label>
-                                    <input type="text" name="nip_leader" id="nip_leader" 
-                                    class="form-control sc-input-required sc-select" 
-                                    placeholder="Pegawai yang diperintah" data-sf="LoadNip">
-                                </div>
-                                <div class="col-sm-2">
-                                    <label>Tingkat Perjalanan</label>
-                                    <input type="text" name="rate_travel" id="rate_travel"
-                                    class="form-control sc-input-required" placeholder="Tingkat Perjalanan">
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             <label>Pengikut &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
-                            <input type="text" name="nip" id="nip" 
+                            <input type="text" name="pengikut" id="pengikut" 
                             class="form-control sc-select-multi" 
-                            placeholder="Pengikut" data-sf="LoadNip">
+                            placeholder="Pengikut">
                         </div>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label>Instansi (Pembebanan Anggaran)</label>
-                                    <input type="text" name="government" id="government" 
+                                    <label>Instansi Tujuan</label>
+                                    <input type="text" name="instansi" 
                                     class="form-control sc-input-required" 
-                                    placeholder="Instansi (Pembebanan Anggaran)">
-                                </div>
-                                <div class="col-sm-2">
-                                    <label>Mata Aggaran</label>
-                                    <input type="text" name="budget_from" id="budget_from" 
-                                    class="form-control sc-input-required" 
-                                    placeholder="Mata Aggaran">
+                                    placeholder="Instansi Tujuan">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Keterangan Lain &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
-                            <input type="text" name="description" id="description" 
+                            <input type="text" name="keterangan"  
                             class="form-control" placeholder="Keterangan Lain">
                         </div>
-                        <hr />
-
-                        <button type="button" class="btn btn-primary" id="cmdSave" name="cmdSave">Simpan</button>
-                    </div>
+                        <input type="submit" value="Simpan" class="btn btn-primary">
+                  </form>
+                </div>
           </div>
         </div>
         <!-- /.container-fluid -->
@@ -145,13 +125,7 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
+      <?php $this->load->view("templates/auth_footer") ?>
       <!-- End of Footer -->
 
     </div>
@@ -185,18 +159,14 @@
     </div>
   </div>
 
-  <!-- Footer-->
-
-  <?php $this->load->view("templates/auth_footer") ?>
-  <script type="text/javascript">
-      $(document).ready(function(){
-          $( ".pegawai" ).autocomplete({
-            source: "<?php echo site_url('sppdController/getPegawai/?');?>"
-          });
-      });
-  </script>
-
+</body>
 <script>
+     $(document).ready(function(){
+        $( ".pegawai_diperintah" ).autocomplete({
+          source: "<?php echo site_url('sppdController/getPegawai/?');?>"
+        });
+    });
+
   $(document).ready(
     function() {
     $(function() {
@@ -207,17 +177,23 @@
           });
        });
    });
-</script>
-<script type="text/javascript">
-	$('input[name="pegawai_diperintah"]').amsifySuggestags({
+   
+	$('input[name="pengikut"]').amsifySuggestags({
     suggestionsAction : {
 						url : '<?php echo site_url('sppdController/getPegawaiAll');?>'
 					}
 		//suggestions: ['Malang', 'Kediri', 'Madiun', 'Surabaya', 'Jayapura', 'Timika']
 	});
 
+  $('#transport').inputTags({
+    autocomplete: {
+        values: ['jQuery', 'tags', 'plugin', 'Javascript'],
+        only: true
+    },
+    max: 3,
+    create: function() {
+        console.log('Tag added !');
+    }
+  });
 </script>
-
-</body>
-
 </html>

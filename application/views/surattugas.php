@@ -49,8 +49,14 @@
                         </div>
                         <div class="form-group">
                             <label>Pegawai yang diperintah</label>
-                            <input type="text" name="purpose" id="purpose"
+                            <input type="text" name="pegawai_diperintah"
                             class="form-control sc-input-required" >
+                        </div>
+                        <div class="form-group">
+                            <label>Pengikut &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
+                            <input type="text" name="pengikut" id="pengikut" 
+                            class="form-control sc-select-multi" 
+                            placeholder="Pengikut">
                         </div>
                         <div class="form-group">
                             <label>Untuk</label>
@@ -71,14 +77,9 @@
       </div>
       <!-- End of Main Content -->
 
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
+
+  <!-- Footer-->
+  <?php $this->load->view("templates/auth_footer") ?>
       <!-- End of Footer -->
 
     </div>
@@ -112,20 +113,6 @@
     </div>
   </div>
 
-  <!-- Footer-->
-  <?php $this->load->view("templates/auth_footer") ?>
-<script>
-  $(document).ready(
-    function() {
-    $(function() {
-          $(".input-tanggal").datepicker({
-             showButtonPanel: true,
-             //minDate: new Date(),
-             showTime: true
-          });
-       });
-   });
-</script>
 </body>
 
 </html>
