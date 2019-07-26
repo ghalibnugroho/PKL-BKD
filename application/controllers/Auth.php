@@ -9,13 +9,11 @@ class Auth extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('data_model');
 
-        $this->load->view('templates/auth_header');
-        $this->load->view('templates/auth_footer');
     }
 
     public function index()
     {
-        $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email'); //trim untuk menghilangkan spasi agar tdk masuk ke database
+        $this->form_validation->set_rules('username', 'Username', 'trim|required'); //trim untuk menghilangkan spasi agar tdk masuk ke database
         $this->form_validation->set_rules('password', 'Password', 'trim|required');
         if ($this->form_validation->run() == false) {
             $data['title'] = 'PKL_BKD';
@@ -27,20 +25,17 @@ class Auth extends CI_Controller
 
     private function _login()
     {
-        $email = $this->input->post('email');
+        $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->db->get_where('account_bkd', ['email' => $email])->row_array(); //var_dump() & die; paket untuk check nilai variable
+        $user = $this->db->get_where('bidang', ['NAMA_BIDANG' => $username])->row_array(); //var_dump() & die; paket untuk check nilai variable
 
         // jika usernya ada
         if ($user) {
             // jika usernya active
-            if ($user['is_active'] == 1) {
-                // cek password
-                if (password_verify($password, $user['password'])) {
+                if (password_verify($password, $user['PASSWORD'])) {
                     $data = [
-                        'email' => $user['email'],
-                        'role_id' => $user['role_id'],
+                        'username' => $user['NAMA_BIDANG'],
                     ];
                     $this->session->set_userdata($data);
                     redirect(base_url('home')); // home -> halaman utama user
@@ -49,14 +44,9 @@ class Auth extends CI_Controller
                     Wrong password!</div>');
                     redirect(base_url());
                 }
-            } else {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                Your Email Address has not been activated!</div>');
-                redirect(base_url());
-            }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-            Your Email Address is not registered!</div>');
+            Your Username is not registered!</div>');
             redirect(base_url());
         }
     }
@@ -64,9 +54,6 @@ class Auth extends CI_Controller
     public function registration()
     {
         $this->form_validation->set_rules('fullName', 'Full Name', 'required|trim'); //trim untuk menghilangkan spasi agar tdk masuk ke database
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[account_bkd.email]', [
-            'is_unique' => 'This email has already registered!',
-        ]);
         $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', [
             'matches' => 'Password dont match!',
             'min_length' => 'Password too short!',
@@ -87,7 +74,7 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('email');
+        $this->session->unset_userdata('username');
         $this->session->unset_userdata('role_id');
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
