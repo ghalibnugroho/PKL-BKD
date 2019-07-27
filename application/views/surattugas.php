@@ -31,26 +31,26 @@
                 </div>
                 <div class="card-body">
                 <div class="tab-pane active full-height" id="tab_1">  
+                <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSurattugas');?>">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <label>Tanggal pembuatan surat</label>
-                                    <input type="text" name="date_go" id="date_go" 
-                                    class="input-tanggal form-control sc-input-required sc-date" value=""
+                                    <input type="text" name="tanggal"
+                                    class="input-tanggal form-control sc-input-required sc-date tanggal" value=""
                                     placeholder="Tgl Berangkat" >
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Dasar</label>
-                            <textarea rows="2" cols="130" id="letter_content" 
-                            class="form-control  sc-input-required">
-                            </textarea>
+                            <textarea rows="2" cols="" name="dasar"
+                            class="form-control  sc-input-required"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Pegawai yang diperintah</label>
-                            <input type="text" name="pegawai_diperintah"
-                            class="form-control sc-input-required" >
+                            <input type="text" name="diperintah" 
+                            class=" diperintah form-control sc-input-required" >
                         </div>
                         <div class="form-group">
                             <label>Pengikut &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
@@ -60,16 +60,13 @@
                         </div>
                         <div class="form-group">
                             <label>Untuk</label>
-                            <textarea rows="2" cols="130" id="letter_content" 
-                            class="form-control  sc-input-required">
-                            </textarea>
+                            <textarea rows="2" cols="130" name="untuk"
+                            class="form-control  sc-input-required"></textarea>
                         </div>
 
-
-                        <hr />
-
-                        <button type="button" class="btn btn-primary" id="cmdSave" name="cmdSave">Simpan</button>
-                    </div>
+                        <input type="submit" value="Simpan" class="btn btn-primary">
+                </form>
+                </div>
           </div>
         </div>
         <!-- /.container-fluid -->
@@ -116,3 +113,30 @@
 </body>
 
 </html>
+
+<script>
+     $(document).ready(function(){
+        $( ".diperintah" ).autocomplete({
+          source: "<?php echo site_url('sppdController/getPegawai/?');?>"
+        });
+    });
+
+  $(document).ready(
+    function() {
+    $(function() {
+          $(".tanggal").datepicker({
+             showButtonPanel: true,
+             //minDate: new Date(),
+             showTime: true
+          });
+       });
+   });
+   
+	$('input[name="pengikut"]').amsifySuggestags({
+    suggestionsAction : {
+						url : '<?php echo site_url('sppdController/getPegawaiAll');?>'
+					}
+		//suggestions: ['Malang', 'Kediri', 'Madiun', 'Surabaya', 'Jayapura', 'Timika']
+	});
+
+</script>

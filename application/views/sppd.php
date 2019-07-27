@@ -43,15 +43,14 @@
                         </div>
                         <div class="form-group">
                             <label>Pegawai yang diperintah</label>
-                            <input type="text" name="pegawai_diperintah" id="pegawai_diperintah"
+                            <input type="text" name="pegawai_diperintah"
                             class="form-control sc-input-required sc-select pegawai_diperintah" >
 
                         </div>
                         <div class="form-group">
                             <label>Maksud perjalanan Dinas</label>
                             <textarea rows="2" cols="130" name="maksud"
-                            class="form-control  sc-input-required">
-                            </textarea>
+                            class="form-control  sc-input-required"></textarea>
                         </div>
                         <div class="form-group">
                             <div class="row">

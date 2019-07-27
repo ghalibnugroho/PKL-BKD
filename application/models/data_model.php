@@ -48,4 +48,35 @@ class data_model extends CI_Model
     public function insertSPPD($data_insert){
         $this->db->insert('sppd',$data_insert);
     }
+
+    public function insertSurattugas($data_insert){
+        $this->db->insert('surattugas',$data_insert);
+        $id=$this->db->insert_id();
+        $data_sppd = array(
+            'ID_ST'=> $id,
+        );
+        $this->db->insert('sppd',$data_sppd);
+        return $id;
+    }
+    public function insertPeserta($data_insert){
+        $this->db->insert('peserta',$data_insert);
+    }
+    public function getListSPPD(){
+        $query=$this->db->select("surattugas.ID_ST,DASAR,TANGGAL,NAMA")
+        ->from('surattugas')
+        ->join('peserta','surattugas.ID_ST=peserta.ID_ST')
+        ->join('pegawai','pegawai.NIP=peserta.NIP')
+        ->where('peserta.SEBAGAI','diperintah')
+        ->get();
+
+        return $query->result();
+    }
+    public function getNIP($nama){
+        $nip=array();
+        //$query = $this->db->select("NIP")->from('pegawai')->where('NAMA',$nama)->get();
+        foreach ($nama as $n ) {
+            $nip[]=$this->db->select("NIP")->from('pegawai')->where('NAMA',$n)->get()->result();
+        }
+        return $nip;
+    }
 }

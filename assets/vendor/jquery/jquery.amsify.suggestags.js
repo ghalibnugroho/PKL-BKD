@@ -309,7 +309,7 @@ var AmsifySuggestags;
 
         setDefault : function() {
           var _self = this;
-          var items = $(this.selector).val().split(',');
+          var items = $(this.selector).val().split(',,');
           if(items.length) {
             $.each(items, function(index, item){
               _self.addTag($.trim(item));
@@ -355,7 +355,7 @@ var AmsifySuggestags;
             this.flashItem(value);
           } else {
             this.customStylings($item, itemKey);
-            this.tagNames.push(value + 'p');
+            this.tagNames.push(value);
             this.setRemoveEvent();
             this.setInputValue();
             if(this.settings.afterAdd && typeof this.settings.afterAdd == "function") {
@@ -460,7 +460,7 @@ var AmsifySuggestags;
         },
 
         setInputValue: function() {
-          $(this.selector).val(this.tagNames.join('u'));
+          $(this.selector).val(this.tagNames.join(',,'));
           this.printValues();
         },
 
