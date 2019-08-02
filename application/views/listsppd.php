@@ -35,43 +35,21 @@
                     <tr>
                       <th>No SPPD</th>
                       <th>Tanggal</th>
-                      <th>Status</th>
                       <th>Maksud</th>
-                      <th>Pemberi Perintah</th>
                       <th>Pegawai yang Diperintah</th>
-                      <th>Tujuan</th>
                     </tr>
                   </thead>
-
                   <tbody>
-                    <tr>
-                      <td>800/1221/35.73.403/2019</td>
-                      <td>23/06/2019</td>
-                      <td>Dilaksanakan</td>
-                      <td>Mencari Dragon Ball</td>
-                      <td>Goku</td>
-                      <td>Gohan</td>
-                      <td>Membangunkan dewa naga</td>
-                    </tr>
-                    <tr>
-                      <td>800/1222/35.73.403/2019</td>
-                      <td>23/06/2019</td>
-                      <td>Dilaksanakan</td>
-                      <td>Mencari Planet Namex</td>
-                      <td>Goku</td>
-                      <td>Krilin</td>
-                      <td>Jalan-jalan</td>
-                    </tr>
-                    <tr>
-                      <td>800/1223/35.73.403/2019</td>
-                      <td>23/06/2019</td>
-                      <td>Dilaksanakan</td>
-                      <td>Mengalahkan Frieza</td>
-                      <td>Goku</td>
-                      <td>Bejita</td>
-                      <td>Kedamaian dunia</td>
-                    </tr>
-                    
+                  <?php 
+                    foreach($list as $li){
+                      echo "<tr>
+                            <td>" .$li->ID_ST."</td>
+                            <td>" .$li->TANGGAL."</td>
+                            <td>" .$li->DASAR."</td>
+                            <td>" .$li->NAMA." <td>"; 
+                    }
+                  ?>
+
                   </tbody>
                 </table>
               </div>
