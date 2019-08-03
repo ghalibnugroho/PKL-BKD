@@ -97,7 +97,7 @@
       </li>
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo site_url('sppdController/listsppd') ?>"">
+        <a class="nav-link" href="<?php echo site_url('list-sppd') ?>"">
           <i class="fas fa-fw fa-table"></i>
           <span>List SPPD</span></a>
       </li>
@@ -110,14 +110,14 @@
       </li>
       <!-- Nav Item - Buat SPPDs -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo site_url('sppdController/sppd') ?>"">
+        <a class="nav-link" href="<?php echo site_url('sppd') ?>"">
           <i class="fas fa-fw fa-table"></i>
           <span>SPPD</span></a>
       </li>
       <!-- Divider -->
       <!-- Nav Item - Buat SPPDs -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo site_url('sppdController/surattugas') ?>"">
+        <a class="nav-link" href="<?php echo site_url('surat-tugas') ?>"">
           <i class="fas fa-fw fa-table"></i>
           <span>Surat Tugas</span></a>
       </li>
