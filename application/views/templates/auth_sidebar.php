@@ -97,35 +97,41 @@
       </li>
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo site_url('list-sppd') ?>"">
+        <a class="nav-link" href="<?php echo site_url('list-sppd') ?>">
           <i class="fas fa-fw fa-table"></i>
           <span>List SPPD</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo site_url('home/contohsurat') ?>"">
+        <a class="nav-link" href="<?php echo site_url('home/contohsurat') ?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Contoh Surat</span></a>
       </li>
       <!-- Nav Item - Buat SPPDs -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo site_url('sppd') ?>"">
+        <a class="nav-link" href="<?php echo site_url('sppd') ?>">
           <i class="fas fa-fw fa-table"></i>
           <span>SPPD</span></a>
       </li>
       <!-- Divider -->
       <!-- Nav Item - Buat SPPDs -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo site_url('surat-tugas') ?>"">
+        <a class="nav-link" href="<?php echo site_url('surat-tugas') ?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Surat Tugas</span></a>
       </li>
       <!-- Divider -->
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo site_url('sppdController/rincianbiaya') ?>"">
+        <a class="nav-link" href="<?php echo site_url('rincian') ?>">
           <i class="fas fa-fw fa-table"></i>
           <span>Rincian Biaya</span></a>
+      </li>
+      <!-- Divider -->
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo site_url('list-st') ?>">
+          <i class="fas fa-fw fa-table"></i>
+          <span>List Surat Tugas</span></a>
       </li>
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">

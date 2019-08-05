@@ -32,15 +32,7 @@
                 <div class="card-body">
                 <div class="tab-pane active full-height" id="tab_1">  
                   <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSPPD');?>">
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-sm-5">
-                                    <label>Pejabat berwenang yang memberi perintah</label>
-                                    <input type="text" name="pemerintah" id="pemerintah" 
-                                    class="form-control sc-input-required sc-select pemerintah" >
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             <label>Pegawai yang diperintah</label>
                             <input type="text" name="pegawai_diperintah"

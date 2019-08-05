@@ -56,3 +56,6 @@ $route['translate_uri_dashes'] = false;
 $route['sppd']='sppdController/sppd';
 $route['surat-tugas']='sppdController/surattugas';
 $route['list-sppd']='sppdController/listsppd';
+$route['list-st']='sppdController/listst';
+$route['rincian']='sppdController/rincianbiaya';
+$route['read_st']='sppdController/readST';

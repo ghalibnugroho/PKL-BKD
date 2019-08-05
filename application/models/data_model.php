@@ -62,11 +62,22 @@ class data_model extends CI_Model
         $this->db->insert('peserta',$data_insert);
     }
     public function getListSPPD(){
+        $query=$this->db->select("surattugas.ID_ST,DASAR,INSTANSI, TGL_BERANGKAT,TGL_KEMBALI,NAMA")
+        ->from('surattugas')
+        ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
+        ->join('peserta','surattugas.ID_ST=peserta.ID_ST')
+        ->join('pegawai','pegawai.NIP=peserta.NIP')
+        ->where('peserta.SEBAGAI','Kepala')
+        ->get();
+
+        return $query->result();
+    }
+    public function getListST(){
         $query=$this->db->select("surattugas.ID_ST,DASAR,TANGGAL,NAMA")
         ->from('surattugas')
         ->join('peserta','surattugas.ID_ST=peserta.ID_ST')
         ->join('pegawai','pegawai.NIP=peserta.NIP')
-        ->where('peserta.SEBAGAI','diperintah')
+        ->where('peserta.SEBAGAI','Kepala')
         ->get();
 
         return $query->result();
@@ -75,8 +86,30 @@ class data_model extends CI_Model
         $nip=array();
         //$query = $this->db->select("NIP")->from('pegawai')->where('NAMA',$nama)->get();
         foreach ($nama as $n ) {
-            $nip[]=$this->db->select("NIP")->from('pegawai')->where('NAMA',$n)->get()->result();
+            $nip[] = $this->db->select("NIP")->from('pegawai')->where('NAMA',$n)->get()->result();
         }
         return $nip;
+    }
+    public function getPeserta($id){
+        $query = $this->db->select("NAMA")
+        ->from('pegawai')
+        ->join('peserta','peserta.NIP = pegawai.NIP')
+        ->where('peserta.ID_ST',$id)
+        ->get();
+
+        return $query->result();
+    }
+    
+    public function update($where,$table,$data){
+		$this->db->where($where);
+		$this->db->update($table,$data);
+    }
+    public function delete($where,$table){
+		$this->db->where($where);
+		$this->db->delete($table);
+    }
+    
+    function read($where,$table){		
+	    return $this->db->get_where($table,$where)->result();
     }
 }
