@@ -27,23 +27,17 @@ require_once('templates/session.php');
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Buat SPPD</h6>
-            </div>
-            <div class="card-body">
-              <div class="tab-pane active full-height" id="tab_1">
-                <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSPPD'); ?>">
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-sm-5">
-                        <label>Pejabat berwenang yang memberi perintah</label>
-                        <input type="text" name="pemerintah" id="pemerintah" class="form-control sc-input-required sc-select pemerintah">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label>Pegawai yang diperintah</label>
-                    <input type="text" name="pegawai_diperintah" id="pegawai_diperintah" class="form-control sc-input-required sc-select pegawai_diperintah">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Buat SPPD</h6>
+                </div>
+                <div class="card-body">
+                <div class="tab-pane active full-height" id="tab_1">  
+                  <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSPPD');?>">
+
+                        <div class="form-group">
+                            <label>Pegawai yang diperintah</label>
+                            <input type="text" name="pegawai_diperintah"
+                            class="form-control sc-input-required sc-select pegawai_diperintah" >
 
                   </div>
                   <div class="form-group">

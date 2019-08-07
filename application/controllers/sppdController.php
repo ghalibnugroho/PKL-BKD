@@ -14,15 +14,13 @@ class sppdController extends CI_Controller
     }
     public function listsppd()
     {
-        $list = $this->data_model->getListSPPD();
-        foreach($list as $l) {
-            $data_events[] = array(
-              "no" => $l->ID_ST,
-              "maksud" => $l->DASAR,
-              "tanggal" => $l->TANGGAL
-            );
-        }
-        $this->load->view('listsppd',['list'=>$list]);
+        $result['list'] = $this->data_model->getListSPPD();
+        $this->load->view('listsppd',$result);
+    }
+    public function listst()
+    {
+        $result['list'] = $this->data_model->getListST();
+        $this->load->view('listst',$result);
     }
     public function sppd()
     {
@@ -62,13 +60,13 @@ class sppdController extends CI_Controller
         $list = $this->data_model->getListSPPD();
         foreach($list->result() as $l) {
             $data_events[] = array(
-              "no" => $r->ID_ST,
-              "maksud" => $r->DASAR,
-              "tanggal" => $r->TANGGAL,
-              "nama"=>$r->NAMA
+              "no" => $l->ID_ST,
+              "maksud" => $l->DASAR,
+              "tanggal" => $l->TANGGAL,
+              "nama"=>$l->NAMA
             );
         }
-        echo json_encode(array("list" => $list));
+        echo json_encode(array("list" => $data_events));
     }
 
     public function insertSPPD(){
@@ -106,30 +104,28 @@ class sppdController extends CI_Controller
         $tanggal = $this->input->post('tanggal');
         $pengikut = $this->input->post('pengikut');
         $diperintah = array($this->input->post('diperintah'));
-
         $data_surattugas = array(
             'DASAR'=>$dasar,
             'TUJUAN'=>$tujuan,
             'TANGGAL'=>date('Y-m-d',strtotime($tanggal)),
         );
 
-        $insert_id = $this->data_model->insertSurattugas($data_surattugas);
-
         $arr_pengikut = explode(",,",$pengikut);
         foreach($arr_pengikut as $ap){
             $diperintah[]=$ap;
         }
 
+        $ID_ST = $this->data_model->insertSurattugas($data_surattugas);
+        
+        
         $nip_diperintah=$this->data_model->getNIP($diperintah);
-        //print_r($diperintah);
-        //print_r($nip_diperintah);
         $sebagai='Kepala';
         for ($i=0; $i < count($nip_diperintah) ; $i++) { 
             if($i>0){
                 $sebagai='Pengikut';
             }
             $data_diperintah= array(
-                'ID_ST'=>$insert_id,
+                'ID_ST'=>$ID_ST,
                 'NIP'=>$nip_diperintah[$i][0]->NIP,
                 'SEBAGAI'=>$sebagai,
             );
@@ -171,6 +167,56 @@ class sppdController extends CI_Controller
         //     $this->data_model->insertPeserta($data_pengikut);
         // }
         
-        $this->load->view('home');
+        $this->listst();
+    }
+
+    public function editST(){
+        $id = $this->input->post('id');
+        $dasar = $this->input->post('dasar');
+        $tujuan = $this->input->post('untuk');
+        $tanggal = $this->input->post('tanggal');
+        $pengikut = $this->input->post('pengikut');
+        $diperintah = array($this->input->post('diperintah'));
+        $data_surattugas = array(
+            'DASAR'=>$dasar,
+            'TUJUAN'=>$tujuan,
+            'TANGGAL'=>date('Y-m-d',strtotime($tanggal)),
+        );
+        $where = array('ID_ST' => $id);
+        $this->data_model->update($where,'surattugas',$data_surattugas);
+        $this->data_model->delete($where, 'peserta');
+        
+        $arr_pengikut = explode(",,",$pengikut);
+        foreach($arr_pengikut as $ap){
+            $diperintah[]=$ap;
+        }
+
+        $nip_diperintah=$this->data_model->getNIP($diperintah);
+        $sebagai='Kepala';
+        for ($i=0; $i < count($nip_diperintah) ; $i++) { 
+            if($i>0){
+                $sebagai='Pengikut';
+            }
+            $data_diperintah= array(
+                'ID_ST'=>$id,
+                'NIP'=>$nip_diperintah[$i][0]->NIP,
+                'SEBAGAI'=>$sebagai,
+            );
+            $this->data_model->insertPeserta($data_diperintah);    
+        }
+        $this->listst();
+    }
+    public function readST($id){
+        //$id=$this->input->get('id');
+        $where = array('ID_ST' => $id);
+        $data['st'] = $this->data_model->read($where,'surattugas');
+        $data['peserta'] = $this->data_model->getPeserta($id);
+		$this->load->view('edit_st',$data);
+    }
+
+    public function deleteST($id){
+        $where = array('ID_ST' => $id);
+        $this->data_model->delete($where,'surattugas');
+		$this->load->view('edit_st',$data);
     }
 }

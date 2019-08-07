@@ -29,24 +29,35 @@
               <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
             </div>
             <div class="card-body">
-              <div class="table-responsive scrollable">
+              <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <col width="12%">
+                  <col width="40%">
+                  <col width="12%">
+                  <col width="12%">
+                  <col width="12%">
+                  <col width="12%">
                   <thead>
                     <tr>
-                      <th>No SPPD</th>
-                      <th>Tanggal</th>
+                      <th>Nama</th>
                       <th>Maksud</th>
-                      <th>Pegawai yang Diperintah</th>
+                      <th>Instansi Tujuan</th>
+                      <th>Tanggal Berangkat</th>
+                      <th>Tanggal Kembali</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                   <?php 
                     foreach($list as $li){
                       echo "<tr>
-                            <td>" .$li->ID_ST."</td>
-                            <td>" .$li->TANGGAL."</td>
+                            <td>" .$li->NAMA."</td>
                             <td>" .$li->DASAR."</td>
-                            <td>" .$li->NAMA." <td>"; 
+                            <td>" .$li->INSTANSI." </td>
+                            <td>" .$li->TGL_BERANGKAT."</td>
+                            <td>" .$li->TGL_KEMBALI."</td>
+                            <td><a href=\"#\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
+                            </tr>"; 
                     }
                   ?>
 
@@ -63,13 +74,7 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
+      <?php $this->load->view("templates/auth_footer") ?>
       <!-- End of Footer -->
 
     </div>
@@ -103,8 +108,7 @@
     </div>
   </div>
 
-  <!-- Footer-->
-  <?php $this->load->view("templates/auth_footer") ?>
+
 
 </body>
 
