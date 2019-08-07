@@ -20,7 +20,7 @@
     margin: 20% 5%;
 }
 .card-body{
-    height: 20%;
+    height: 15%;
 }
 .padding-input-top{
     padding: 3% 0% 0% 0%;
@@ -30,7 +30,7 @@
         margin: 5% 0px 5% 0px;
     }
     .py-9{
-        padding: 10px 2% 5% 0%;
+        padding: 0.5% 2% 5% 0%;
     }
   }
 @media only screen and (min-height: 1000px) {
