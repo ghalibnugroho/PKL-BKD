@@ -214,4 +214,9 @@ class sppdController extends CI_Controller
 		$this->load->view('edit_st',$data);
     }
 
+    public function deleteST($id){
+        $where = array('ID_ST' => $id);
+        $this->data_model->delete($where,'surattugas');
+		$this->load->view('edit_st',$data);
+    }
 }

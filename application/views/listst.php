@@ -25,7 +25,7 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header row py-3 d-sm-flex align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary col-sm-3">Daftar Surat Tugas</h6>
+              <h6 class="m-0 font-weight-bold text-primary col-sm-3" id="judul">Daftar Surat Tugas</h6>
               <a href="<?php echo site_url('surat-tugas') ?>" class="btn btn-sm btn-info col-sm-1"><i class="fas fa-sm fa-plus"></i> Tambah </a>
             </div>
             <div class="card-body">
@@ -51,11 +51,14 @@
                             <td>" .$li->DASAR."</td>
                             <td>" .$li->TANGGAL." </td>
                             <td><a href=".site_url('sppdController/readST/'.$li->ID_ST)." class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
-                            <a href=\"#\" class=\"d-none d-sm-inline-block btn btn-sm btn-danger\"><i class=\"fas fa-sm fa-trash\"></i> Hapus </a> </td>
-                            </tr>"; 
+                            <a href=\"\" data-toggle=\"modal\" onclick=\"confirm_modal(".site_url('sppdController/deleteST/'.$li->ID_ST)."),'ANUUU');\" data-target=\"#modal_delete\"class=\" d-none d-sm-inline-block btn btn-sm btn-danger\"><i class=\"fas fa-sm fa-trash\"></i> Hapus </a> </td>
+                            </tr>";
+                            $temp_id = $li->ID_ST; 
                     }
                   ?>
-
+                  <script language="javascript">
+                  
+                  </script>
                   </tbody>
                 </table>
               </div>
@@ -103,7 +106,36 @@
     </div>
   </div>
 
-
+     <!-- (Delete Modal)-->
+     <div class="modal fade" id="modal_delete"  data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content" style="margin-top:100px;">
+                    
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" style="text-align:center;">Are you sure to Delete this <span class="grt"></span> ?</h4>
+                    </div>
+                    
+                    <div class="modal-footer" style="margin:0px; border-top:0px; text-align:center;">
+    					<span id="preloader-delete"></span>
+                        </br>
+                    	  <a class="btn btn-danger" id="delete_link" href="">Delete</a>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" id="delete_cancel_link">Cancel</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    	<script>	
+    	function confirm_modal(delete_url,title)
+    	{
+    		jQuery('#modal_delete').modal('show', {backdrop: 'static',keyboard :false});
+    		jQuery("#modal_delete .grt").text(title);
+    		document.getElementById('delete_link').setAttribute("href",delete_url );
+        document.getElementById("judul").innerHTML = "download";
+    		//document.getElementById('delete_link').focus();
+    	}
+    	</script>
 
 </body>
 
