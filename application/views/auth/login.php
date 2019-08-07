@@ -6,7 +6,7 @@
 
     <!-- Outer Row -->
     <div class="row justify-content-center">
-      <div class="col-8 col-lg-8">
+      <div class="col-8 col-lg-8 d-flex align-items-stretch">
         <div class="card o-hidden border-0 shadow-lg">
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
@@ -17,7 +17,7 @@
               <div class="col-lg-6 py-9">
                 <div class="card-login">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4 font">BKD ft. PKL</h1>
+                    <h1 class="h4 text-gray-900 mb-3 font">BKD ft. PKL</h1>
                     <h1></h1>
                   </div>
                   <?=$this->session->flashdata('message');?>

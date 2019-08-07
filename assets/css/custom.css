@@ -25,12 +25,12 @@
 .padding-input-top{
     padding: 3% 0% 0% 0%;
 }
-@media only screen and (min-height: 750px) {
+@media only screen and (min-height: 550px) {
     .py-10{
         margin: 5% 0px 5% 0px;
     }
     .py-9{
-        padding: 20px 2% 5% 0%;
+        padding: 10px 2% 5% 0%;
     }
   }
 @media only screen and (min-height: 1000px) {
