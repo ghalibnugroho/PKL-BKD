@@ -13,3 +13,21 @@
     height: 300px;
     overflow: scroll;
 }
+.font{
+    font-family: 'Roboto Slab', serif;
+}
+.card-login{
+    margin: 20% 5%;
+}
+.card-body{
+    height: 20%;
+}
+.py-10{
+    margin: 7% 0px 5% 0px;
+}
+.py-9{
+    padding: 5% 2% 5% 0%;
+}
+.padding-input-top{
+    padding: 3% 0% 0% 0%;
+}
