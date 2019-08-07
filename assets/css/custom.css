@@ -22,12 +22,22 @@
 .card-body{
     height: 20%;
 }
-.py-10{
-    margin: 7% 0px 5% 0px;
-}
-.py-9{
-    padding: 5% 2% 5% 0%;
-}
 .padding-input-top{
     padding: 3% 0% 0% 0%;
 }
+@media only screen and (min-height: 750px) {
+    .py-10{
+        margin: 85px 0px 5% 0px;
+    }
+    .py-9{
+        padding: 20px 2% 5% 0%;
+    }
+  }
+@media only screen and (min-height: 1000px) {
+    .py-10{
+        margin: 7% 0px 5% 0px;
+    }
+    .py-9{
+        padding: 5% 2% 5% 0%;
+    }
+  }
