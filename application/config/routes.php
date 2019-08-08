@@ -53,9 +53,11 @@ $route['default_controller'] = 'auth';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = false;
 
-$route['sppd']='sppdController/sppd';
-$route['surat-tugas']='sppdController/surattugas';
-$route['list-sppd']='sppdController/listsppd';
-$route['list-st']='sppdController/listst';
-$route['rincian']='sppdController/rincianbiaya';
-$route['read_st']='sppdController/readST';
+$route['sppd'] = 'sppdController/sppd';
+$route['surat-tugas'] = 'sppdController/surattugas';
+$route['list-sppd'] = 'sppdController/listsppd';
+$route['list-st'] = 'sppdController/listst';
+$route['rincian'] = 'sppdController/rincianbiaya';
+$route['read_st'] = 'sppdController/readST';
+$route['daftar-pegawai'] = 'sppdController/daftarpegawai';
+$route['rekap-keuangan'] = 'sppdController/rekapkeuangan';

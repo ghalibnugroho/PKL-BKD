@@ -1,9 +1,10 @@
-<?php 
-    require_once('templates/session.php');
+<?php
+require_once('templates/session.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <?php $this->load->view("templates/auth_header") ?>
+<?php $this->load->view("templates/auth_header") ?>
+
 <body id="page-top">
   <div id="wrapper">
     <?php $this->load->view("templates/auth_sidebar") ?>
@@ -11,7 +12,7 @@
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-    
+
       <!-- Main Content -->
       <div id="content">
 
@@ -306,8 +307,8 @@
       </div>
       <!-- End of Main Content -->
 
-  <!-- Footer-->
-  <?php $this->load->view("templates/auth_footer") ?>
+      <!-- Footer-->
+      <?php $this->load->view("templates/auth_footer") ?>
       <!-- End of Footer -->
 
     </div>
@@ -335,7 +336,7 @@
         <div class="modal-footer">
 
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="<?=base_url('auth/logout');?>">Logout</a>
+          <a class="btn btn-primary" href="<?= base_url('auth/logout'); ?>">Logout</a>
         </div>
       </div>
     </div>
