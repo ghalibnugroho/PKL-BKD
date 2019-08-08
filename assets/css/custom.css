@@ -17,7 +17,7 @@
     font-family: 'Roboto Slab', serif;
 }
 .card-login{
-    margin: 20% 5%;
+    margin: 20% 5% 10% 5%;
 }
 .card-body{
     height: 15%;
@@ -30,15 +30,15 @@
     margin: 20% 5%;
     height:30px;
 }
-@media only screen and (min-height: 550px) {
+@media only screen and (min-height: 550px) and (min-width: 720px) {
     .py-10{
-        margin: 5% 0px 5% 0px;
+        margin: 4.5% 0px 5% 0px;
     }
     .py-9{
-        padding: 0.5% 2% 5% 0%;
+        padding: 0.5% 3.5% 5% 0%;
     }
   }
-@media only screen and (min-height: 1000px) {
+@media only screen and (min-height: 1000px) and (min-width: 720px) {
     .py-10{
         margin: 7% 0px 5% 0px;
     }

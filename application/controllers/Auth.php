@@ -8,7 +8,6 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('data_model');
-
     }
 
     public function index()
@@ -29,21 +28,36 @@ class Auth extends CI_Controller
         $password = $this->input->post('password');
 
         $user = $this->db->get_where('bidang', ['NAMA_BIDANG' => $username])->row_array(); //var_dump() & die; paket untuk check nilai variable
+        $admin = $this->db->get_where('admin', ['ID_ADM' => $username])->row_array();
 
         // jika usernya ada
         if ($user) {
             // jika usernya active
-                if (password_verify($password, $user['PASSWORD'])) {
-                    $data = [
-                        'username' => $user['NAMA_BIDANG'],
-                    ];
-                    $this->session->set_userdata($data);
-                    redirect(base_url('home')); // home -> halaman utama user
-                } else {
-                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            if (password_verify($password, $user['PASSWORD'])) {
+                $data = [
+                    'username' => $user['NAMA_BIDANG'],
+                    'priority' => 2
+                ];
+                $this->session->set_userdata($data);
+                redirect(base_url('home')); // home -> halaman utama user
+            } else {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
                     Wrong password!</div>');
-                    redirect(base_url());
-                }
+                redirect(base_url());
+            }
+        } else if ($admin) {
+            if (password_verify($password, $admin['PASSWORD'])) {
+                $data = [
+                    'username' => $admin['ID_ADM'],
+                    'priority' => 1
+                ];
+                $this->session->set_userdata($data);
+                redirect(base_url('home')); // home -> halaman utama user
+            } else {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                    Wrong password!</div>');
+                redirect(base_url());
+            }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
             Your Username is not registered!</div>');
@@ -63,7 +77,7 @@ class Auth extends CI_Controller
             $data['title'] = 'PKL_BKD - Registration';
             $this->load->view('templates/auth_header', $data);
             $this->load->view('auth/registration');
-            $this->load->view('templates/auth_footer');
+            // $this->load->view('templates/auth_footer');
         } else {
             $this->data_model->regist();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">

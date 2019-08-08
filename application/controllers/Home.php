@@ -11,13 +11,8 @@ class Home extends CI_Controller
 
     public function index()
     {
-        
+
         $data = $this->data_model->datalogin();
         $this->load->view('home', $data);
-
-    }
-    public function contohsurat()
-    {
-        $this->load->view('surat/contohsurat');
     }
 }
