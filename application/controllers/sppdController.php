@@ -33,7 +33,7 @@ class sppdController extends CI_Controller
     }
     public function rincianbiaya()
     {
-        $this->load->view('rincianbiaya');
+        $this->load->view('rincian');
     }
     public function rekapkeuangan()
     {
@@ -228,7 +228,7 @@ class sppdController extends CI_Controller
     public function deleteST($id)
     {
         $where = array('ID_ST' => $id);
-        $this->data_model->delete($where, 'surattugas');
-        $this->load->view('edit_st', $data);
+        $this->data_model->delete($where,'surattugas');
+		$this->listst();
     }
 }
