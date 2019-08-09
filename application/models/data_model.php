@@ -10,106 +10,122 @@ class data_model extends CI_Model
     public function regist()
     {
         $data = [
-            'ID_BIDANG' => htmlspecialchars(''),
-            'NAMA_BIDANG' => htmlspecialchars($this->input->post('fullName', true)),
+            // 'ID_BIDANG' => htmlspecialchars(''),
+            // 'NAMA_BIDANG' => htmlspecialchars($this->input->post('fullName', true)),
+            'ID_ADM' => htmlspecialchars($this->input->post('fullName', true)),
             'PASSWORD' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
         ];
-        $this->db->insert('bidang', $data);
+        $this->db->insert('admin', $data);
     }
     public function datalogin()
     {
         $data = $this->db->get_where('bidang', ['NAMA_BIDANG' => $this->session->userdata('username')])->row_array();
         return $data;
     }
-    public function getPegawai($keyword){
-       $query=$this->db->select("NAMA")
-        ->from('pegawai')
-        ->like('NAMA', $keyword , 'both')
-        ->order_by('NAMA', 'ASC')
-        ->limit(10)
-        ->get();
+    public function getPegawai($keyword)
+    {
+        $query = $this->db->select("NAMA")
+            ->from('pegawai')
+            ->like('NAMA', $keyword, 'both')
+            ->order_by('NAMA', 'ASC')
+            ->limit(10)
+            ->get();
 
         //return $query->result();
         //$query2=$this->db->query("SELECT NAMA FROM pegawai");
         return $query->result();
+    }
+    public function getDaftarPegawai()
+    {
+        $query = $this->db->query('select NIP, NAMA, PANGKAT, GOLONGAN, JABATAN, TANGGALLAHIR FROM pegawai');
+        return $query->result();
+    }
+    public function getPegawaiAll()
+    {
+        $query = $this->db->select("NAMA")
+            ->from('pegawai')
+            ->order_by('NAMA', 'ASC')
+            ->get();
 
+        //return $query->result();
+        //$query2=$this->db->query("SELECT NAMA FROM pegawai");
+        return $query->result();
     }
-    public function getPegawaiAll(){
-        $query=$this->db->select("NAMA")
-         ->from('pegawai')
-         ->order_by('NAMA', 'ASC')
-         ->get();
- 
-         //return $query->result();
-         //$query2=$this->db->query("SELECT NAMA FROM pegawai");
-         return $query->result();
- 
-    }
-    public function insertSPPD($data_insert){
-        $this->db->insert('sppd',$data_insert);
+    public function insertSPPD($data_insert)
+    {
+        $this->db->insert('sppd', $data_insert);
     }
 
-    public function insertSurattugas($data_insert){
-        $this->db->insert('surattugas',$data_insert);
-        $id=$this->db->insert_id();
+    public function insertSurattugas($data_insert)
+    {
+        $this->db->insert('surattugas', $data_insert);
+        $id = $this->db->insert_id();
         $data_sppd = array(
-            'ID_ST'=> $id,
+            'ID_ST' => $id,
         );
-        $this->db->insert('sppd',$data_sppd);
+        $this->db->insert('sppd', $data_sppd);
         return $id;
     }
-    public function insertPeserta($data_insert){
-        $this->db->insert('peserta',$data_insert);
+    public function insertPeserta($data_insert)
+    {
+        $this->db->insert('peserta', $data_insert);
     }
-    public function getListSPPD(){
-        $query=$this->db->select("surattugas.ID_ST,DASAR,INSTANSI, TGL_BERANGKAT,TGL_KEMBALI,NAMA")
-        ->from('surattugas')
-        ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
-        ->join('peserta','surattugas.ID_ST=peserta.ID_ST')
-        ->join('pegawai','pegawai.NIP=peserta.NIP')
-        ->where('peserta.SEBAGAI','Kepala')
-        ->get();
+    public function getListSPPD()
+    {
+        $query = $this->db->select("surattugas.ID_ST,DASAR,INSTANSI, TGL_BERANGKAT,TGL_KEMBALI,NAMA")
+            ->from('surattugas')
+            ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
+            ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
+            ->join('pegawai', 'pegawai.NIP=peserta.NIP')
+            ->where('peserta.SEBAGAI', 'Kepala')
+            ->get();
 
         return $query->result();
     }
-    public function getListST(){
-        $query=$this->db->select("surattugas.ID_ST,DASAR,TANGGAL,NAMA")
-        ->from('surattugas')
-        ->join('peserta','surattugas.ID_ST=peserta.ID_ST')
-        ->join('pegawai','pegawai.NIP=peserta.NIP')
-        ->where('peserta.SEBAGAI','Kepala')
-        ->get();
+    public function getListST()
+    {
+        $query = $this->db->select("surattugas.ID_ST,DASAR,TANGGAL,NAMA")
+            ->from('surattugas')
+            ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
+            ->join('pegawai', 'pegawai.NIP=peserta.NIP')
+            ->where('peserta.SEBAGAI', 'Kepala')
+            ->get();
 
         return $query->result();
     }
-    public function getNIP($nama){
-        $nip=array();
+    public function getNIP($nama)
+    {
+        $nip = array();
         //$query = $this->db->select("NIP")->from('pegawai')->where('NAMA',$nama)->get();
-        foreach ($nama as $n ) {
-            $nip[] = $this->db->select("NIP")->from('pegawai')->where('NAMA',$n)->get()->result();
+        foreach ($nama as $n) {
+            $nip[] = $this->db->select("NIP")->from('pegawai')->where('NAMA', $n)->get()->result();
         }
         return $nip;
     }
-    public function getPeserta($id){
+    public function getPeserta($id)
+    {
         $query = $this->db->select("NAMA")
-        ->from('pegawai')
-        ->join('peserta','peserta.NIP = pegawai.NIP')
-        ->where('peserta.ID_ST',$id)
-        ->get();
+            ->from('pegawai')
+            ->join('peserta', 'peserta.NIP = pegawai.NIP')
+            ->where('peserta.ID_ST', $id)
+            ->get();
 
         return $query->result();
     }
-    
-    public function update($where,$table,$data){
-		$this->db->where($where);
-		$this->db->update($table,$data);
+
+    public function update($where, $table, $data)
+    {
+        $this->db->where($where);
+        $this->db->update($table, $data);
     }
-    public function delete($where,$table){
-		$this->db->where($where);
-		$this->db->delete($table);
+    public function delete($where, $table)
+    {
+        $this->db->where($where);
+        $this->db->delete($table);
     }
-    
-    function read($where,$table){		
-	    return $this->db->get_where($table,$where)->result();
+
+    function read($where, $table)
+    {
+        return $this->db->get_where($table, $where)->result();
     }
 }
