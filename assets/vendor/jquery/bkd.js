@@ -18,7 +18,7 @@
    
 	$('input[name="pengikut"]').amsifySuggestags({
     suggestionsAction : {
-						url : '<?php echo site_url('sppdController/getPegawaiAll');?>'
+						url : "<?php echo site_url('sppdController/getPegawaiAll');?>"
 					}
 		//suggestions: ['Malang', 'Kediri', 'Madiun', 'Surabaya', 'Jayapura', 'Timika']
 	});

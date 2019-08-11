@@ -40,6 +40,21 @@ class data_model extends CI_Model
         $query = $this->db->query('select NIP, NAMA, PANGKAT, GOLONGAN, JABATAN, TANGGALLAHIR FROM pegawai');
         return $query->result();
     }
+    function fetch_data($query)
+    {
+        $this->db->select("*");
+        $this->db->from("pegawai");
+        if ($query != '') {
+            $this->db->like('NAMA', $query);
+            $this->db->or_like('GOLONGAN', $query);
+            $this->db->or_like('PANGKAT', $query);
+            $this->db->or_like('JABATAN', $query);
+            $this->db->or_like('TANGGALLAHIR', $query);
+            $this->db->or_like('NIP', $query);
+        }
+        $this->db->order_by('NAMA', 'ASC');
+        return $this->db->get();
+    }
     public function getPegawaiAll()
     {
         $query = $this->db->select("NAMA")

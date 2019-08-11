@@ -46,3 +46,8 @@
         padding: 5% 2% 5% 0%;
     }
   }
+#search_text{
+    position: absolute;
+    top: 0.2%;
+    left: 11%;
+}

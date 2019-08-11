@@ -27,11 +27,14 @@ require_once('templates/session.php');
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DAFTAR PEGAWAI</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">DAFTAR PEGAWAI : </h6>
+                            <input type="text" name="search_text" id="search_text" placeholder="Nama/NIP" class="form-control col-3" />
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <div id="result"></div>
+                                <div style="clear:both"></div>
+                                <!-- <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <col width="15%">
                                     <col width="18%">
                                     <col width="12%">
@@ -64,7 +67,7 @@ require_once('templates/session.php');
                                         ?>
 
                                     </tbody>
-                                </table>
+                                </table> -->
                             </div>
                         </div>
                     </div>
@@ -112,6 +115,31 @@ require_once('templates/session.php');
 
 
 
-</body>
+    <script>
+        $(document).ready(function() {
 
-</html>
+            load_data();
+
+            function load_data(query) {
+                $.ajax({
+                    url: "<?php echo base_url(); ?>sppdController/fetchDataPegawai",
+                    method: "POST",
+                    data: {
+                        query: query
+                    },
+                    success: function(data) {
+                        $('#result').html(data);
+                    }
+                })
+            }
+
+            $('#search_text').keyup(function() {
+                var search = $(this).val();
+                if (search != '') {
+                    load_data(search);
+                } else {
+                    load_data();
+                }
+            });
+        });
+    </script>

@@ -13,6 +13,56 @@ class sppdController extends CI_Controller
         $result['list'] = $this->data_model->getDaftarPegawai();
         $this->load->view('listpegawai', $result);
     }
+    public function fetchDataPegawai()
+    {
+        $output = '';
+        $query = '';
+        if ($this->input->post('query')) {
+            $query = $this->input->post('query');
+        }
+        $data = $this->data_model->fetch_data($query);
+        $output .=
+            '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <col width="15%">
+            <col width="18%">
+            <col width="12%">
+            <col width="8%">
+            <col width="17%">
+            <thead>
+                <tr>
+                    <th>NIP</th>
+                    <th>NAMA</th>
+                    <th>PANGKAT</th>
+                    <th>GOLONGAN</th>
+                    <th>JABATAN</th>
+                    <th>TANGGAL LAHIR</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+        ';
+        if ($data->num_rows() > 0) {
+            foreach ($data->result() as $row) {
+                $output .= '
+            <tr>
+            <td>' . $row->NIP . '</td>
+            <td>' . $row->NAMA . '</td>
+            <td>' . $row->PANGKAT . '</td>
+            <td>' . $row->GOLONGAN . '</td>
+            <td>' . $row->JABATAN . '</td>
+            <td>' . $row->TANGGALLAHIR . '</td>
+            <td><a href=\"#\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
+            </tr>
+            ';
+            }
+        } else {
+            $output .= '<tr>
+            <td colspan="5">No Data Found</td>
+            </tr>';
+        }
+        $output .= '</table>';
+        echo $output;
+    }
+
     public function listsppd()
     {
         $result['list'] = $this->data_model->getListSPPD();
@@ -228,7 +278,7 @@ class sppdController extends CI_Controller
     public function deleteST($id)
     {
         $where = array('ID_ST' => $id);
-        $this->data_model->delete($where,'surattugas');
-		$this->listst();
+        $this->data_model->delete($where, 'surattugas');
+        $this->listst();
     }
 }
