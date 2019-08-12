@@ -48,10 +48,13 @@
   }
 .card-header h6, .card-header input{
     display: inline;
-    vertical-align: top;
+    /* vertical-align: center; */
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     line-height: 30px; 
+}
+.card-header h6 {
+    font-size: 16px;
 }
 #search_text{
     /* position: absolute; */
