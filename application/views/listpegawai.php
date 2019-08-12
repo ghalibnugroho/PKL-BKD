@@ -26,9 +26,9 @@ require_once 'templates/session.php';
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header ">
                             <h6 class="m-0 font-weight-bold text-primary">DAFTAR PEGAWAI : </h6>
-                            <input type="text" name="search_text" id="search_text" placeholder="Nama/NIP" class="col-3" />
+                            <input type="text" name="search_text" id="search_text" placeholder="Nama/NIP" class="form-control col-3" />
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
