@@ -50,7 +50,7 @@ class sppdController extends CI_Controller
             <td>' . $row->GOLONGAN . '</td>
             <td>' . $row->JABATAN . '</td>
             <td>' . $row->TANGGALLAHIR . '</td>
-            <td><a href=\"#\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
+            <td><a href="#" class="d-none d-sm-inline-block btn btn-sm btn-info"><i class="fas fa-sm fa-edit"></i> Edit </a>
             </tr>
             ';
             }

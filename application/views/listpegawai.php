@@ -1,13 +1,13 @@
 <?php
-require_once('templates/session.php');
+require_once 'templates/session.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php $this->load->view("templates/auth_header") ?>
+<?php $this->load->view("templates/auth_header")?>
 
 <body id="page-top">
     <div id="wrapper">
-        <?php $this->load->view("templates/auth_sidebar") ?>
+        <?php $this->load->view("templates/auth_sidebar")?>
 
 
         <!-- Content Wrapper -->
@@ -17,7 +17,7 @@ require_once('templates/session.php');
             <div id="content">
 
                 <!-- Topbar -->
-                <?php $this->load->view("templates/auth_topbar") ?>
+                <?php $this->load->view("templates/auth_topbar")?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -28,7 +28,7 @@ require_once('templates/session.php');
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">DAFTAR PEGAWAI : </h6>
-                            <input type="text" name="search_text" id="search_text" placeholder="Nama/NIP" class="form-control col-3" />
+                            <input type="text" name="search_text" id="search_text" placeholder="Nama/NIP" class="col-3" />
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -53,8 +53,8 @@ require_once('templates/session.php');
                                     </thead>
                                     <tbody>
                                         <?php
-                                        foreach ($list as $li) {
-                                            echo "<tr>
+foreach ($list as $li) {
+    echo "<tr>
                             <td>" . $li->NIP . "</td>
                             <td>" . $li->NAMA . "</td>
                             <td>" . $li->PANGKAT . " </td>
@@ -63,8 +63,8 @@ require_once('templates/session.php');
                             <td>" . $li->TANGGALLAHIR . "</td>
                             <td><a href=\"#\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
                             </tr>";
-                                        }
-                                        ?>
+}
+?>
 
                                     </tbody>
                                 </table> -->
@@ -79,7 +79,7 @@ require_once('templates/session.php');
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <?php $this->load->view("templates/auth_footer") ?>
+            <?php $this->load->view("templates/auth_footer")?>
             <!-- End of Footer -->
 
         </div>
@@ -107,7 +107,7 @@ require_once('templates/session.php');
                 <div class="modal-footer">
 
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="<?= base_url('auth/logout'); ?>">Logout</a>
+                    <a class="btn btn-primary" href="<?=base_url('auth/logout');?>">Logout</a>
                 </div>
             </div>
         </div>

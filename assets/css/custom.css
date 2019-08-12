@@ -48,6 +48,8 @@
   }
 #search_text{
     position: absolute;
-    top: 0.2%;
-    left: 11%;
+    top: 0.25%;
+    left: 16.4%;
+    border: 0.2px grey solid;
+    border-radius: 5px;
 }
