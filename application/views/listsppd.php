@@ -21,12 +21,12 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
+        <?=$this->session->flashdata('message');?>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Daftar SPPD</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -55,9 +55,15 @@
                             <td>" .$li->DASAR."</td>
                             <td>" .$li->INSTANSI." </td>
                             <td>" .$li->TGL_BERANGKAT."</td>
-                            <td>" .$li->TGL_KEMBALI."</td>
-                            <td><a href=\"#\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
+                            <td>" .$li->TGL_KEMBALI."</td>";
+                            if (($li->INSTANSI == null)&& ($li->TGL_KEMBALI == null)&&($li->TGL_BERANGKAT == null)) {
+                              echo "<td><a href=\"".site_url("sppdController/sppd/").$li->ID_ST."\" class=\"d-none d-sm-inline-block btn btn-sm btn-success\"><i class=\"fas fa-sm fa-pencil\"></i> Buat SPPD </a>
                             </tr>"; 
+                            }else{
+                              echo "<td><a href=\"".site_url("sppdController/sppd/").$li->ID_ST."\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
+                            </tr>"; 
+                            }
+                            
                     }
                   ?>
 

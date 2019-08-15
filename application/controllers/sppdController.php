@@ -23,9 +23,15 @@ class sppdController extends CI_Controller
         $result['list'] = $this->data_model->getListST();
         $this->load->view('listst', $result);
     }
-    public function sppd()
+    public function sppd($id)
     {
-        $this->load->view('sppd');
+        $user = $this->session->userdata('username');
+        $result['kegiatan'] = $this->data_model->getKegiatan($user); 
+        $result['list'] = $this->data_model->getDataSPPD($id);
+        if ($result['list'][0]->KODE != null) {
+            $result['list'][0]->KODE = $this->data_model->getNamaKegiatan($result['list'][0]->KODE);
+        }
+        $this->load->view('sppd',$result);
     }
     public function surattugas()
     {
@@ -76,10 +82,10 @@ class sppdController extends CI_Controller
         echo json_encode(array("list" => $data_events));
     }
 
-    public function insertSPPD()
+    public function updateSPPD()
     {
-        $pemerintah = $this->input->post('pemerintah');
-        $pegawai_diperintah = $this->input->post('pegawai_diperintah');
+        $id = $this->input->post('id');
+        $kegiatan = $this->input->post('kegiatan');
         $maksud = $this->input->post('maksud');
         $alat_angkut = $this->input->post('alat_angkut');
         $tempat_berangkat = $this->input->post('tempat_berangkat');
@@ -87,23 +93,29 @@ class sppdController extends CI_Controller
         $tgl_berangkat = $this->input->post('tgl_berangkat');
         $tgl_kembali = $this->input->post('tgl_kembali');
         $pengikut = $this->input->post('pengikut');
+        $kategori = $this->input->post('kategori');
         $instansi = $this->input->post('instansi');
         $keterangan = $this->input->post('keterangan');
-
+        $lama = date_diff(date_create($tgl_kembali),date_create($tgl_berangkat));
+        $kode = $this->data_model->getKodeKegiatan($kegiatan);
         $data_insert = array(
-            'ID_SPPD' => '15',
+            'ID_SPPD' => $id,
             'ALAT_ANGKUT' => $alat_angkut,
+            'KODE'=> $kode,
             'TMP_BERANGKAT' => $tempat_berangkat,
             'TMP_TUJUAN' => $tempat_tujuan,
-            'TGL_BERANGKAT' => $tgl_berangkat,
-            'TGL_KEMBALI' => $tgl_kembali,
-            'LAMA' => '4',
+            'TGL_BERANGKAT' => date('Y-m-d', strtotime($tgl_berangkat)),
+            'TGL_KEMBALI' => date('Y-m-d', strtotime($tgl_kembali)),
+            'LAMA' => $lama->days,
             'KETERANGAN' => $keterangan,
-            'KATEGORI' => '1',
-            'INSTANSI' => $pengikut,
+            'KATEGORI' => $kategori,
+            'INSTANSI' => $instansi,
         );
-        $this->data_model->insertSPPD($data_insert);
-        $this->load->view('home');
+        $where = array('ID_SPPD' => $id);
+        $this->data_model->update($where,'sppd',$data_insert);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        Data berhasil diupdate </div>');
+        $this->listsppd();
     }
 
     public function insertSurattugas()
@@ -175,7 +187,8 @@ class sppdController extends CI_Controller
         //     );
         //     $this->data_model->insertPeserta($data_pengikut);
         // }
-
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        Data berhasil dimasukkan </div>');
         $this->listst();
     }
 
@@ -214,6 +227,8 @@ class sppdController extends CI_Controller
             );
             $this->data_model->insertPeserta($data_diperintah);
         }
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        Data berhasil diupdate </div>');
         $this->listst();
     }
     public function readST($id)
@@ -229,6 +244,16 @@ class sppdController extends CI_Controller
     {
         $where = array('ID_ST' => $id);
         $this->data_model->delete($where,'surattugas');
+        $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+        Surat tugas berhasil dihapus </div>');
 		$this->listst();
+    }
+    public function getKota(){
+        $data = file_get_contents(base_url('assets/')."json/kota.json");
+        echo $data;
+    }
+    public function getKotaAuto(){
+        $data = file_get_contents(base_url('assets/')."json/kotaa.json");
+        echo $data;
     }
 }
