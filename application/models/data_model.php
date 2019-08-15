@@ -66,10 +66,16 @@ class data_model extends CI_Model
         //$query2=$this->db->query("SELECT NAMA FROM pegawai");
         return $query->result();
     }
-    public function insertSPPD($data_insert)
-    {
-        $this->db->insert('sppd', $data_insert);
+    public function getDataSPPD($id){
+        $query = $this->db->select("TUJUAN, ID_SPPD, KODE, ALAT_ANGKUT, 
+        TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, LAMA, KETERANGAN , KATEGORI, INSTANSI")
+        ->from('surattugas')
+        ->join('sppd','sppd.ID_ST=surattugas.ID_ST')
+        ->where('surattugas.ID_ST',$id)
+        ->get();
+        return $query->result();
     }
+
 
     public function insertSurattugas($data_insert)
     {
@@ -142,5 +148,34 @@ class data_model extends CI_Model
     function read($where, $table)
     {
         return $this->db->get_where($table, $where)->result();
+    }
+
+    function getKegiatan($user){
+
+        $query = $this->db->select("KODE, NAMA_KEGIATAN")
+        ->from('kegiatan')
+        ->join('bidang','kegiatan.ID_BIDANG = bidang.ID_BIDANG')
+        ->where('NAMA_BIDANG',$user)
+        ->get();
+
+        return $query->result();
+    }
+    function getKodeKegiatan($kegiatan){
+        $query = $this->db->select("KODE")
+        ->from('kegiatan')
+        ->where('NAMA_KEGIATAN',$kegiatan)
+        ->get();
+        
+        $kode = $query->result();
+        return $kode[0]->KODE;
+    }
+    function getNamaKegiatan($kode){
+        $query = $this->db->select("NAMA_KEGIATAN")
+        ->from('kegiatan')
+        ->where('KODE',$kode)
+        ->get();
+        
+        $kode = $query->result();
+        return $kode[0]->NAMA_KEGIATAN;
     }
 }

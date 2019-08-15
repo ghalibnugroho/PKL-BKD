@@ -36,7 +36,7 @@
                         
                     
                 ?>
-                <form method="POST" role="form" action="<?php echo site_url('sppdController/editST');?>">
+                <form method="POST" role="form" action="<?php echo base_url('sppdController/editST');?>">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">

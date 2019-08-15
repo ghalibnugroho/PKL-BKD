@@ -21,7 +21,7 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
+        <?=$this->session->flashdata('message');?>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header row py-3 d-sm-flex align-items-center justify-content-between">

@@ -183,8 +183,8 @@
   </div>
 
   <!-- Penginapan Modal-->
-  <div class="modal fade" id="penginapan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+  <div class="modal fade  " id="penginapan" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog " role="document">
       <div class="modal-content">
         <div class="modal-header">
         <div class="tab-pane active" id="tab_1">  
@@ -260,6 +260,8 @@
       </div>
     </div>
   </div>
+
+  
 
 </body>
 
