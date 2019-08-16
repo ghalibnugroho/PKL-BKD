@@ -60,18 +60,29 @@ class data_model extends CI_Model
         ->get();
         return $query->result();
     }
+    function getIDST(){
+        $query = $this->db->select_max('ID_ST')
+        ->from('surattugas')
+        ->get();
+        return $query->result();
+    }
 
-
-    public function insertSurattugas($data_insert)
+    function getRincian($id){
+        $query = $this->db->select('*')
+        ->from('rincian')
+        ->where('ID_SPPD',$id)
+        ->get();
+        return $query->result();
+    }
+    public function insertSurattugas($data_insert,$id)
     {
         $this->db->insert('surattugas', $data_insert);
-        $id = $this->db->insert_id();
         $data_sppd = array(
             'ID_ST' => $id,
         );
         $this->db->insert('sppd', $data_sppd);
-        return $id;
     }
+
     public function insertPeserta($data_insert)
     {
         $this->db->insert('peserta', $data_insert);
@@ -99,6 +110,18 @@ class data_model extends CI_Model
 
         return $query->result();
     }
+    public function getListRincian()
+    {
+        $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,TUJUAN,NAMA")
+            ->from('surattugas')
+            ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
+            ->join('pegawai', 'pegawai.NIP=peserta.NIP')
+            ->join('sppd','surattugas.ID_ST=sppd.ID_ST')
+            ->where('peserta.SEBAGAI', 'Kepala')
+            ->get();
+
+        return $query->result();
+    }
     public function getNIP($nama)
     {
         $nip = array();
@@ -110,10 +133,11 @@ class data_model extends CI_Model
     }
     public function getPeserta($id)
     {
-        $query = $this->db->select("NAMA")
+        $query = $this->db->select("pegawai.NAMA,peserta.ID_PESERTA")
             ->from('pegawai')
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
-            ->where('peserta.ID_ST', $id)
+            ->join('sppd','sppd.ID_ST = peserta.ID_ST')
+            ->where('sppd.ID_SPPD', $id)
             ->get();
 
         return $query->result();

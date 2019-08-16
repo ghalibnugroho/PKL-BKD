@@ -23,6 +23,15 @@ class sppdController extends CI_Controller
         $result['list'] = $this->data_model->getListST();
         $this->load->view('listst', $result);
     }
+    function listrincian(){
+        $result['list'] = $this->data_model->getListRincian();
+        $this->load->view('listrincian', $result);
+    }
+    function rincian($id){
+        $result['peserta'] = $this->data_model->getPeserta($id);
+        $result['list'] = $this->data_model->getRincian($id);
+        $this->load->view('rincian',$result);
+    }
     public function sppd($id)
     {
         $user = $this->session->userdata('username');
@@ -82,6 +91,7 @@ class sppdController extends CI_Controller
         echo json_encode(array("list" => $data_events));
     }
 
+
     public function updateSPPD()
     {
         $id = $this->input->post('id');
@@ -125,7 +135,9 @@ class sppdController extends CI_Controller
         $tanggal = $this->input->post('tanggal');
         $pengikut = $this->input->post('pengikut');
         $diperintah = array($this->input->post('diperintah'));
+        $id = $this->data_model->getIDST()[0]->ID_ST+1;
         $data_surattugas = array(
+            'ID_ST' => $id,
             'DASAR' => $dasar,
             'TUJUAN' => $tujuan,
             'TANGGAL' => date('Y-m-d', strtotime($tanggal)),
@@ -136,7 +148,7 @@ class sppdController extends CI_Controller
             $diperintah[] = $ap;
         }
 
-        $ID_ST = $this->data_model->insertSurattugas($data_surattugas);
+        $this->data_model->insertSurattugas($data_surattugas,$id);
 
 
         $nip_diperintah = $this->data_model->getNIP($diperintah);
@@ -146,7 +158,7 @@ class sppdController extends CI_Controller
                 $sebagai = 'Pengikut';
             }
             $data_diperintah = array(
-                'ID_ST' => $ID_ST,
+                'ID_ST' => $id,
                 'NIP' => $nip_diperintah[$i][0]->NIP,
                 'SEBAGAI' => $sebagai,
             );
@@ -252,8 +264,8 @@ class sppdController extends CI_Controller
         $data = file_get_contents(base_url('assets/')."json/kota.json");
         echo $data;
     }
-    public function getKotaAuto(){
-        $data = file_get_contents(base_url('assets/')."json/kotaa.json");
-        echo $data;
+    public function tambahTransportasi(){
+        $no_tiket = $this->input->post('no_tiket');
+        $no_duduk = $this->input->post('no_duduk');
     }
 }

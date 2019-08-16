@@ -57,6 +57,7 @@ $route['sppd'] = 'sppdController/sppd';
 $route['surat-tugas'] = 'sppdController/surattugas';
 $route['list-sppd'] = 'sppdController/listsppd';
 $route['list-st'] = 'sppdController/listst';
+$route['list-rincian'] = 'sppdController/listrincian';
 $route['rincian'] = 'sppdController/rincianbiaya';
 $route['read_st'] = 'sppdController/readST';
 $route['daftar-pegawai'] = 'sppdController/daftarpegawai';

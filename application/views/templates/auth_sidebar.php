@@ -101,9 +101,9 @@
       Surat Perintah Perjalanan Dinas
     </div>
     <li class="nav-item">
-      <a class="nav-link" href="<?php echo site_url('sppd') ?>">
+      <a class="nav-link" href="<?php echo site_url('list-rincian') ?>">
         <i class="fas fa-fw fa-table"></i>
-        <span>Buat SPPD</span></a>
+        <span>List Rincian</span></a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="<?php echo site_url('list-sppd') ?>">

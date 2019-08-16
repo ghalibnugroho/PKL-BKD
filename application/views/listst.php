@@ -43,7 +43,7 @@
                   <thead>
                     <tr>
                       <th>Pegawai yang Diperintah</th>
-                      <th>Maksud</th>
+                      <th>Dasar</th>
                       <th>Tanggal</th>
                       <th>Actions</th>
                     </tr>
