@@ -133,7 +133,7 @@ class data_model extends CI_Model
     }
     public function getPeserta($id)
     {
-        $query = $this->db->select("pegawai.NAMA,peserta.ID_PESERTA")
+        $query = $this->db->select("pegawai.NAMA,peserta.ID_PESERTA,sppd.ID_SPPD")
             ->from('pegawai')
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
             ->join('sppd','sppd.ID_ST = peserta.ID_ST')
@@ -159,6 +159,9 @@ class data_model extends CI_Model
         return $this->db->get_where($table, $where)->result();
     }
 
+    function insertData( $table, $data_insert){
+        $this->db->insert($table, $data_insert);
+    }
     function getKegiatan($user){
 
         $query = $this->db->select("KODE, NAMA_KEGIATAN")
