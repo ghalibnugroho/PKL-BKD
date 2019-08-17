@@ -1,22 +1,22 @@
-<?php 
-    require_once('templates/session.php');
+<?php
+require_once 'templates/session.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <?php $this->load->view("templates/auth_header") ?>
+  <?php $this->load->view("templates/auth_header")?>
 <body id="page-top">
   <div id="wrapper">
-    <?php $this->load->view("templates/auth_sidebar") ?>
+    <?php $this->load->view("templates/auth_sidebar")?>
 
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-    
+
       <!-- Main Content -->
       <div id="content">
 
         <!-- Topbar -->
-        <?php $this->load->view("templates/auth_topbar") ?>
+        <?php $this->load->view("templates/auth_topbar")?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -123,8 +123,8 @@
                   <h6 class="m-0 font-weight-bold text-primary">Bregaster</h6>
                 </div>
                 <div class="card-body">
-                <div class="tab-pane active full-height" id="tab_1">  
-                  <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSPPD');?>">
+                <div class="tab-pane active full-height" id="tab_1">
+                  <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSPPD'); ?>">
 
                         <div class="form-group">
                             <label>Transportasi</label>
@@ -148,7 +148,7 @@
       </div>
       <!-- End of Main Content -->
       <!-- Footer -->
-      <?php $this->load->view("templates/auth_footer") ?>
+      <?php $this->load->view("templates/auth_footer")?>
       <!-- End of Footer -->
 
     </div>
@@ -183,12 +183,12 @@
   </div>
 
   <!-- Penginapan Modal-->
-  <div class="modal fade  " id="penginapan" tabindex="-1" role="dialog"  aria-hidden="true">
-    <div class="modal-dialog " role="document">
+  <div class="modal fade" id="penginapan" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-        <div class="tab-pane active" id="tab_1">  
-                  <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSPPD');?>">
+        <div class="tab-pane active" id="tab_1">
+                  <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSPPD'); ?>">
 
                         <div class="form-group">
                             <label>Pegawai yang diperintah</label>
@@ -261,7 +261,7 @@
     </div>
   </div>
 
-  
+
 
 </body>
 

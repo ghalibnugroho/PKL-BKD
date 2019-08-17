@@ -132,6 +132,10 @@ class sppdController extends CI_Controller
         echo json_encode(array("list" => $data_events));
     }
 
+    public function addPegawai(){
+        
+    }
+
     public function updateSPPD()
     {
         $id = $this->input->post('id');

@@ -26,10 +26,12 @@ require_once 'templates/session.php';
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-header ">
+                        <div class="card-header">
                             <h6 class="m-0 font-weight-bold text-primary">DAFTAR PEGAWAI : </h6>
                             <input type="text" name="search_text" id="search_text" placeholder="Nama/NIP" class="form-control col-3" />
-                        </div>
+                            <a href="#" data-target="#penginapan" data-toggle="modal" class="btn btn-info btn-icon-split float-right"><span class="icon text-white-50"><i class="fas fa-sm fa-plus"></i></span><span class="text">Tambah Pegawai</span>
+                                    </a>
+                            </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <div id="result"></div>
@@ -113,9 +115,104 @@ foreach ($list as $li) {
         </div>
     </div>
 
+    <div class="modal fade" id="penginapan" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <div class="tab-pane active col-12" id="tab_1">
+                <form method="POST" role="form" action="<?php echo site_url('sppdController/addPegawai'); ?>">
+                    <div class="form-group">
+                        <div class="row">
+                            <!-- <?php echo date("jS F, Y", strtotime("11.12.10")); ?> -->
+                            <div class="col-6">
+                                <label>Nama</label>
+                                <input type="text" name="nama_pegawai" placeholder="Nama Pegawai"
+                                class="form-control sc-input-required sc-select" >
+                            </div>
+                            <div class="col-6">
+                                <label>NIP</label>
+                                <input type="text" name="nip_pegawai" placeholder="NIP Pegawai"
+                                class="form-control sc-input-required sc-select" >
+                            </div>
+                            <div class="col-12">
+                                <label>Bidang</label>
+                                <input type="text" name="bidang_pegawai" placeholder="Bidang Pegawai"
+                                class="form-control sc-input-required sc-select " >
+                            </div>
+                            <div class="col-3">
+                                <label>Pangkat</label>
+                                <input type="text" name="pangkat_pegawai" placeholder="Pangkat Pegawai"
+                                class="form-control sc-input-required sc-select" >
+                            </div>
+                            <div class="col-3">
+                                <label>Golongan</label>
+                                <input type="text" name="golongan_pegawai" placeholder="Golongan Pegawai"
+                                class="form-control sc-input-required sc-select" >
+                            </div>
+                            <div class="col-6">
+                                <label>Jabatan</label>
+                                <input type="text" name="jabatan_pegawai" placeholder="Jabatan Pegawai"
+                                class="form-control sc-input-required sc-select " >
+                            </div>
+                            <div class="col-6">
+                                <label>Tanggal Lahir</label>
+                                    <input type="text" name="tanggal"
+                                    class="input-tanggal form-control sc-input-required sc-date tanggal" value=""
+                                    placeholder="Tgl Berangkat" >
+                            </div>
+                            <div class="col-6">
+                                <label>Tingkat</label>
+                                <input type="text" name="tingkat_pegawai" placeholder="Tingkat Pegawai"
+                                class="form-control sc-input-required sc-select" >
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Alat Angkut yang dipergunakan</label>
+                                <input type="text" name="alat_angkut" class=" form-control sc-input-required" placeholder="Alat Angkut yang dipergunakan">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Tempat Berangkat</label>
+                                <input type="text" name="tempat_berangkat" class="form-control sc-input-required" placeholder="Tempat Berangkat">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Tempat Tujuan</label>
+                                <input type="text" name="tempat_tujuan" class="form-control sc-input-required" placeholder="Tempat Tujuan">
+                            </div>
+                        </div>
+                    </div> -->
+
+
+                        <!-- <div class="form-group">
+                            <label>Keterangan Lain &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
+                            <input type="text" name="keterangan" class="form-control" placeholder="Keterangan Lain">
+                        </div> -->
+                        <input type="submit" value="Simpan" class="btn btn-primary">
+                  </form>
+                </div>
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 
     <script>
+        $(document).ready(
+    function() {
+    $(function() {
+          $(".tanggal").datepicker({
+             showButtonPanel: true,
+             //minDate: new Date(),
+             showTime: true
+          });
+       });
+   });
         $(document).ready(function() {
 
             load_data();

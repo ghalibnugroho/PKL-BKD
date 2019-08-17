@@ -59,5 +59,11 @@
 #search_text{
     /* position: absolute; */
     /* top: 0.3%; */
-    left: 0.4%;
+    left: 1%;
+}
+
+.right1{
+    display: flex;
+    position: absoulte;
+    left: 5000px;
 }
