@@ -177,6 +177,17 @@ class data_model extends CI_Model
             ->from('pegawai')
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
             ->join('sppd','sppd.ID_ST = peserta.ID_ST')
+            ->where('sppd.ID_ST', $id)
+            ->get();
+
+        return $query->result();
+    }
+    public function getPesertaRincian($id)
+    {
+        $query = $this->db->select("pegawai.NAMA,peserta.ID_PESERTA,sppd.ID_SPPD")
+            ->from('pegawai')
+            ->join('peserta', 'peserta.NIP = pegawai.NIP')
+            ->join('sppd','sppd.ID_ST = peserta.ID_ST')
             ->where('sppd.ID_SPPD', $id)
             ->get();
 
