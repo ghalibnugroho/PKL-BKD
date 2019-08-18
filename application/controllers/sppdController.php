@@ -425,27 +425,7 @@ class sppdController extends CI_Controller
         $pdf->AddPage();
         $pdf->Image('././assets/img/logoHtmpth.png',10,5,35,35);
 
-        //header surat
-        $pdf->Cell(10);
-        $pdf->SetFont('Times','B','16');
-        $pdf->Cell(0,7,'PEMERINTAH KOTA MALANG',0,1,'C');
-        $pdf->Cell(10);
-        $pdf->SetFont('Times','B','21');
-        $pdf->Cell(0,7,'BADAN KEPEGAWAIAN DAERAH',0,1,'C');
-        $pdf->Cell(10);
-        $pdf->SetFont('Times','B','13');
-        $pdf->Cell(0,7,'Jalan Tugu No.1 Telp (0341) 328829 - 353837',0,1,'C');
-        $pdf->Cell(10);
-        $pdf->SetFont('');
-        $pdf->Cell(0,5,'MALANG',0,1,'C');
-        $pdf->Cell(150);
-        $pdf->Cell(0,5,'Kode Pos 65119',0,1,'C');    
-
-        //garis surat
-        $pdf->SetLineWidth(1);
-        $pdf->Line(15,43,200,43);
-        $pdf->SetLineWidth(0);
-        $pdf->Line(15,44,200,44);
+        $this->headerSurat($pdf);
 
         //isi surat
         $pdf->SetFont('Times','BU','18');
@@ -516,6 +496,191 @@ class sppdController extends CI_Controller
         $pdf->Output('ST_'.$data[0]->NAMA.'_'.$data[0]->TANGGAL.'.pdf','I');
     }
 
+    public function exportSPPD($id){
+        $data = $this->data_model->getSPPD($id);
+        $kepala = $this->data_model->getPegawai_Jabatan('Kepala');
+        $sekretaris = $this->data_model->getPegawai_Jabatan('Sekretaris');
+        $pdf = new FPDF('P','mm',array(216,330));
+        $pdf->AddPage();
+        $pdf->Image('././assets/img/logoHtmpth.png',10,5,35,35);
+
+        $this->headerSurat($pdf);
+
+        //isi surat
+        $pdf->Ln(3); //keterangan nomor surat dan lembar ke
+        $pdf->Cell(125);
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(17,4,'Lembar ke',0,0,'L');
+        $pdf->Cell(0,4,':',0,1,'L');
+        $pdf->Cell(125);
+        $pdf->Cell(17,4,'Kode No.',0,0,'L');
+        $pdf->Cell(0,4,':',0,1,'L');
+        $pdf->Cell(125);
+        $pdf->Cell(17,4,'Nomor',0,0,'L');
+        $pdf->Cell(0,4,':',0,1,'L');
+        $pdf->Ln(3);
+
+        //judul surat
+        $pdf->SetFont('Times','BU',12);
+        $pdf->Cell(0,5,'SURAT PERINTAH PERJALANAN DINAS',0,1,'C');
+        $pdf->SetFont('Times','B',12);
+        $pdf->Cell(0,4,'(SPPD)',0,1,'C');
+        $pdf->Ln(3);
+
+        //mulai tabel
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(10,8,'1.','LTR',0,'C'); //baris 1
+        $pdf->Cell(80,8,' '.'Pejabat berwenang yang memberi perintah','TR',0,'L');
+        $pdf->Cell(100,8,' '.'Kepala Badan Kepegawaian Daerah Kota Malang','TR',1,'L');
+
+        $pdf->Cell(10,6,'2.','LTR',0,'C'); //baris 2
+        $pdf->Cell(80,6,' '.'a. Nama pegawai yang diperintah','TR',0,'L');
+        $pdf->Cell(100,6,' a. '.$data[0]->NAMA,'TR',1,'L');
+        
+        $pdf->Cell(10,6,'','LR',0,'C');
+        $pdf->Cell(80,6,' '.'b. N I P','R',0,'L');
+        $pdf->Cell(100,6,' b. '.$this->konversi_nip($data[0]->NIP),'R',1,'L');
+
+        $pdf->Cell(10,6,'3.','LTR',0,'C'); //baris 3
+        $pdf->Cell(80,6,' '.'a. Pangkat dan Golongan','TR',0,'L');
+        $pdf->Cell(100,6,' a. '.$data[0]->PANGKAT.' ('.$data[0]->GOLONGAN.')','TR',1,'L');
+        
+        $pdf->Cell(10,6,'','LR',0,'C');
+        $pdf->Cell(80,6,' '.'b. Jabatan','R',0,'L');
+        $pdf->Cell(100,6,' b. '.$data[0]->JABATAN,'R',1,'L');
+
+        $pdf->Cell(10,6,'','LR',0,'C');
+        $pdf->Cell(80,6,' '.'c. Tingkat Biaya Perjalanan Dinas','R',0,'L');
+        $pdf->Cell(100,6,' c. '.$data[0]->TINGKAT,'R',1,'L');
+
+        $pdf->Cell(10,6,'4.','LTR',0,'C'); //baris 4
+        $pdf->Cell(80,6,' '.'Maksud Perjalanan Dinas','TR',0,'L');
+        $y = $pdf->GetY();
+        $pdf->Cell(1,6,'','T',0,'L');
+        $pdf->MultiCell(99,6,$data[0]->TUJUAN,'BTR','L',false);
+        $y1= $pdf->GetY();
+        
+        $nrow_4 = (($y1-$y)/6)-1; // nilai 7 adalah dari nilai default height cell, tujuannya untuk membuat baris ke 4 tabelnya wrap text
+        
+        $pdf->SetY($y);
+        for($i = 0; $i < $nrow_4; $i++){
+            $pdf->Cell(10,6,'','LR',0,'C');
+            $pdf->Cell(80,6,'','LR',1,'L');
+            if($i==$nrow_4-1){
+                $pdf->Cell(10,6,'','LBR',0,'C');
+                $pdf->Cell(80,6,'','BR',0,'L');
+                $pdf->Cell(1,6,'','B',1,'L');           
+            }
+        }
+
+        $pdf->Cell(10,8,'5.','LR',0,'C'); //baris 5
+        $pdf->Cell(80,8,' '.'Alat angkut yang dipergunakan','R',0,'L');
+        $pdf->Cell(100,8,' '.$data[0]->ALAT_ANGKUT,'R',1,'L');
+
+        $pdf->Cell(10,6,'6.','LTR',0,'C'); //baris 6
+        $pdf->Cell(80,6,' '.'a. Tempat berangkat','TR',0,'L');
+        $pdf->Cell(100,6,' a. '.$data[0]->TMP_BERANGKAT,'TR',1,'L');
+        
+        $pdf->Cell(10,6,'','LBR',0,'C');
+        $pdf->Cell(80,6,' '.'b. Tempat tujuan','BR',0,'L');
+        $pdf->Cell(100,6,' b. '.$data[0]->TMP_TUJUAN,'BR',1,'L');
+
+        $pdf->Cell(10,6,'7.','LR',0,'C'); //baris 7
+        $pdf->Cell(80,6,' '.'a. Lamanya perjalanan dinas','R',0,'L');
+        $pdf->Cell(100,6,' a. '.$data[0]->LAMA.' ('.$this->terbilang($data[0]->LAMA).') hari','R',1,'L');
+        
+        $pdf->Cell(10,6,'','LR',0,'C');
+        $pdf->Cell(80,6,' '.'b. Tanggal berangkat','R',0,'L');
+        $pdf->Cell(100,6,' b. '.$this->tgl_indo($data[0]->TGL_BERANGKAT),'R',1,'L');
+
+        $pdf->Cell(10,6,'','LBR',0,'C');
+        $pdf->Cell(80,6,' '.'c. Tanggal harus kembali/tiba ditempat baru','BR',0,'L');
+        $pdf->Cell(100,6,' c. '.$this->tgl_indo($data[0]->TGL_KEMBALI),'BR',1,'L');
+
+        $pdf->Cell(10,10,'8.','LBR',0,'C'); //baris 8
+        $pdf->Cell(80,10,' Pengikut :            Nama','BR',0,'L');
+        $pdf->Cell(50,10,' Tanggal Lahir','BR',0,'C');
+        $pdf->Cell(50,10,' Keterangan','BR',1,'C');
+
+        $count_pengikut = 0;
+        foreach ($data as $value) {
+            if($count_pengikut>0){
+                $border = $count_pengikut == count($data)-1 ? 'BR':'R';
+                $pdf->Cell(10,6,$count_pengikut.'.','L'.$border,0,'C'); //isi baris 8
+                $pdf->Cell(80,6,' '.$value->NAMA,$border,0,'L');
+                $pdf->Cell(50,6,$value->TANGGALLAHIR,$border,0,'C');
+                $pdf->Cell(50,6,'',$border,1,'C');
+            }
+            $count_pengikut++;
+        }
+
+        $pdf->Cell(10,6,'9.','LR',0,'C'); //baris 9
+        $pdf->Cell(80,6,' '.'Pembebasan Anggaran  ','R',0,'L');
+        $pdf->Cell(100,6,'','R',1,'L');
+        
+        $pdf->Cell(10,6,'','LR',0,'C');
+        $pdf->Cell(80,6,' '.'a. SKPD','R',0,'L');
+        $pdf->Cell(100,6,' a. Badan Kepegawaian Daerah Kota Malang','R',1,'L');
+
+        $pdf->Cell(10,6,'','LBR',0,'C');
+        $pdf->Cell(80,6,' '.'b. Mata Anggaran','BR',0,'L');
+        $pdf->Cell(100,6,' b. '.$data[0]->KODE,'BR',1,'L');
+
+        $pdf->Cell(10,8,'10.','LBR',0,'C'); // baris 10
+        $pdf->Cell(80,8,' Keterangan lain-lain','BR',0,'L');
+        $pdf->Cell(100,8,' '.'','BR',1,'L');
+
+        $pdf->Ln(15);
+
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(120);
+        $pdf->Cell(0,5,'Malang',0,1,'L');
+        $pdf->Cell(120);
+        $pdf->SetFont('Times','B',10);
+        $pdf->Cell(0,5,'An. WALIKOTA MALANG',0,1,'L');
+        $pdf->Cell(100);
+        $pdf->Cell(0,5,'KEPALA BADAN KEPEGAWAIAN DAERAH,',0,1,'C');
+        $pdf->Ln(15);
+        $pdf->SetFont('Times','BU',10);
+        $pdf->Cell(120);
+        $pdf->Cell(0,5,$kepala[0]->NAMA,0,1,'L');
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(120);
+        $pdf->Cell(0,4,$kepala[0]->PANGKAT,0,1,'L');
+        $pdf->Cell(120);
+        $pdf->Cell(0,5,'NIP. '.$this->konversi_nip($kepala[0]->NIP),0,1,'L');
+
+        $pdf->AddPage();
+
+        $pdf->Output('SPPD_'.$data[0]->NAMA.'_'.$data[0]->TGL_BERANGKAT.'.pdf','I');
+
+    }
+
+    public function headerSurat($pdf){
+        //header surat
+        $pdf->Cell(10);
+        $pdf->SetFont('Times','B','16');
+        $pdf->Cell(0,7,'PEMERINTAH KOTA MALANG',0,1,'C');
+        $pdf->Cell(10);
+        $pdf->SetFont('Times','B','21');
+        $pdf->Cell(0,7,'BADAN KEPEGAWAIAN DAERAH',0,1,'C');
+        $pdf->Cell(10);
+        $pdf->SetFont('Times','B','13');
+        $pdf->Cell(0,7,'Jalan Tugu No.1 Telp (0341) 328829 - 353837',0,1,'C');
+        $pdf->Cell(10);
+        $pdf->SetFont('');
+        $pdf->Cell(0,5,'MALANG',0,1,'C');
+        $pdf->Cell(150);
+        $pdf->Cell(0,5,'Kode Pos 65119',0,1,'C');    
+
+        //garis surat
+        $pdf->SetLineWidth(1);
+        $pdf->Line(15,43,200,43);
+        $pdf->SetLineWidth(0);
+        $pdf->Line(15,44,200,44);
+
+    }
+
     function tgl_indo($tanggal){
         $bulan = array (
             1 =>   'Januari',
@@ -563,5 +728,31 @@ class sppdController extends CI_Controller
         }
     }
 
+    function penyebut($nilai) {
+        $nilai = abs($nilai);
+        $huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+        $temp = "";
+        if ($nilai < 12) {
+            $temp = " ". $huruf[$nilai];
+        } else if ($nilai <20) {
+            $temp = $this->penyebut($nilai - 10). " belas";
+        } else if ($nilai < 100) {
+            $temp = $this->penyebut($nilai/10)." puluh". $this->penyebut($nilai % 10);
+        } else if ($nilai < 200) {
+            $temp = " seratus" . $this->penyebut($nilai - 100);
+        } else if ($nilai < 1000) {
+            $temp = $this->penyebut($nilai/100) . " ratus" . $this->penyebut($nilai % 100);
+        }     
+        return $temp;
+    }
+ 
+    function terbilang($nilai) {
+        if($nilai<0) {
+            $hasil = "minus ". trim($this->penyebut($nilai));
+        } else {
+            $hasil = trim($this->penyebut($nilai));
+        }           
+        return $hasil;
+    }
 
 }
