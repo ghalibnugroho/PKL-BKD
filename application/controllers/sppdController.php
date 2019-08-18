@@ -28,7 +28,7 @@ class sppdController extends CI_Controller
         $this->load->view('listrincian', $result);
     }
     function rincian($id){
-        $result['peserta'] = $this->data_model->getPeserta($id);
+        $result['peserta'] = $this->data_model->getPesertaRincian($id);
         $result['list'] = $this->data_model->getRincian($id);
         $this->load->view('rincian',$result);
     }
