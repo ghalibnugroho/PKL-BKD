@@ -45,12 +45,12 @@ require_once 'templates/session.php';
                         <div class="card-body">
                         <div class="table-responsive ">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <col width="15%">
+                            <col width="10%">
                             <col width="20%">
                             <col width="20%">
-                            <col width="15%">
-                            <col width="15%">
-                            <col width="15%">
+                            <col width="10%">
+                            <col width="20%">
+                            <col width="20%">
                             <thead>
                                 <tr>
                                 <th>No Tiket</th>
@@ -74,7 +74,8 @@ require_once 'templates/session.php';
                                   <td>".$li->TANGGAL."</td>";
                                   ?>
                                   <td>
-                                    <a href="" data-target="#editTransportasi<?php echo $li->ID_RINCIAN?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info"><i class="fas fa-sm fa-edit"></i>Edit</a>
+                                    <a href="" data-target="#editTransportasi<?php echo $li->ID_RINCIAN?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info"><i class="fas fa-sm fa-edit"></i> Edit</a>
+                                    <a href="" data-target="#hapus<?php echo $li->ID_RINCIAN?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i> Hapus</a>
                                   </td>
                                   </tr>
                                   <?php
@@ -107,12 +108,12 @@ require_once 'templates/session.php';
                         <div class="card-body">
                         <div class="table-responsive ">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <col width="25%">
+                            <col width="20%">
                             <col width="10%">
                             <col width="15%">
                             <col width="10%">
                             <col width="25%">
-                            <col width="15%">
+                            <col width="20%">
                             <thead>
                                 <tr>
                                 <th>Jenis</th>
@@ -138,7 +139,8 @@ require_once 'templates/session.php';
                                       <td>".$li->KETERANGAN."</td>";
                                       ?>
                                       <td>
-                                    <a href="" data-target="#editRincian<?php echo $li->ID_RINCIAN?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info"><i class="fas fa-sm fa-edit"></i>Edit</a>
+                                    <a href="" data-target="#editRincian<?php echo $li->ID_RINCIAN?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info"><i class="fas fa-sm fa-edit"></i> Edit</a>
+                                    <a href="" data-target="#hapus<?php echo $li->ID_RINCIAN?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i> Hapus</a>
                                   </td>
                                   </tr>
                                  
@@ -374,6 +376,7 @@ require_once 'templates/session.php';
           </div>
         </div>
       </div>
+      
       <?php
     }
   ?>
@@ -484,6 +487,30 @@ require_once 'templates/session.php';
             </div>
           </div>
         </div>
+        <!-- Hapus Transportasi Modal-->
+        <div class="modal fade" id="hapus<?php echo $li->ID_RINCIAN;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Anda yakin ingin menghapus data transportasi?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">Anda akan menghapus transportasi dengan nomor tiket <?php echo $li->NO_TIKET;?>.</div>
+              <div class="modal-footer">
+              <form method="post" action="<?php echo site_url('sppdController/hapusTransportasi');?>">
+                  <input type="hidden" name="idrincian" value="<?php echo $li->ID_RINCIAN; ?>">
+                  <input type="hidden" name="idsppd" value="<?php echo $li->ID_SPPD; ?>">
+                  <input type="hidden" name="idpeserta" value="<?php echo $li->ID_PESERTA; ?>">
+                  
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                  <input type="submit" value="Hapus" class="btn btn-danger">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div> 
         <?php
       } else {
         ?>
@@ -554,9 +581,33 @@ require_once 'templates/session.php';
             </div>
           </div>
         </div>
+        <!-- Hapus Rincian Modal-->
+        <div class="modal fade" id="hapus<?php echo $li->ID_RINCIAN;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Anda yakin ingin menghapus rincian?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body">Anda akan menghapus data rincian <?php echo $li->JENIS?>.</div>
+              <div class="modal-footer">
+                <form method="post" action="<?php echo site_url('sppdController/hapusRincian');?>">
+                  <input type="hidden" name="idrincian" value="<?php echo $li->ID_RINCIAN; ?>">
+                  <input type="hidden" name="idsppd" value="<?php echo $li->ID_SPPD; ?>">
+                  <input type="hidden" name="idpeserta" value="<?php echo $li->ID_PESERTA; ?>">
+
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                  <input type="submit" value="Hapus" class="btn btn-danger">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div> 
         <?php
+    
       }
-      
     }
   ?>
 <script>
