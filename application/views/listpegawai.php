@@ -29,11 +29,12 @@ require_once 'templates/session.php';
                         <div class="card-header">
                             <h6 class="m-0 font-weight-bold text-primary">DAFTAR PEGAWAI : </h6>
                             <input type="text" name="search_text" id="search_text" placeholder="Nama/NIP" class="form-control col-3" />
-                            <a href="#" data-target="#penginapan" data-toggle="modal" class="btn btn-info btn-icon-split float-right"><span class="icon text-white-50"><i class="fas fa-sm fa-plus"></i></span><span class="text">Tambah Pegawai</span>
+                            <a href="#" data-target="#tambahPegawai" data-toggle="modal" class="btn btn-info btn-icon-split float-right"><span class="icon text-white-50"><i class="fas fa-sm fa-plus"></i></span><span class="text">Tambah Pegawai</span>
                                     </a>
                             </div>
                         <div class="card-body">
                             <div class="table-responsive">
+                            <?=$this->session->flashdata('tambahPegawai');?>
                                 <div id="result"></div>
                                 <div style="clear:both"></div>
                                 <!-- <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -115,7 +116,7 @@ foreach ($list as $li) {
         </div>
     </div>
 
-    <div class="modal fade" id="penginapan" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal fade" id="tambahPegawai" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -136,18 +137,59 @@ foreach ($list as $li) {
                             </div>
                             <div class="col-12">
                                 <label>Bidang</label>
-                                <input type="text" name="bidang_pegawai" placeholder="Bidang Pegawai"
-                                class="form-control sc-input-required sc-select " >
+                                <select id="dd-bidang" name="bidang">
+                                    <option></option>
+                                    <option value="SEKRETARIAT">Sekretariat</option>
+                                    <option value="MUTASI">Mutasi</option>
+                                    <option value="PKFP">PKFP</option>
+                                    <option value="PKP">PKP</option>
+                                </select>
                             </div>
                             <div class="col-3">
                                 <label>Pangkat</label>
-                                <input type="text" name="pangkat_pegawai" placeholder="Pangkat Pegawai"
-                                class="form-control sc-input-required sc-select" >
+                                <select id="dd-pangkat" name="pangkat">
+                                    <option></option>
+                                    <option value="Juru Muda">Juru Muda</option>
+                                    <option value="Juru Muda Tingkat I">Juru Muda Tingkat I</option>
+                                    <option value="Juru">Juru</option>
+                                    <option value="Juru Tingkat I">Juru Tingkat I</option>
+                                    <option value="Pengatur Muda">Pengatur Muda</option>
+                                    <option value="Pengatur Muda Tingkat I">Pengatur Muda Tingkat I</option>
+                                    <option value="Pengatur">Pengatur</option>
+                                    <option value="Pengatur Tingkat I">Pengatur Tingkat I</option>
+                                    <option value="Penata Muda">Penata Muda</option>
+                                    <option value="Penata Muda Tingkat I">Penata Muda Tingkat I</option>
+                                    <option value="Penata">Penata</option>
+                                    <option value="Penata Tingkat I">Penata Tingkat I</option>
+                                    <option value="Pembina">Pembina</option>
+                                    <option value="Pembina Tingkat I">Pembina Tingkat I</option>
+                                    <option value="Pembina Utama Muda">Pembina Utama Muda</option>
+                                    <option value="Pembina Utama Madya">Pembina Utama Madya</option>
+                                    <option value="Pembina Utama">Pembina Utama</option>
+                                </select>
                             </div>
                             <div class="col-3">
                                 <label>Golongan</label>
-                                <input type="text" name="golongan_pegawai" placeholder="Golongan Pegawai"
-                                class="form-control sc-input-required sc-select" >
+                                <select id="dd-golongan" name="golongan">
+                                    <option></option>
+                                    <option value="I/a">I/a</option>
+                                    <option value="I/b">I/b</option>
+                                    <option value="I/c">I/c</option>
+                                    <option value="I/d">I/d</option>
+                                    <option value="II/a">II/a</option>
+                                    <option value="II/b">II/b</option>
+                                    <option value="II/c">II/c</option>
+                                    <option value="II/d">II/d</option>
+                                    <option value="III/a">III/a</option>
+                                    <option value="III/b">III/b</option>
+                                    <option value="III/c">III/c</option>
+                                    <option value="III/d">III/d</option>
+                                    <option value="IV/a">IV/a</option>
+                                    <option value="IV/b">IV/b</option>
+                                    <option value="IV/c">IV/c</option>
+                                    <option value="IV/d">IV/d</option>
+                                    <option value="IV/e">IV/e</option>
+                                </select>
                             </div>
                             <div class="col-6">
                                 <label>Jabatan</label>
@@ -168,29 +210,7 @@ foreach ($list as $li) {
 
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label>Alat Angkut yang dipergunakan</label>
-                                <input type="text" name="alat_angkut" class=" form-control sc-input-required" placeholder="Alat Angkut yang dipergunakan">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Tempat Berangkat</label>
-                                <input type="text" name="tempat_berangkat" class="form-control sc-input-required" placeholder="Tempat Berangkat">
-                            </div>
-                            <div class="col-sm-3">
-                                <label>Tempat Tujuan</label>
-                                <input type="text" name="tempat_tujuan" class="form-control sc-input-required" placeholder="Tempat Tujuan">
-                            </div>
-                        </div>
-                    </div> -->
-
-
-                        <!-- <div class="form-group">
-                            <label>Keterangan Lain &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
-                            <input type="text" name="keterangan" class="form-control" placeholder="Keterangan Lain">
-                        </div> -->
-                        <input type="submit" value="Simpan" class="btn btn-primary">
+                    <input type="submit" value="Tambahkan Pegawai" class="btn btn-primary col-3">
                   </form>
                 </div>
             <span aria-hidden="true">×</span>
@@ -201,7 +221,23 @@ foreach ($list as $li) {
     </div>
   </div>
 
-
+    <script>
+       $('#dd-bidang').select2({
+        placeholder: "Input Bidang",
+        dropdownParent: $('#tambahPegawai'),
+        width: '100%',
+        });
+       $('#dd-pangkat').select2({
+        placeholder: "Input Pangkat",
+        dropdownParent: $('#tambahPegawai'),
+        width: '100%',
+        });
+       $('#dd-golongan').select2({
+        placeholder: "Input golongan",
+        dropdownParent: $('#tambahPegawai'),
+        width: '100%',
+        });
+        </script>
     <script>
         $(document).ready(
     function() {

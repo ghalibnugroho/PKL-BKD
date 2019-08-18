@@ -102,6 +102,9 @@ class data_model extends CI_Model
     {
         $this->db->insert('peserta', $data_insert);
     }
+    public function insertPegawai($data_pegawai){
+        $this->db->insert('pegawai', $data_pegawai);
+    }
     public function getListSPPD()
     {
         $query = $this->db->select("surattugas.ID_ST,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA")
@@ -188,6 +191,17 @@ class data_model extends CI_Model
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
             ->join('sppd','sppd.ID_ST = peserta.ID_ST')
             ->where('sppd.ID_ST', $id)
+            ->get();
+
+        return $query->result();
+    }
+    public function getPesertaRincian($id)
+    {
+        $query = $this->db->select("pegawai.NAMA,peserta.ID_PESERTA,sppd.ID_SPPD")
+            ->from('pegawai')
+            ->join('peserta', 'peserta.NIP = pegawai.NIP')
+            ->join('sppd','sppd.ID_ST = peserta.ID_ST')
+            ->where('sppd.ID_SPPD', $id)
             ->get();
 
         return $query->result();
