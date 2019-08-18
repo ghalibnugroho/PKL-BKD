@@ -593,7 +593,7 @@ class sppdController extends CI_Controller
 
         $pdf->Cell(10,6,'7.','LR',0,'C'); //baris 7
         $pdf->Cell(80,6,' '.'a. Lamanya perjalanan dinas','R',0,'L');
-        $pdf->Cell(100,6,' a. '.$data[0]->LAMA.' ('.$this->terbilang($data[0]->LAMA).') hari','R',1,'L');
+        $pdf->Cell(100,6,' a. '.($data[0]->LAMA==0?1:$data[0]->LAMA).' ('.$this->terbilang($data[0]->LAMA==0?1:$data[0]->LAMA).') hari','R',1,'L');
         
         $pdf->Cell(10,6,'','LR',0,'C');
         $pdf->Cell(80,6,' '.'b. Tanggal berangkat','R',0,'L');
@@ -655,8 +655,6 @@ class sppdController extends CI_Controller
         $pdf->Cell(0,4,$kepala[0]->PANGKAT,0,1,'L');
         $pdf->Cell(120);
         $pdf->Cell(0,5,'NIP. '.$this->konversi_nip($kepala[0]->NIP),0,1,'L');
-
-        $pdf->AddPage();
 
         $pdf->Output('SPPD_'.$data[0]->NAMA.'_'.$data[0]->TGL_BERANGKAT.'.pdf','I');
 
