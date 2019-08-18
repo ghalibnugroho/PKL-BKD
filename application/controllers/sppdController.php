@@ -359,4 +359,27 @@ class sppdController extends CI_Controller
         Data berhasil diupdate </div>');
         redirect('sppdController/rincian/'.$idsppd);
     }
+
+    function hapusRincian(){
+        $idrincian = $this->input->post('idrincian');
+        $idsppd = $this->input->post('idsppd');
+        $idpeserta = $this->input->post('idpeserta');
+        
+        $where = array('ID_RINCIAN' => $idrincian);
+        $this->data_model->delete($where,'rincian');
+        $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-danger" role="alert">
+        Data rincian berhasil dihapus </div>');
+        redirect('sppdController/rincian/'.$idsppd);
+    }
+    function hapusTransportasi(){
+        $idrincian = $this->input->post('idrincian');
+        $idsppd = $this->input->post('idsppd');
+        $idpeserta = $this->input->post('idpeserta');
+
+        $where = array('ID_RINCIAN' => $idrincian);
+        $this->data_model->delete($where,'rincian');
+        $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-danger" role="alert">
+        Data transportasi berhasil dihapus </div>');
+        redirect('sppdController/rincian/'.$idsppd);
+    }
 }
