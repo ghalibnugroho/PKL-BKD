@@ -1,4 +1,6 @@
 <?php
+require("././fpdf/fpdf.php");
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class sppdController extends CI_Controller
@@ -279,6 +281,7 @@ class sppdController extends CI_Controller
         Surat tugas berhasil dihapus </div>');
 		$this->listst();
     }
+
     public function getKota(){
         $data = file_get_contents(base_url('assets/')."json/kota.json");
         echo $data;
@@ -413,4 +416,152 @@ class sppdController extends CI_Controller
         Data berhasil diupdate </div>');
         redirect('sppdController/rincian/'.$idsppd);
     }
+
+    public function exportST($id)
+    {   
+        $data = $this->data_model->getST($id);
+        $kepala = $this->data_model->getPegawai_Jabatan('Kepala');
+        $pdf = new FPDF('P','mm',array(216,330));
+        $pdf->AddPage();
+        $pdf->Image('././assets/img/logoHtmpth.png',10,5,35,35);
+
+        //header surat
+        $pdf->Cell(10);
+        $pdf->SetFont('Times','B','16');
+        $pdf->Cell(0,7,'PEMERINTAH KOTA MALANG',0,1,'C');
+        $pdf->Cell(10);
+        $pdf->SetFont('Times','B','21');
+        $pdf->Cell(0,7,'BADAN KEPEGAWAIAN DAERAH',0,1,'C');
+        $pdf->Cell(10);
+        $pdf->SetFont('Times','B','13');
+        $pdf->Cell(0,7,'Jalan Tugu No.1 Telp (0341) 328829 - 353837',0,1,'C');
+        $pdf->Cell(10);
+        $pdf->SetFont('');
+        $pdf->Cell(0,5,'MALANG',0,1,'C');
+        $pdf->Cell(150);
+        $pdf->Cell(0,5,'Kode Pos 65119',0,1,'C');    
+
+        //garis surat
+        $pdf->SetLineWidth(1);
+        $pdf->Line(15,43,200,43);
+        $pdf->SetLineWidth(0);
+        $pdf->Line(15,44,200,44);
+
+        //isi surat
+        $pdf->SetFont('Times','BU','18');
+        $pdf->Cell(0,15,'SURAT PERINTAH TUGAS',0,1,'C');
+        $pdf->SetFont('Times','','12');
+        $pdf->Cell(0,5,'Nomor : 800/      /35.73.403/2019',0,1,'C');
+        $pdf->Ln(10);
+        $pdf->Cell(5);
+        $pdf->Cell(30,7,'Dasar                : ',0,0,'L');
+        $pdf->MultiCell(150,7,$data[0]->DASAR,0,'L',false);
+        $pdf->SetFont('Times','B','12');
+        $pdf->Cell(0,20,'MEMERINTAHKAN:',0,1,'C');
+        $pdf->SetFont('Times','','12');
+
+        //perulangan pemanggilan peserta
+        $i=0;
+        foreach($data as $value){
+            $i++;
+            $pdf->Cell(5);
+            $pdf->Cell(30,7,$i==1?'Kepada             : ':'',0,0,'L');
+            $pdf->Cell(10,7,$i.'.',0,0,'L');
+            $pdf->Cell(35,7,'Nama',0,0,'L');
+            $pdf->Cell(0,7,':  '.$value->NAMA,0,1,'L');
+
+            $pdf->Cell(5);            
+            $pdf->Cell(30,7,'',0,0,'L');
+            $pdf->Cell(10,7,'',0,0,'L');
+            $pdf->Cell(35,7,'NIP',0,0,'L');
+            $pdf->Cell(0,7,':  '.$this->konversi_nip($value->NIP),0,1,'L');
+
+            $pdf->Cell(5);
+            $pdf->Cell(30,7,'',0,0,'L');
+            $pdf->Cell(10,7,'',0,0,'L');
+            $pdf->Cell(35,7,'Pangkat/Gol',0,0,'L');
+            $pdf->Cell(0,7,':  '.$value->PANGKAT.' / '.$value->GOLONGAN,0,1,'L');
+
+            $pdf->Cell(5);
+            $pdf->Cell(30,7,'',0,0,'L');
+            $pdf->Cell(10,7,'',0,0,'L');
+            $pdf->Cell(35,7,'Jabatan',0,0,'L');
+            $pdf->Cell(0,7,':  '.$value->JABATAN,0,1,'L');
+        }
+
+        $pdf->Cell(5);
+        $pdf->Cell(30,7,'Untuk               : ',0,0,'L');
+        $pdf->MultiCell(150,7,$data[0]->TUJUAN,0,'L',false);  
+
+        $pdf->Ln(12);
+
+        //baris ttd
+        $pdf->Cell(120);
+        $pdf->Cell(0,7,'Dikeluarkan di Malang',0,1,'L');
+        $pdf->Cell(120);
+        $pdf->Cell(0,7,'Pada tanggal '.$this->tgl_indo($data[0]->TANGGAL),0,1,'L');
+        $pdf->SetFont('Times','B',12);
+        $pdf->Cell(100);
+        $pdf->Cell(0,10,'KEPALA BADAN KEPEGAWAIAN DAERAH,',0,1,'C');
+        $pdf->Ln(12);
+        $pdf->SetFont('Times','BU',12);
+        $pdf->Cell(120);
+        $pdf->Cell(0,5,$kepala[0]->NAMA,0,1,'L');
+        $pdf->SetFont('Times','',12);
+        $pdf->Cell(120);
+        $pdf->Cell(0,5,$kepala[0]->PANGKAT,0,1,'L');
+        $pdf->Cell(120);
+        $pdf->Cell(0,7,'NIP. '.$this->konversi_nip($kepala[0]->NIP),0,1,'L');
+
+        $pdf->Output('ST_'.$data[0]->NAMA.'_'.$data[0]->TANGGAL.'.pdf','I');
+    }
+
+    function tgl_indo($tanggal){
+        $bulan = array (
+            1 =>   'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        );
+        $pecahkan = explode('-', $tanggal);
+        
+        return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+    }
+
+    function konversi_nip($nip) {
+    $nip = trim($nip," ");
+    $panjang = strlen($nip);
+    $batas = " ";
+     
+        if($panjang == 18) {
+            $sub[] = substr($nip, 0, 8); // tanggal lahir
+            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+            $sub[] = substr($nip, 14, 1); // jenis kelamin
+            $sub[] = substr($nip, 3, 3); // nomor urut
+             
+            return $sub[0].$batas.$sub[1].$batas.$sub[2].$batas.$sub[3];
+        } elseif($panjang == 15) {
+            $sub[] = substr($nip, 0, 8); // tanggal lahir
+            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+            $sub[] = substr($nip, 14, 1); // jenis kelamin
+             
+            return $sub[0].$batas.$sub[1].$batas.$sub[2];
+        } elseif($panjang == 9) {
+            $sub = str_split($nip,3);
+             
+            return $sub[0].$batas.$sub[1].$batas.$sub[2];
+        } else {
+            return $nip;
+        }
+    }
+
+
 }

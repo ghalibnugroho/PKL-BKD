@@ -137,6 +137,28 @@ class data_model extends CI_Model
 
         return $query->result();
     }
+
+    public function getST($id)
+    {
+        $query = $this->db->select("surattugas.ID_ST,DASAR,TUJUAN,TANGGAL,peserta.NIP,SEBAGAI,NAMA,PANGKAT, GOLONGAN, JABATAN")
+            ->from('surattugas')
+            ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
+            ->join('pegawai', 'pegawai.NIP=peserta.NIP')
+            ->where('surattugas.ID_ST', $id)
+            ->order_by('SEBAGAI','ASC')
+            ->order_by('GOLONGAN','ASC')
+            ->get();
+        return $query->result();
+    }
+
+    public function getPegawai_Jabatan($jabatan){
+        return $this->db->select('*')->from('pegawai')->where('JABATAN',$jabatan)->get()->result();
+    }
+
+    public function getPegawai_NIP($nip){
+        return $this->db->select('*')->from('pegawai')->where('NIP',$nip)->get()->result();
+    }
+
     public function getNIP($nama)
     {
         $nip = array();

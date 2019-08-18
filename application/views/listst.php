@@ -38,8 +38,8 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <col width="20%">
                   <col width="40%">
-                  <col width="20%">
-                  <col width="20%">
+                  <col width="15%">
+                  <col width="25%">
                   <thead>
                     <tr>
                       <th>Pegawai yang Diperintah</th>
@@ -62,7 +62,10 @@
                       ?>
                             <a href="" data-target="#modal<?php echo $li->ID_ST;?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger">
                             <i class="fas fa-sm fa-trash"></i>Hapus
-                            </a></td></tr>
+                            </a>
+                            <a href="<?php echo site_url('sppdController/exportST/'.$li->ID_ST);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
+                            <i class="fas fa-sm  fa-download "></i>Unduh</a>
+                          </td></tr>
 
                                 <!-- Logout Modal-->
                                 <div class="modal fade" id="modal<?php echo $li->ID_ST;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -79,6 +82,7 @@
 
                                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
                                         <a class="btn btn-primary" href="<?php echo site_url('sppdController/deleteST/'.$li->ID_ST);?>">Hapus</a>
+                                      
                                       </div>
                                     </div>
                                   </div>
