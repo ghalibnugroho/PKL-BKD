@@ -104,7 +104,7 @@ class data_model extends CI_Model
     }
     public function getListSPPD()
     {
-        $query = $this->db->select("surattugas.ID_ST,DASAR,INSTANSI, TGL_BERANGKAT,TGL_KEMBALI,NAMA")
+        $query = $this->db->select("surattugas.ID_ST,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA")
             ->from('surattugas')
             ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
@@ -116,7 +116,7 @@ class data_model extends CI_Model
     }
     public function getListST()
     {
-        $query = $this->db->select("surattugas.ID_ST,DASAR,TANGGAL,NAMA")
+        $query = $this->db->select("surattugas.ID_ST,DASAR,DATE_FORMAT(TANGGAL,'%d-%m-%Y') as TANGGAL,NAMA")
             ->from('surattugas')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
