@@ -102,6 +102,9 @@ class data_model extends CI_Model
     {
         $this->db->insert('peserta', $data_insert);
     }
+    public function insertPegawai($data_pegawai){
+        $this->db->insert('pegawai', $data_pegawai);
+    }
     public function getListSPPD()
     {
         $query = $this->db->select("surattugas.ID_ST,DASAR,INSTANSI, TGL_BERANGKAT,TGL_KEMBALI,NAMA")

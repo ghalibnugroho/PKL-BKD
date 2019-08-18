@@ -9,6 +9,7 @@ class sppdController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('data_model');
+        $this->load->library('form_validation');
     }
     public function daftarpegawai()
     {
@@ -142,9 +143,68 @@ class sppdController extends CI_Controller
         }
         echo json_encode(array("list" => $data_events));
     }
+    // public function tgl_indo($tanggal){
+    //     $bulan = array (
+    //         1 =>   'Januari',
+    //         'Februari',
+    //         'Maret',
+    //         'April',
+    //         'Mei',
+    //         'Juni',
+    //         'Juli',
+    //         'Agustus',
+    //         'September',
+    //         'Oktober',
+    //         'November',
+    //         'Desember'
+    //     );
+    //     $pecahkan = explode('/', $tanggal);
+        
+    //     return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+    // }
 
     public function addPegawai(){
-        
+        // $this->form_validation->set_rules('nama_pegawai', 'Nama Pegawai', 'required');
+        // $this->form_validation->set_rules('nip_pegawai', 'NIP Pegawai', 'required');
+        // $this->form_validation->set_rules('bidang', 'Bidang Pegawai', 'required');
+        // $this->form_validation->set_rules('pangkat', 'Pangkat Pegawai', 'required');
+        // $this->form_validation->set_rules('golongan', 'Golongan Pegawai', 'required');
+        // $this->form_validation->set_rules('jabatan_pegawai', 'Jabatan Pegawai', 'required');
+        // $this->form_validation->set_rules('tanggal', 'Tanggal Lahir Pegawai', 'required');
+        // $this->form_validation->set_rules('tingkat_pegawai', 'Tingkat Pegawai', 'required');
+        // $no_flight = $this->input->post('no_flight');
+        $nama = $this->input->post('nama_pegawai');
+        $nip = $this->input->post('nip_pegawai');
+        $bidang = $this->input->post('bidang');
+        $pangkat = $this->input->post('pangkat');
+        $golongan = $this->input->post('golongan');
+        $jabatan = $this->input->post('jabatan_pegawai');
+        $tanggallahir = $this->input->post('tanggal');
+        $tingkat = $this->input->post('tingkat_pegawai');
+        $tempBidang = 0;
+        if($bidang == "SEKRETARIAT"){
+            $tempBidang = 2;
+        }elseif($bidang == "MUTASI"){
+            $tempBidang = 3;
+        }elseif($bidang == "PKFP"){
+            $tempBidang = 4;
+        }elseif($bidang == "PKP"){
+            $tempBidang = 5;
+        }
+        $data_insert = array(
+            'NIP' => $nip,
+            'ID_BIDANG' => $tempBidang,
+            'NAMA' => $nama,
+            'PANGKAT' => $pangkat,
+            'GOLONGAN' => $golongan,
+            'JABATAN' => $jabatan,
+            'TANGGALLAHIR' => $tanggallahir,
+            'TINGKAT' => $tingkat,
+        );
+        $this->data_model->insertPegawai($data_insert);
+        $this->session->set_flashdata('tambahPegawai', '<div class="alert alert-success" role="alert">
+        Tambah Pegawai Berhasil!</div>');
+        $this->daftarpegawai();
     }
 
 
