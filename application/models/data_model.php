@@ -107,7 +107,7 @@ class data_model extends CI_Model
     }
     public function getListSPPD()
     {
-        $query = $this->db->select("surattugas.ID_ST,DASAR,INSTANSI, TGL_BERANGKAT,TGL_KEMBALI,NAMA")
+        $query = $this->db->select("surattugas.ID_ST,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA")
             ->from('surattugas')
             ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
@@ -119,7 +119,7 @@ class data_model extends CI_Model
     }
     public function getListST()
     {
-        $query = $this->db->select("surattugas.ID_ST,DASAR,TANGGAL,NAMA")
+        $query = $this->db->select("surattugas.ID_ST,DASAR,DATE_FORMAT(TANGGAL,'%d-%m-%Y') as TANGGAL,NAMA")
             ->from('surattugas')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
@@ -162,6 +162,19 @@ class data_model extends CI_Model
         return $this->db->select('*')->from('pegawai')->where('NIP',$nip)->get()->result();
     }
 
+    public function getSPPD($id){
+        $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, LAMA, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
+            ->from('sppd')
+            ->join('surattugas', 'surattugas.ID_ST=sppd.ID_ST')
+            ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
+            ->join('pegawai', 'pegawai.NIP=peserta.NIP')
+            ->where('surattugas.ID_ST', $id)
+            ->order_by('SEBAGAI','ASC')
+            ->order_by('GOLONGAN','ASC')
+            ->get();
+        return $query->result();
+    }
+
     public function getNIP($nama)
     {
         $nip = array();
@@ -173,7 +186,7 @@ class data_model extends CI_Model
     }
     public function getPeserta($id)
     {
-        $query = $this->db->select("pegawai.NAMA,peserta.ID_PESERTA,sppd.ID_SPPD")
+        $query = $this->db->select("NAMA, peserta.ID_PESERTA,sppd.ID_SPPD")
             ->from('pegawai')
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
             ->join('sppd','sppd.ID_ST = peserta.ID_ST')
