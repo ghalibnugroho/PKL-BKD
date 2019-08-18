@@ -137,7 +137,7 @@ class data_model extends CI_Model
             ->from('pegawai')
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
             ->join('sppd','sppd.ID_ST = peserta.ID_ST')
-            ->where('sppd.ID_SPPD', $id)
+            ->where('sppd.ID_ST', $id)
             ->get();
 
         return $query->result();
