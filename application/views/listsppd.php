@@ -33,10 +33,10 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <col width="12%">
                   <col width="40%">
-                  <col width="12%">
-                  <col width="12%">
-                  <col width="12%">
-                  <col width="12%">
+                  <col width="10%">
+                  <col width="10%">
+                  <col width="10%">
+                  <col width="18%">
                   <thead>
                     <tr>
                       <th>Nama</th>
@@ -50,7 +50,7 @@
                   <tbody>
                   <?php 
                     foreach($list as $li){
-                      echo "<tr>
+                      echo "<tr style='font-size:13px;'>
                             <td>" .$li->NAMA."</td>
                             <td>" .$li->DASAR."</td>
                             <td>" .$li->INSTANSI." </td>
@@ -61,7 +61,8 @@
                             </tr>"; 
                             }else{
                               echo "<td><a href=\"".site_url("sppdController/sppd/").$li->ID_ST."\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
-                            </td>"; 
+                              <a href=\"".site_url("sppdController/exportSPPD/").$li->ID_ST."\" class=\"d-none d-sm-inline-block btn btn-sm btn-success\"><i class=\"fas fa-sm fa-download\"></i> Unduh </a>
+                            </td></tr>"; 
 ;
                             }
                     }
