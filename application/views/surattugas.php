@@ -48,9 +48,13 @@
                             class="form-control  sc-input-required"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Pegawai yang diperintah</label>
-                            <input type="text" name="diperintah" 
-                            class=" diperintah form-control sc-input-required" >
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <label>Pegawai yang diperintah</label>
+                              <input type="text" name="diperintah" 
+                              class=" diperintah form-control sc-input-required" >
+                            </div>
+                          </div>
                         </div>
                         <div class="form-group">
                             <label>Pengikut &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>

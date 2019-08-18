@@ -1,3 +1,6 @@
+ul.ui-autocomplete {
+    z-index: 1100;
+}
 .bg-gradient-primary{
     background-color:#b333a288;
     background-image:-webkit-gradient(linear,left top,left bottom,color-stop(10%,#124149),to(#0d5555));

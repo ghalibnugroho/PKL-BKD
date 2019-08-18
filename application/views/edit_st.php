@@ -54,10 +54,13 @@
                             class="form-control  sc-input-required"><?php echo $d->DASAR ;?></textarea>
                         </div>
                         <div class="form-group">
+                          <div class="row">
+                            <div class="col-sm-4">
                             <label>Pegawai yang diperintah</label>
-                            <input type="text" name="diperintah" value="<?php echo $peserta[0]->NAMA;
-                            ?>";
-                            class=" diperintah form-control sc-input-required" >
+                              <input type="text" name="diperintah" value="<?php echo $peserta[0]->NAMA;
+                              ?>" class=" diperintah form-control sc-input-required" >
+                            </div> 
+                          </div> 
                         </div>
                         <div class="form-group">
                             <label>Pengikut &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>

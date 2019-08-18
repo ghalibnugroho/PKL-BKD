@@ -73,6 +73,15 @@ class sppdController extends CI_Controller
         $result['list'] = $this->data_model->getListST();
         $this->load->view('listst', $result);
     }
+    function listrincian(){
+        $result['list'] = $this->data_model->getListRincian();
+        $this->load->view('listrincian', $result);
+    }
+    function rincian($id){
+        $result['peserta'] = $this->data_model->getPeserta($id);
+        $result['list'] = $this->data_model->getRincian($id);
+        $this->load->view('rincian',$result);
+    }
     public function sppd($id)
     {
         $user = $this->session->userdata('username');
@@ -136,6 +145,7 @@ class sppdController extends CI_Controller
         
     }
 
+
     public function updateSPPD()
     {
         $id = $this->input->post('id');
@@ -179,7 +189,9 @@ class sppdController extends CI_Controller
         $tanggal = $this->input->post('tanggal');
         $pengikut = $this->input->post('pengikut');
         $diperintah = array($this->input->post('diperintah'));
+        $id = $this->data_model->getIDST()[0]->ID_ST+1;
         $data_surattugas = array(
+            'ID_ST' => $id,
             'DASAR' => $dasar,
             'TUJUAN' => $tujuan,
             'TANGGAL' => date('Y-m-d', strtotime($tanggal)),
@@ -190,7 +202,7 @@ class sppdController extends CI_Controller
             $diperintah[] = $ap;
         }
 
-        $ID_ST = $this->data_model->insertSurattugas($data_surattugas);
+        $this->data_model->insertSurattugas($data_surattugas,$id);
 
 
         $nip_diperintah = $this->data_model->getNIP($diperintah);
@@ -200,47 +212,12 @@ class sppdController extends CI_Controller
                 $sebagai = 'Pengikut';
             }
             $data_diperintah = array(
-                'ID_ST' => $ID_ST,
+                'ID_ST' => $id,
                 'NIP' => $nip_diperintah[$i][0]->NIP,
                 'SEBAGAI' => $sebagai,
             );
             $this->data_model->insertPeserta($data_diperintah);
         }
-
-
-        // $nip_pengikut = $this->data_model->getNIP($arr_pengikut);
-        // print_r($arr_pengikut);
-        // echo "nip pengikut";
-        // print_r($nip_pengikut);
-        // echo implode(" ", $nip_pengikut[0]);
-        //echo $nip_pengikut->NIP;
-        //echo count($nip_pengikut);
-        // for ($i=0; $i < count($arr_pengikut); $i++) {
-        //     $nip_pengikut = $this->data_model->getNIP(array($arr_pengikut[$i]));
-        //     print_r($nip_pengikut[$i]->NIP);
-        //     $data_pengikut = array(
-        //         'ID_ST' => $insert_id,
-        //         'NIP' => $nip_pengikut[$i]->NIP,
-        //         'SEBAGAI' => 'Pengikut',
-        //     );
-        //     $this->data_model->insertPeserta($data_pengikut);
-        // }
-        // foreach($nip_pengikut as $np){
-        //     $data_pengikut = array(
-        //         'ID_ST' => $insert_id,
-        //         'NIP' => $nip_pengikut[0][0]->NIP,
-        //         'SEBAGAI' => 'Pengikut',
-        //     );
-        //     $this->data_model->insertPeserta($data_pengikut);
-        // }
-        // foreach($arr_pengikut as $ap){
-        //     $data_pengikut = array(
-        //         'ID_ST' => $insert_id,
-        //         'NIP' => '198507072010012031',
-        //         'SEBAGAI' => $ap,
-        //     );
-        //     $this->data_model->insertPeserta($data_pengikut);
-        // }
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
         Data berhasil dimasukkan </div>');
         $this->listst();
@@ -306,8 +283,134 @@ class sppdController extends CI_Controller
         $data = file_get_contents(base_url('assets/')."json/kota.json");
         echo $data;
     }
-    public function getKotaAuto(){
-        $data = file_get_contents(base_url('assets/')."json/kotaa.json");
-        echo $data;
+    public function tambahTransportasi(){
+        $idsppd = $this->input->post('idsppd');
+        $idpeserta = $this->input->post('idpeserta');
+        $no_tiket = $this->input->post('no_tiket');
+        $no_flight = $this->input->post('no_flight');
+        $no_duduk = $this->input->post('no_duduk');
+        $tanggal = $this->input->post('tanggal');
+        $pukul = $this->input->post('pukul');
+        $harga = $this->input->post('harga');
+        $asal = $this->input->post('asal');
+        $tujuan = $this->input->post('tujuan');
+        $bukti = $this->input->post('bukti');
+        $status = $this->input->post('status');
+        $keterangan = $this->input->post('keterangan');
+
+        $data = array(
+            'ID_SPPD' => $idsppd,
+            'ID_PESERTA' => $idpeserta,
+            'JENIS' => 'Transportasi',
+            'JUMLAH' => 1,
+            'HARGA' => $harga,
+            'TOTAL' => $harga,
+            'KETERANGAN' => $keterangan,
+            'NO_TIKET' => $no_tiket,
+            'NO_FLIGHT' => $no_flight,
+            'JAM' => $pukul,
+            'NO_TMPDUDUK' => $no_duduk, 
+            'TANGGAL' => date('Y-m-d', strtotime($tanggal)),
+            'TMP_BERANGKAT' => $asal,
+            'TMP_TUJUAN' => $tujuan,
+            'STATUS' => $status,
+            'BUKTI_PEMBAYARAN' => $bukti,
+        );
+        $this->data_model->insertData('rincian', $data);
+        $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-success" role="alert">
+        Data berhasil diupdate </div>');
+        redirect('sppdController/rincian/'.$idsppd);
+    }
+    function tambahRincian(){
+        $idsppd = $this->input->post('idsppd');
+        $idpeserta = $this->input->post('idpeserta');
+        $jenis = $this->input->post('jenis');
+        $jumlah = $this->input->post('jumlah');
+        $harga = $this->input->post('harga');
+        $bukti = $this->input->post('bukti');
+        $total = $jumlah*$harga;
+        $keterangan = $this->input->post('keterangan');
+
+        $data = array(
+            'ID_SPPD' => $idsppd,
+            'ID_PESERTA' => $idpeserta,
+            'JENIS' => $jenis,
+            'JUMLAH' => $jumlah,
+            'HARGA' => $harga,
+            'TOTAL' => $total,
+            'KETERANGAN' => $keterangan,
+            'BUKTI_PEMBAYARAN' => $bukti,
+        );
+        $this->data_model->insertData('rincian', $data);
+        $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-success" role="alert">
+        Data berhasil diupdate </div>');
+        redirect('sppdController/rincian/'.$idsppd);
+    }
+    function editTransportasi(){
+        $idrincian = $this->input->post('idrincian');
+        $idsppd = $this->input->post('idsppd');
+        $idpeserta = $this->input->post('idpeserta');
+        $no_tiket = $this->input->post('no_tiket');
+        $no_flight = $this->input->post('no_flight');
+        $no_duduk = $this->input->post('no_duduk');
+        $tanggal = $this->input->post('tanggal');
+        $pukul = $this->input->post('pukul');
+        $harga = $this->input->post('harga');
+        $asal = $this->input->post('asal');
+        $tujuan = $this->input->post('tujuan');
+        $bukti = $this->input->post('bukti');
+        $status = $this->input->post('status');
+        $keterangan = $this->input->post('keterangan');
+
+        $data = array(
+            'ID_SPPD' => $idsppd,
+            'ID_PESERTA' => $idpeserta,
+            'JENIS' => 'Transportasi',
+            'JUMLAH' => 1,
+            'HARGA' => $harga,
+            'TOTAL' => $harga,
+            'KETERANGAN' => $keterangan,
+            'NO_TIKET' => $no_tiket,
+            'NO_FLIGHT' => $no_flight,
+            'JAM' => $pukul,
+            'NO_TMPDUDUK' => $no_duduk, 
+            'TANGGAL' => date('Y-m-d', strtotime($tanggal)),
+            'TMP_BERANGKAT' => $asal,
+            'TMP_TUJUAN' => $tujuan,
+            'STATUS' => $status,
+            'BUKTI_PEMBAYARAN' => $bukti,
+        );
+        $where = array('ID_RINCIAN' => $idrincian);
+        $this->data_model->update($where,'rincian',$data);
+        $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-success" role="alert">
+        Data berhasil diupdate </div>');
+        redirect('sppdController/rincian/'.$idsppd);
+    }
+    function editRincian(){
+        $idrincian = $this->input->post('idrincian');
+        $idsppd = $this->input->post('idsppd');
+        $idpeserta = $this->input->post('idpeserta');
+        $jenis = $this->input->post('jenis');
+        $jumlah = $this->input->post('jumlah');
+        $harga = $this->input->post('harga');
+        $bukti = $this->input->post('bukti');
+        $total = $jumlah*$harga;
+        $keterangan = $this->input->post('keterangan');
+
+        $data = array(
+            'ID_SPPD' => $idsppd,
+            'ID_PESERTA' => $idpeserta,
+            'JENIS' => $jenis,
+            'JUMLAH' => $jumlah,
+            'HARGA' => $harga,
+            'TOTAL' => $total,
+            'KETERANGAN' => $keterangan,
+            'BUKTI_PEMBAYARAN' => $bukti,
+        );
+        $where = array('ID_RINCIAN' => $idrincian);
+        $this->data_model->update($where,'rincian',$data);
+        $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-success" role="alert">
+        Data berhasil diupdate </div>');
+        redirect('sppdController/rincian/'.$idsppd);
     }
 }

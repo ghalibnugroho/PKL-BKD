@@ -24,7 +24,7 @@
         <?=$this->session->flashdata('message');?>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
-            <div class="card-header row py-3 d-sm-flex align-items-center justify-content-between">
+            <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
               <h6 class="m-0 font-weight-bold text-primary col-sm-3" id="judul">Daftar Surat Tugas</h6>
               <a href="<?php echo site_url('surat-tugas') ?>" class="btn btn-info btn-icon-split">
                     <span class="icon text-white-50">
@@ -43,7 +43,7 @@
                   <thead>
                     <tr>
                       <th>Pegawai yang Diperintah</th>
-                      <th>Maksud</th>
+                      <th>Dasar</th>
                       <th>Tanggal</th>
                       <th>Actions</th>
                     </tr>

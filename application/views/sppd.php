@@ -211,6 +211,6 @@ require_once('templates/session.php');
         response(results.slice(0, 10));
     }
 });
-  </script>
+</script>
 
 </html>
