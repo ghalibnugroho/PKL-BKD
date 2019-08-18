@@ -556,26 +556,32 @@ class sppdController extends CI_Controller
         $pdf->Cell(10,6,'4.','LTR',0,'C'); //baris 4
         $pdf->Cell(80,6,' '.'Maksud Perjalanan Dinas','TR',0,'L');
         $y = $pdf->GetY();
-        $pdf->Cell(1,6,'','T',0,'L');
-        $pdf->MultiCell(99,6,$data[0]->TUJUAN,'BTR','L',false);
-        $y1= $pdf->GetY();
-        
-        $nrow_4 = (($y1-$y)/6)-1; // nilai 7 adalah dari nilai default height cell, tujuannya untuk membuat baris ke 4 tabelnya wrap text
-        
-        $pdf->SetY($y);
-        for($i = 0; $i < $nrow_4; $i++){
-            $pdf->Cell(10,6,'','LR',0,'C');
-            $pdf->Cell(80,6,'','LR',1,'L');
-            if($i==$nrow_4-1){
-                $pdf->Cell(10,6,'','LBR',0,'C');
-                $pdf->Cell(80,6,'','BR',0,'L');
-                $pdf->Cell(1,6,'','B',1,'L');           
+
+        if(strlen($data[0]->TUJUAN)<=60){
+            $pdf->Cell(100,6,' '.$data[0]->TUJUAN,'TR',1,'L');
+        } else{
+            $pdf->Cell(1,6,'','T',0,'L');
+            $pdf->MultiCell(99,6,$data[0]->TUJUAN,'TR','L',false);
+            $y1= $pdf->GetY();
+            
+            $nrow_4 = (($y1-$y)/6)-1; // nilai 7 adalah dari nilai default height cell, tujuannya untuk membuat baris ke 4 tabelnya wrap text
+            
+            $pdf->SetY($y);
+            for($i = 0; $i < $nrow_4; $i++){
+                $pdf->Cell(10,6,'','LR',0,'C');
+                $pdf->Cell(80,6,'','R',1,'L');
+                if($i==$nrow_4-1){
+                    $pdf->Cell(10,6,'','LR',0,'C');
+                    $pdf->Cell(80,6,'','R',0,'L');
+                    $pdf->Cell(1,6,'','',1,'L');           
+                }
             }
+    
         }
 
-        $pdf->Cell(10,8,'5.','LR',0,'C'); //baris 5
-        $pdf->Cell(80,8,' '.'Alat angkut yang dipergunakan','R',0,'L');
-        $pdf->Cell(100,8,' '.$data[0]->ALAT_ANGKUT,'R',1,'L');
+        $pdf->Cell(10,6,'5.','LTR',0,'C'); //baris 5
+        $pdf->Cell(80,6,' '.'Alat angkut yang dipergunakan','TR',0,'L');
+        $pdf->Cell(100,6,' '.$data[0]->ALAT_ANGKUT,'TR',1,'L');
 
         $pdf->Cell(10,6,'6.','LTR',0,'C'); //baris 6
         $pdf->Cell(80,6,' '.'a. Tempat berangkat','TR',0,'L');
