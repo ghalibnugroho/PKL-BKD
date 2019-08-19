@@ -25,7 +25,7 @@
 
 
           <!-- DataTales Example -->
-          <div class="card shadow mb-4">
+          <div class="card shadow mb-4" id="inputST">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Surat Tugas</h6>
                 </div>
@@ -51,8 +51,13 @@
                           <div class="row">
                             <div class="col-sm-4">
                               <label>Pegawai yang diperintah</label>
-                              <input type="text" name="diperintah" 
-                              class=" diperintah form-control sc-input-required" >
+                              <select id="selectPegawai" name="diperintah" class=" diperintah form-control sc-input-required">
+                                <option></option>
+                                <?php foreach ($data as $op) {
+                                  echo "<option>".$op->NAMA."</option>";
+                                }
+                                ?>
+                              </select>
                             </div>
                           </div>
                         </div>
@@ -119,12 +124,11 @@
 </html>
 
 <script>
-     $(document).ready(function(){
-        $( ".diperintah" ).autocomplete({
-          source: "<?php echo site_url('sppdController/getPegawai/?');?>"
-        });
-    });
-
+  $('#selectPegawai').select2({
+      placeholder: "Nama Pegawai",
+      dropdownParent: $('#inputST'),
+      width: '100%',
+      });
   $(document).ready(
     function() {
     $(function() {
@@ -139,7 +143,8 @@
 	$('input[name="pengikut"]').amsifySuggestags({
     suggestionsAction : {
 						url : '<?php echo site_url('sppdController/getPegawaiAll');?>'
-					}
+					},
+          whiteList: true
 		//suggestions: ['Malang', 'Kediri', 'Madiun', 'Surabaya', 'Jayapura', 'Timika']
 	});
 
