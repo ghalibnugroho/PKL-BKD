@@ -31,10 +31,10 @@
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <col width="19%">
                   <col width="20%">
-                  <col width="20%">
-                  <col width="45%">
-                  <col width="15%">
+                  <col width="44%">
+                  <col width="17%">
                   <thead>
                     <tr>
                       <th>Nomor Surat Tugas</th>
@@ -50,9 +50,13 @@
                             <td>800/" .$li->ID_ST."/35.73.403/".date("Y")."</td>
                             <td>" .$li->NAMA."</td>
                             <td>" .$li->TUJUAN." </td>
-                            <td><a href=\"".site_url("sppdController/rincian/").$li->ID_SPPD."\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a></td>
-                            </tr>"; 
-                            
+                            <td><a href=\"".site_url("sppdController/rincian/").$li->ID_SPPD."\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>"; 
+                            ?>
+                            <a href="<?php echo site_url('sppdController/exportRincian/'.$li->ID_SPPD);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
+                            <i class="fas fa-sm  fa-download "></i> Unduh </a>
+                            </td>
+                            </tr>
+                            <?php
                             
                     }
                   ?>

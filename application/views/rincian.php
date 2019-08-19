@@ -1,22 +1,22 @@
-<?php 
-    require_once('templates/session.php');
+<?php
+require_once 'templates/session.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <?php $this->load->view("templates/auth_header") ?>
+  <?php $this->load->view("templates/auth_header")?>
 <body id="page-top">
   <div id="wrapper">
-    <?php $this->load->view("templates/auth_sidebar") ?>
+    <?php $this->load->view("templates/auth_sidebar")?>
 
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-    
+
       <!-- Main Content -->
       <div id="content">
 
         <!-- Topbar -->
-        <?php $this->load->view("templates/auth_topbar") ?>
+        <?php $this->load->view("templates/auth_topbar")?>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
@@ -169,7 +169,7 @@
       </div>
       <!-- End of Main Content -->
       <!-- Footer -->
-      <?php $this->load->view("templates/auth_footer") ?>
+      <?php $this->load->view("templates/auth_footer")?>
       <!-- End of Footer -->
 
     </div>

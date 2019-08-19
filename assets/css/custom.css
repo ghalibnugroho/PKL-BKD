@@ -49,3 +49,24 @@ ul.ui-autocomplete {
         padding: 5% 2% 5% 0%;
     }
   }
+.card-header h6, .card-header input{
+    display: inline;
+    /* vertical-align: center; */
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 30px; 
+}
+.card-header h6 {
+    font-size: 16px;
+}
+#search_text{
+    /* position: absolute; */
+    /* top: 0.3%; */
+    left: 1%;
+}
+
+.right1{
+    display: flex;
+    position: absoulte;
+    left: 5000px;
+}
