@@ -107,7 +107,7 @@ class data_model extends CI_Model
     }
     public function getListSPPD()
     {
-        $query = $this->db->select("surattugas.ID_ST,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA")
+        $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA")
             ->from('surattugas')
             ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
@@ -163,12 +163,12 @@ class data_model extends CI_Model
     }
 
     public function getSPPD($id){
-        $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, LAMA, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
+        $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, KATEGORI, LAMA, DASAR, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
             ->from('sppd')
             ->join('surattugas', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
-            ->where('surattugas.ID_ST', $id)
+            ->where('ID_SPPD', $id)
             ->order_by('SEBAGAI','ASC')
             ->order_by('GOLONGAN','ASC')
             ->get();
@@ -255,20 +255,7 @@ class data_model extends CI_Model
         return $kode[0]->NAMA_KEGIATAN;
     }
 
-    function exportDataRincian($id){
-        $query= $this->db->select('*')
-        ->from('rincian')
-        ->join('peserta','rincian.ID_PESERTA = peserta.ID_PESERTA')
-        ->join('pegawai','peserta.NIP = pegawai.NIP')
-        ->where('ID_SPPD', $id)
-        ->order_by('peserta.SEBAGAI ASC , rincian.ID_PESERTA ASC')
-        ->order_by("CASE rincian.JENIS WHEN 'Transportasi' THEN 1 ELSE 0 END",'DESC')
-        ->order_by("CASE rincian.STATUS WHEN 'Pergi' THEN 2 WHEN 'Pulang' THEN 1 ELSE 0 END",'DESC')
-        ->order_by('rincian.ID_RINCIAN ASC')
-        ->get();
-        
-        return $query->result();;
-    }
+
     function exportTTD(){
         $query= $this->db->select('*')
         ->from('pegawai')

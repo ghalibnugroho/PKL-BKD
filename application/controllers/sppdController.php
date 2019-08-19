@@ -849,28 +849,24 @@ class sppdController extends CI_Controller
 
     function exportRincian($id){
         $data = $this->data_model->exportDataRincian($id);
-        $ttd = $this->data_model->exportTTD();
+        $bendahara = $this->data_model->getPegawai_Jabatan('Bendahara');
+        $kepala = $this->data_model->getPegawai_Jabatan('Kepala');
+        $sppd = $this->data_model->getSPPD($id);
 
         $reader = IOFactory::createReader('Xls');
         $spreadsheet = $reader->load('template/rincian_temp.xls');
         $currentContentRow = 9;
         $spreadsheet->getActiveSheet()->getStyle('A1:A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $spreadsheet->getActiveSheet()->setCellValue('A1',"RINCIAN BIAYA PERJALANAN DINAS "."LUAR/DALAM DAERAH");
-        $spreadsheet->getActiveSheet()->setCellValue('A2',"MENDAMPINGI PLT. WALIKOTA PADA RAKERNAS APEKSI XIII Aciiiaat ");
-        $tempstring= "berjuta juta ewu eket";
+        $spreadsheet->getActiveSheet()->setCellValue('A1',"RINCIAN BIAYA PERJALANAN DINAS ".$sppd[0]->KATEGORI);
+        $spreadsheet->getActiveSheet()->setCellValue('A2',$sppd[0]->DASAR);
         
-        // isi
+        //ttd Bendahara
+        $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+31), $kepala[0]->NAMA);
+        $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+33), $kepala[0]->NIP);
         
-        foreach($ttd as $value) {
-            if($value->JABATAN=="Kepala"){
-                $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+31), $value->NAMA);
-                $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+33), $value->NIP);
-            }
-            else if($value->JABATAN=='Bendahara'){
-                $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+15), $value->NAMA);
-                $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+16), $value->NIP);
-            }
-        }
+        //ttd Kepala
+        $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+15), $bendahara[0]->NAMA);
+        $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+16), $bendahara[0]->NIP);
         $clonedWorksheet = clone $spreadsheet->getSheetByName('Sheet1');
         
         $temp_spreadsheet = new Spreadsheet();
