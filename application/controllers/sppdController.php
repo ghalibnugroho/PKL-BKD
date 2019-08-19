@@ -786,23 +786,33 @@ class sppdController extends CI_Controller
         }
     }
 
-    function penyebut($nilai) {
-        $nilai = abs($nilai);
-        $huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
-        $temp = "";
-        if ($nilai < 12) {
-            $temp = " ". $huruf[$nilai];
-        } else if ($nilai <20) {
-            $temp = $this->penyebut($nilai - 10). " belas";
-        } else if ($nilai < 100) {
-            $temp = $this->penyebut($nilai/10)." puluh". $this->penyebut($nilai % 10);
-        } else if ($nilai < 200) {
-            $temp = " seratus" . $this->penyebut($nilai - 100);
-        } else if ($nilai < 1000) {
-            $temp = $this->penyebut($nilai/100) . " ratus" . $this->penyebut($nilai % 100);
-        }     
-        return $temp;
-    }
+	function penyebut($nilai) {
+		$nilai = abs($nilai);
+		$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+		$temp = "";
+		if ($nilai < 12) {
+			$temp = " ". $huruf[$nilai];
+		} else if ($nilai <20) {
+			$temp = $this->penyebut($nilai - 10). " belas";
+		} else if ($nilai < 100) {
+			$temp = $this->penyebut($nilai/10)." puluh". $this->penyebut($nilai % 10);
+		} else if ($nilai < 200) {
+			$temp = " seratus" . $this->penyebut($nilai - 100);
+		} else if ($nilai < 1000) {
+			$temp = $this->penyebut($nilai/100) . " ratus" . $this->penyebut($nilai % 100);
+		} else if ($nilai < 2000) {
+			$temp = " seribu" . $this->penyebut($nilai - 1000);
+		} else if ($nilai < 1000000) {
+			$temp = $this->penyebut($nilai/1000) . " ribu" . $this->penyebut($nilai % 1000);
+		} else if ($nilai < 1000000000) {
+			$temp = $this->penyebut($nilai/1000000) . " juta" . $this->penyebut($nilai % 1000000);
+		} else if ($nilai < 1000000000000) {
+			$temp = $this->penyebut($nilai/1000000000) . " milyar" . $this->penyebut(fmod($nilai,1000000000));
+		} else if ($nilai < 1000000000000000) {
+			$temp = $this->penyebut($nilai/1000000000000) . " trilyun" . $this->penyebut(fmod($nilai,1000000000000));
+		}     
+		return $temp;
+	}
  
     function terbilang($nilai) {
         if($nilai<0) {
@@ -836,7 +846,10 @@ class sppdController extends CI_Controller
         Data transportasi berhasil dihapus </div>');
         redirect('sppdController/rincian/'.$idsppd);
     }
-
+    function exportRinciana($id){
+        $data = $this->data_model->exportDataRincian($id);
+        print_r($data);
+    }
     function exportRincian($id){
         $data = $this->data_model->exportDataRincian($id);
         $bendahara = $this->data_model->getPegawai_Jabatan('Bendahara');
@@ -876,14 +889,14 @@ class sppdController extends CI_Controller
                 $n_org++;
                 if($n_org==1){
                     $spreadsheet->setActiveSheetIndex(0);
-                    $spreadsheet->getActiveSheet()->setTitle('rincian '.$value->NAMA);
+                    $spreadsheet->getActiveSheet()->setTitle('rincian '.$value->NIP);
                     $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+15), $value->NAMA);
                     $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+16), $value->NIP);
                     
                 } else{
                         $arr_sheet [] = clone $temp_spreadsheet->getSheet(0);
                         $currentContentRow = 9;
-                        $arr_sheet[$i]->setTitle('rincian '.$value->NAMA);
+                        $arr_sheet[$i]->setTitle('rincian '.$value->NIP);
                         $arr_sheet[$i]->setCellValue('K'.($currentContentRow+15), $value->NAMA);
                         $arr_sheet[$i]->setCellValue('K'.($currentContentRow+16), $value->NIP);
                         $spreadsheet->addSheet($arr_sheet[$i],$n_org-1);
@@ -904,7 +917,7 @@ class sppdController extends CI_Controller
                     $cur++;
                     $trp=1;
                 }
-                $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->TMP_BERANGKAT.' - '.$value->KEMBALI);
+                $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->TMP_BERANGKAT.' - '.$value->TMP_TUJUAN);
                 $spreadsheet->getActiveSheet()->setCellValue('D'.$currentContentRow, '1');
                 $spreadsheet->getActiveSheet()->setCellValue('E'.$currentContentRow, 'org');
                 $spreadsheet->getActiveSheet()->setCellValue('F'.$currentContentRow, 'x');
@@ -913,7 +926,7 @@ class sppdController extends CI_Controller
                 $spreadsheet->getActiveSheet()->setCellValue('I'.$currentContentRow, 'x');
                 $spreadsheet->getActiveSheet()->setCellValue('J'.$currentContentRow, $value->HARGA);
                 $spreadsheet->getActiveSheet()->setCellValue('K'.$currentContentRow, '='.$value->JUMLAH * $value->HARGA);
-                if(!$value['no_tiket']){
+                if(!$value->NO_TIKET){
                     $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->KETERANGAN.' '.$value->TMP_BERANGKAT.' '.$value->TMP_KEMBALI);
                 } else{
                     $spreadsheet->getActiveSheet()->setCellValue('L'.$currentContentRow, $value->KETERANGAN);
@@ -945,7 +958,8 @@ class sppdController extends CI_Controller
                 $currentContentRow++;			
             }
             $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+1), '=SUM(K9:K'.$currentContentRow.')');
-            $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+2), 'Terbilang : '.$tempstring);
+            $terbilang = $spreadsheet->getActiveSheet()->getCell('K'.($currentContentRow+1))->getCalculatedValue();
+            $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+2), 'Terbilang :'.$this->terbilang($terbilang).' rupiah');
         
         }
         

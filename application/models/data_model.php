@@ -243,6 +243,20 @@ class data_model extends CI_Model
         return $kode[0]->NAMA_KEGIATAN;
     }
 
+    function exportDataRincian($id){
+        $query= $this->db->select('*')
+        ->from('rincian')
+        ->join('peserta','rincian.ID_PESERTA = peserta.ID_PESERTA')
+        ->join('pegawai','peserta.NIP = pegawai.NIP')
+        ->where('ID_SPPD', $id)
+        ->order_by('peserta.SEBAGAI ASC , rincian.ID_PESERTA ASC')
+        ->order_by("JENIS = 'Transportasi'",'DESC')
+        ->order_by("STATUS = 'Pergi'",'DESC')
+        ->order_by('rincian.ID_RINCIAN ASC')
+        ->get();
+        
+        return $query->result();;
+    }
 
     function exportTTD(){
         $query= $this->db->select('*')
