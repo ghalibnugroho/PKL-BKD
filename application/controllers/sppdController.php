@@ -101,7 +101,8 @@ class sppdController extends CI_Controller
     }
     public function surattugas()
     {
-        $this->load->view('surattugas');
+        $data['data'] = $this->data_model->getPegawaiAll();
+        $this->load->view('surattugas',$data);
     }
     public function rincianbiaya()
     {
@@ -113,17 +114,6 @@ class sppdController extends CI_Controller
         $this->load->view('rekapkeuangan', $resuls);
     }
 
-    public function getPegawai()
-    {
-        if (isset($_GET['term'])) {
-            $result = $this->data_model->getPegawai($_GET['term']);
-            if (count($result) > 0) {
-                foreach ($result as $row)
-                    $arr_result[] = $row->NAMA;
-                echo json_encode($arr_result);
-            }
-        }
-    }
     public function getPegawaiAll()
     {
         $result = $this->data_model->getPegawaiAll();
