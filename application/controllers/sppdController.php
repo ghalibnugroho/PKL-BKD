@@ -3,6 +3,12 @@ require("././fpdf/fpdf.php");
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+
 class sppdController extends CI_Controller
 {
     public function __construct()
@@ -841,5 +847,129 @@ class sppdController extends CI_Controller
         $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-danger" role="alert">
         Data transportasi berhasil dihapus </div>');
         redirect('sppdController/rincian/'.$idsppd);
+    }
+    function exportRincian($id){
+        $this->data_model->exportRincian($id);
+
+        $reader = IOFactory::createReader('Xls');
+        $spreadsheet = $reader->load('template/rincian_temp.xls');
+        $currentContentRow = 9;
+        $spreadsheet->getActiveSheet()->getStyle('A1:A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $spreadsheet->getActiveSheet()->setCellValue('A1',"RINCIAN BIAYA PERJALANAN DINAS "."LUAR/DALAM DAERAH");
+        $spreadsheet->getActiveSheet()->setCellValue('A2',"MENDAMPINGI PLT. WALIKOTA PADA RAKERNAS APEKSI XIII Aciiiaat ");
+        $tempstring= "berjuta juta ewu eket";
+        
+        // isi
+        
+        foreach ($ttd as $value) {
+            if($value['jabatan']=="kepala"){
+                $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+31), $value->NAMA);
+                $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+33), $value->NIP);
+            }
+            else if($value['jabatan']=='bendahara'){
+                $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+15), $value->NAMA);
+                $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+16), $value->NIP);
+            }
+        }
+        $clonedWorksheet = clone $spreadsheet->getSheetByName('Sheet1');
+        
+        $temp_spreadsheet = new Spreadsheet();
+        $temp_spreadsheet->addSheet($clonedWorksheet,0);
+        
+        $count =1;  // untuk menyimpan nomor pada tiap table rincian
+        $cur=0;  // untuk membedakan baris pertama adalah jenis transportasi jika dirincian ada transportasi
+        $pst = ""; // menyimpan kode peserta ditiap pergantian kode peserta
+        $n_org = 0; // menyimpan jumlah org ditiap pergantian peserta
+        $trp=0; // sebagai boolean apakah ada jenis transportasi atau tidak
+        $i = 0; //  sebagai indeks array-sheet objek
+        foreach ($data as $value) {
+            $spreadsheet->getActiveSheet()->insertNewRowBefore($currentContentRow+1,1);
+            if($pst!=$value->ID_PESERTA){
+                $spreadsheet->getActiveSheet()->removeRow($currentContentRow, 1);
+                $pst = $value['peserta'];
+                $n_org++;
+                if($n_org==1){
+                    $spreadsheet->setActiveSheetIndex(0);
+                    $spreadsheet->getActiveSheet()->setTitle('rincian '.$value->NAMA);
+                    $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+15), $value->NAMA);
+                    $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+16), $value->NIP);
+                    
+                } else{
+                        $arr_sheet [] = clone $temp_spreadsheet->getSheet(0);
+                        $currentContentRow = 9;
+                        $arr_sheet[$i]->setTitle('rincian '.$value['nama']);
+                        $arr_sheet[$i]->setCellValue('K'.($currentContentRow+15), $value->NAMA);
+                        $arr_sheet[$i]->setCellValue('K'.($currentContentRow+16), $value->NIP);
+                        $spreadsheet->addSheet($arr_sheet[$i],$n_org-1);
+                        $spreadsheet->setActiveSheetIndex($n_org-1);				
+                    $count=1;
+                    $cur=0;
+                    $trp=0;
+                    $i++;
+                }
+            }
+            if($value->JENIS =='Transportasi'){
+                if($cur==0){
+                    $spreadsheet->getActiveSheet()->setCellValue('A'.$currentContentRow, $count);
+                    $count++;
+                    $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->JENIS);
+                    $spreadsheet->getActiveSheet()->insertNewRowBefore($currentContentRow+1,1);
+                    $currentContentRow++;
+                    $cur++;
+                    $trp=1;
+                }
+                $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->TMP_BERANGKAT.' - '.$value->KEMBALI);
+                $spreadsheet->getActiveSheet()->setCellValue('D'.$currentContentRow, '1');
+                $spreadsheet->getActiveSheet()->setCellValue('E'.$currentContentRow, 'org');
+                $spreadsheet->getActiveSheet()->setCellValue('F'.$currentContentRow, 'x');
+                $spreadsheet->getActiveSheet()->setCellValue('G'.$currentContentRow, $value->JUMLAH);
+                $spreadsheet->getActiveSheet()->setCellValue('H'.$currentContentRow, 'kali');
+                $spreadsheet->getActiveSheet()->setCellValue('I'.$currentContentRow, 'x');
+                $spreadsheet->getActiveSheet()->setCellValue('J'.$currentContentRow, $value->HARGA);
+                $spreadsheet->getActiveSheet()->setCellValue('K'.$currentContentRow, '='.$value->JUMLAH * $value->HARGA);
+                if(!$value['no_tiket']){
+                    $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->KETERANGAN.' '.$value->TMP_BERANGKAT.' '.$value->TMP_KEMBALI);
+                } else{
+                    $spreadsheet->getActiveSheet()->setCellValue('L'.$currentContentRow, $value->KETERANGAN);
+                }
+                $currentContentRow++;
+            } else{
+                if($trp==1){
+                    $spreadsheet->getActiveSheet()->insertNewRowBefore($currentContentRow,1);
+                    $currentContentRow++;
+                }
+                $spreadsheet->getActiveSheet()->setCellValue('A'.$currentContentRow, $count);
+                $count++;
+        
+                if($value->JENIS =='Penginapan'){
+                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentContentRow, 'mlm');
+                } else{
+                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentContentRow, 'hari');
+                }
+        
+                $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->JENIS);
+                $spreadsheet->getActiveSheet()->setCellValue('D'.$currentContentRow, '1');
+                $spreadsheet->getActiveSheet()->setCellValue('E'.$currentContentRow, 'org');
+                $spreadsheet->getActiveSheet()->setCellValue('F'.$currentContentRow, 'x');
+                $spreadsheet->getActiveSheet()->setCellValue('G'.$currentContentRow, $value->JUMLAH);
+                $spreadsheet->getActiveSheet()->setCellValue('I'.$currentContentRow, 'x');
+                $spreadsheet->getActiveSheet()->setCellValue('J'.$currentContentRow, $value->HARGA);
+                $spreadsheet->getActiveSheet()->setCellValue('K'.$currentContentRow, '='.$value->JUMLAH*$value->HARGA);
+                $spreadsheet->getActiveSheet()->setCellValue('L'.$currentContentRow, $value->KETERANGAN);
+                $currentContentRow++;			
+            }
+            $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+1), '=SUM(K9:K'.$currentContentRow.')');
+            $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+2), 'Terbilang : '.$tempstring);
+        
+        }
+        
+        header('Content-Type: application/vnd.openxmlformat-officedocument.spreadsheetml.sheet');
+        
+        header('Content-Disposition: attachment;filename="rincian.xlsx"');
+        
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        
+        $writer->save('php://output');
+        
     }
 }
