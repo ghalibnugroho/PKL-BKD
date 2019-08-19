@@ -255,8 +255,8 @@ class data_model extends CI_Model
         return $kode[0]->NAMA_KEGIATAN;
     }
 
-    function exportRincian($id){
-        $query['data'] = $this->db->select('*')
+    function exportDataRincian($id){
+        $query= $this->db->select('*')
         ->from('rincian')
         ->join('peserta','rincian.ID_PESERTA = peserta.ID_PESERTA')
         ->join('pegawai','peserta.NIP = pegawai.NIP')
@@ -265,14 +265,15 @@ class data_model extends CI_Model
         ->order_by("CASE rincian.JENIS WHEN 'Transportasi' THEN 1 ELSE 0 END",'DESC')
         ->order_by("CASE rincian.STATUS WHEN 'Pergi' THEN 2 WHEN 'Pulang' THEN 1 ELSE 0 END",'DESC')
         ->order_by('rincian.ID_RINCIAN ASC')
-        ->get()
-        ->result();
-        $query['ttd'] = $this->db->select('*')
+        ->get();
+        
+        return $query->result();;
+    }
+    function exportTTD(){
+        $query= $this->db->select('*')
         ->from('pegawai')
-        ->where('JABATAN','Bendahara or Kepala')
-        ->get()
-        ->result();
-
-        return $query;
+        ->where("JABATAN = 'Kepala' OR JABATAN = 'Bendahara'")
+        ->get();
+        return $query->result();
     }
 }

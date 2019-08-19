@@ -1,10 +1,8 @@
 <?php
 require("././fpdf/fpdf.php");
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
@@ -848,8 +846,10 @@ class sppdController extends CI_Controller
         Data transportasi berhasil dihapus </div>');
         redirect('sppdController/rincian/'.$idsppd);
     }
+
     function exportRincian($id){
-        $this->data_model->exportRincian($id);
+        $data = $this->data_model->exportDataRincian($id);
+        $ttd = $this->data_model->exportTTD();
 
         $reader = IOFactory::createReader('Xls');
         $spreadsheet = $reader->load('template/rincian_temp.xls');
@@ -861,12 +861,12 @@ class sppdController extends CI_Controller
         
         // isi
         
-        foreach ($ttd as $value) {
-            if($value['jabatan']=="kepala"){
+        foreach($ttd as $value) {
+            if($value->JABATAN=="Kepala"){
                 $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+31), $value->NAMA);
                 $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+33), $value->NIP);
             }
-            else if($value['jabatan']=='bendahara'){
+            else if($value->JABATAN=='Bendahara'){
                 $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+15), $value->NAMA);
                 $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+16), $value->NIP);
             }
@@ -886,7 +886,7 @@ class sppdController extends CI_Controller
             $spreadsheet->getActiveSheet()->insertNewRowBefore($currentContentRow+1,1);
             if($pst!=$value->ID_PESERTA){
                 $spreadsheet->getActiveSheet()->removeRow($currentContentRow, 1);
-                $pst = $value['peserta'];
+                $pst = $value->ID_PESERTA;
                 $n_org++;
                 if($n_org==1){
                     $spreadsheet->setActiveSheetIndex(0);
@@ -897,7 +897,7 @@ class sppdController extends CI_Controller
                 } else{
                         $arr_sheet [] = clone $temp_spreadsheet->getSheet(0);
                         $currentContentRow = 9;
-                        $arr_sheet[$i]->setTitle('rincian '.$value['nama']);
+                        $arr_sheet[$i]->setTitle('rincian '.$value->NAMA);
                         $arr_sheet[$i]->setCellValue('K'.($currentContentRow+15), $value->NAMA);
                         $arr_sheet[$i]->setCellValue('K'.($currentContentRow+16), $value->NIP);
                         $spreadsheet->addSheet($arr_sheet[$i],$n_org-1);
