@@ -22,19 +22,7 @@ class data_model extends CI_Model
         $data = $this->db->get_where('bidang', ['NAMA_BIDANG' => $this->session->userdata('username')])->row_array();
         return $data;
     }
-    public function getPegawai($keyword)
-    {
-        $query = $this->db->select("NAMA")
-            ->from('pegawai')
-            ->like('NAMA', $keyword, 'both')
-            ->order_by('NAMA', 'ASC')
-            ->limit(10)
-            ->get();
 
-        //return $query->result();
-        //$query2=$this->db->query("SELECT NAMA FROM pegawai");
-        return $query->result();
-    }
     public function getDaftarPegawai()
     {
         $query = $this->db->query('select NIP, NAMA, PANGKAT, GOLONGAN, JABATAN, TANGGALLAHIR FROM pegawai');
@@ -102,9 +90,12 @@ class data_model extends CI_Model
     {
         $this->db->insert('peserta', $data_insert);
     }
+    public function insertPegawai($data_pegawai){
+        $this->db->insert('pegawai', $data_pegawai);
+    }
     public function getListSPPD()
     {
-        $query = $this->db->select("surattugas.ID_ST,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA")
+        $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA")
             ->from('surattugas')
             ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
@@ -160,12 +151,12 @@ class data_model extends CI_Model
     }
 
     public function getSPPD($id){
-        $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, LAMA, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
+        $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, KATEGORI, LAMA, DASAR, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
             ->from('sppd')
             ->join('surattugas', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
-            ->where('surattugas.ID_ST', $id)
+            ->where('ID_SPPD', $id)
             ->order_by('SEBAGAI','ASC')
             ->order_by('GOLONGAN','ASC')
             ->get();
@@ -188,6 +179,17 @@ class data_model extends CI_Model
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
             ->join('sppd','sppd.ID_ST = peserta.ID_ST')
             ->where('sppd.ID_ST', $id)
+            ->get();
+
+        return $query->result();
+    }
+    public function getPesertaRincian($id)
+    {
+        $query = $this->db->select("pegawai.NAMA,peserta.ID_PESERTA,sppd.ID_SPPD")
+            ->from('pegawai')
+            ->join('peserta', 'peserta.NIP = pegawai.NIP')
+            ->join('sppd','sppd.ID_ST = peserta.ID_ST')
+            ->where('sppd.ID_SPPD', $id)
             ->get();
 
         return $query->result();
@@ -239,5 +241,28 @@ class data_model extends CI_Model
         
         $kode = $query->result();
         return $kode[0]->NAMA_KEGIATAN;
+    }
+
+    function exportDataRincian($id){
+        $query= $this->db->select('*')
+        ->from('rincian')
+        ->join('peserta','rincian.ID_PESERTA = peserta.ID_PESERTA')
+        ->join('pegawai','peserta.NIP = pegawai.NIP')
+        ->where('ID_SPPD', $id)
+        ->order_by('peserta.SEBAGAI ASC , rincian.ID_PESERTA ASC')
+        ->order_by("JENIS = 'Transportasi'",'DESC')
+        ->order_by("STATUS = 'Pergi'",'DESC')
+        ->order_by('rincian.ID_RINCIAN ASC')
+        ->get();
+        
+        return $query->result();;
+    }
+
+    function exportTTD(){
+        $query= $this->db->select('*')
+        ->from('pegawai')
+        ->where("JABATAN = 'Kepala' OR JABATAN = 'Bendahara'")
+        ->get();
+        return $query->result();
     }
 }

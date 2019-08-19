@@ -1,7 +1,11 @@
 <?php
 require("././fpdf/fpdf.php");
-
 defined('BASEPATH') or exit('No direct script access allowed');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class sppdController extends CI_Controller
 {
@@ -9,6 +13,7 @@ class sppdController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('data_model');
+        $this->load->library('form_validation');
     }
     public function daftarpegawai()
     {
@@ -80,7 +85,7 @@ class sppdController extends CI_Controller
         $this->load->view('listrincian', $result);
     }
     function rincian($id){
-        $result['peserta'] = $this->data_model->getPeserta($id);
+        $result['peserta'] = $this->data_model->getPesertaRincian($id);
         $result['list'] = $this->data_model->getRincian($id);
         $this->load->view('rincian',$result);
     }
@@ -96,7 +101,8 @@ class sppdController extends CI_Controller
     }
     public function surattugas()
     {
-        $this->load->view('surattugas');
+        $data['data'] = $this->data_model->getPegawaiAll();
+        $this->load->view('surattugas',$data);
     }
     public function rincianbiaya()
     {
@@ -108,17 +114,6 @@ class sppdController extends CI_Controller
         $this->load->view('rekapkeuangan', $resuls);
     }
 
-    public function getPegawai()
-    {
-        if (isset($_GET['term'])) {
-            $result = $this->data_model->getPegawai($_GET['term']);
-            if (count($result) > 0) {
-                foreach ($result as $row)
-                    $arr_result[] = $row->NAMA;
-                echo json_encode($arr_result);
-            }
-        }
-    }
     public function getPegawaiAll()
     {
         $result = $this->data_model->getPegawaiAll();
@@ -142,9 +137,68 @@ class sppdController extends CI_Controller
         }
         echo json_encode(array("list" => $data_events));
     }
+    // public function tgl_indo($tanggal){
+    //     $bulan = array (
+    //         1 =>   'Januari',
+    //         'Februari',
+    //         'Maret',
+    //         'April',
+    //         'Mei',
+    //         'Juni',
+    //         'Juli',
+    //         'Agustus',
+    //         'September',
+    //         'Oktober',
+    //         'November',
+    //         'Desember'
+    //     );
+    //     $pecahkan = explode('/', $tanggal);
+        
+    //     return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+    // }
 
     public function addPegawai(){
-        
+        // $this->form_validation->set_rules('nama_pegawai', 'Nama Pegawai', 'required');
+        // $this->form_validation->set_rules('nip_pegawai', 'NIP Pegawai', 'required');
+        // $this->form_validation->set_rules('bidang', 'Bidang Pegawai', 'required');
+        // $this->form_validation->set_rules('pangkat', 'Pangkat Pegawai', 'required');
+        // $this->form_validation->set_rules('golongan', 'Golongan Pegawai', 'required');
+        // $this->form_validation->set_rules('jabatan_pegawai', 'Jabatan Pegawai', 'required');
+        // $this->form_validation->set_rules('tanggal', 'Tanggal Lahir Pegawai', 'required');
+        // $this->form_validation->set_rules('tingkat_pegawai', 'Tingkat Pegawai', 'required');
+        // $no_flight = $this->input->post('no_flight');
+        $nama = $this->input->post('nama_pegawai');
+        $nip = $this->input->post('nip_pegawai');
+        $bidang = $this->input->post('bidang');
+        $pangkat = $this->input->post('pangkat');
+        $golongan = $this->input->post('golongan');
+        $jabatan = $this->input->post('jabatan_pegawai');
+        $tanggallahir = $this->input->post('tanggal');
+        $tingkat = $this->input->post('tingkat_pegawai');
+        $tempBidang = 0;
+        if($bidang == "SEKRETARIAT"){
+            $tempBidang = 2;
+        }elseif($bidang == "MUTASI"){
+            $tempBidang = 3;
+        }elseif($bidang == "PKFP"){
+            $tempBidang = 4;
+        }elseif($bidang == "PKP"){
+            $tempBidang = 5;
+        }
+        $data_insert = array(
+            'NIP' => $nip,
+            'ID_BIDANG' => $tempBidang,
+            'NAMA' => $nama,
+            'PANGKAT' => $pangkat,
+            'GOLONGAN' => $golongan,
+            'JABATAN' => $jabatan,
+            'TANGGALLAHIR' => $tanggallahir,
+            'TINGKAT' => $tingkat,
+        );
+        $this->data_model->insertPegawai($data_insert);
+        $this->session->set_flashdata('tambahPegawai', '<div class="alert alert-success" role="alert">
+        Tambah Pegawai Berhasil!</div>');
+        $this->daftarpegawai();
     }
 
 
@@ -732,23 +786,33 @@ class sppdController extends CI_Controller
         }
     }
 
-    function penyebut($nilai) {
-        $nilai = abs($nilai);
-        $huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
-        $temp = "";
-        if ($nilai < 12) {
-            $temp = " ". $huruf[$nilai];
-        } else if ($nilai <20) {
-            $temp = $this->penyebut($nilai - 10). " belas";
-        } else if ($nilai < 100) {
-            $temp = $this->penyebut($nilai/10)." puluh". $this->penyebut($nilai % 10);
-        } else if ($nilai < 200) {
-            $temp = " seratus" . $this->penyebut($nilai - 100);
-        } else if ($nilai < 1000) {
-            $temp = $this->penyebut($nilai/100) . " ratus" . $this->penyebut($nilai % 100);
-        }     
-        return $temp;
-    }
+	function penyebut($nilai) {
+		$nilai = abs($nilai);
+		$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+		$temp = "";
+		if ($nilai < 12) {
+			$temp = " ". $huruf[$nilai];
+		} else if ($nilai <20) {
+			$temp = $this->penyebut($nilai - 10). " belas";
+		} else if ($nilai < 100) {
+			$temp = $this->penyebut($nilai/10)." puluh". $this->penyebut($nilai % 10);
+		} else if ($nilai < 200) {
+			$temp = " seratus" . $this->penyebut($nilai - 100);
+		} else if ($nilai < 1000) {
+			$temp = $this->penyebut($nilai/100) . " ratus" . $this->penyebut($nilai % 100);
+		} else if ($nilai < 2000) {
+			$temp = " seribu" . $this->penyebut($nilai - 1000);
+		} else if ($nilai < 1000000) {
+			$temp = $this->penyebut($nilai/1000) . " ribu" . $this->penyebut($nilai % 1000);
+		} else if ($nilai < 1000000000) {
+			$temp = $this->penyebut($nilai/1000000) . " juta" . $this->penyebut($nilai % 1000000);
+		} else if ($nilai < 1000000000000) {
+			$temp = $this->penyebut($nilai/1000000000) . " milyar" . $this->penyebut(fmod($nilai,1000000000));
+		} else if ($nilai < 1000000000000000) {
+			$temp = $this->penyebut($nilai/1000000000000) . " trilyun" . $this->penyebut(fmod($nilai,1000000000000));
+		}     
+		return $temp;
+	}
  
     function terbilang($nilai) {
         if($nilai<0) {
@@ -759,4 +823,153 @@ class sppdController extends CI_Controller
         return $hasil;
     }
 
+
+    function hapusRincian(){
+        $idrincian = $this->input->post('idrincian');
+        $idsppd = $this->input->post('idsppd');
+        $idpeserta = $this->input->post('idpeserta');
+        
+        $where = array('ID_RINCIAN' => $idrincian);
+        $this->data_model->delete($where,'rincian');
+        $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-danger" role="alert">
+        Data rincian berhasil dihapus </div>');
+        redirect('sppdController/rincian/'.$idsppd);
+    }
+    function hapusTransportasi(){
+        $idrincian = $this->input->post('idrincian');
+        $idsppd = $this->input->post('idsppd');
+        $idpeserta = $this->input->post('idpeserta');
+
+        $where = array('ID_RINCIAN' => $idrincian);
+        $this->data_model->delete($where,'rincian');
+        $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-danger" role="alert">
+        Data transportasi berhasil dihapus </div>');
+        redirect('sppdController/rincian/'.$idsppd);
+    }
+    function exportRinciana($id){
+        $data = $this->data_model->exportDataRincian($id);
+        print_r($data);
+    }
+    function exportRincian($id){
+        $data = $this->data_model->exportDataRincian($id);
+        $bendahara = $this->data_model->getPegawai_Jabatan('Bendahara');
+        $kepala = $this->data_model->getPegawai_Jabatan('Kepala');
+        $sppd = $this->data_model->getSPPD($id);
+
+        $reader = IOFactory::createReader('Xls');
+        $spreadsheet = $reader->load('template/rincian_temp.xls');
+        $currentContentRow = 9;
+        $spreadsheet->getActiveSheet()->getStyle('A1:A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $spreadsheet->getActiveSheet()->setCellValue('A1',"RINCIAN BIAYA PERJALANAN DINAS ".$sppd[0]->KATEGORI);
+        $spreadsheet->getActiveSheet()->setCellValue('A2',$sppd[0]->DASAR);
+        
+        //ttd Bendahara
+        $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+31), $kepala[0]->NAMA);
+        $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+33), $kepala[0]->NIP);
+        
+        //ttd Kepala
+        $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+15), $bendahara[0]->NAMA);
+        $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+16), $bendahara[0]->NIP);
+        $clonedWorksheet = clone $spreadsheet->getSheetByName('Sheet1');
+        
+        $temp_spreadsheet = new Spreadsheet();
+        $temp_spreadsheet->addSheet($clonedWorksheet,0);
+        
+        $count =1;  // untuk menyimpan nomor pada tiap table rincian
+        $cur=0;  // untuk membedakan baris pertama adalah jenis transportasi jika dirincian ada transportasi
+        $pst = ""; // menyimpan kode peserta ditiap pergantian kode peserta
+        $n_org = 0; // menyimpan jumlah org ditiap pergantian peserta
+        $trp=0; // sebagai boolean apakah ada jenis transportasi atau tidak
+        $i = 0; //  sebagai indeks array-sheet objek
+        foreach ($data as $value) {
+            $spreadsheet->getActiveSheet()->insertNewRowBefore($currentContentRow+1,1);
+            if($pst!=$value->ID_PESERTA){
+                $spreadsheet->getActiveSheet()->removeRow($currentContentRow, 1);
+                $pst = $value->ID_PESERTA;
+                $n_org++;
+                if($n_org==1){
+                    $spreadsheet->setActiveSheetIndex(0);
+                    $spreadsheet->getActiveSheet()->setTitle('rincian '.$value->NIP);
+                    $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+15), $value->NAMA);
+                    $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+16), $value->NIP);
+                    
+                } else{
+                        $arr_sheet [] = clone $temp_spreadsheet->getSheet(0);
+                        $currentContentRow = 9;
+                        $arr_sheet[$i]->setTitle('rincian '.$value->NIP);
+                        $arr_sheet[$i]->setCellValue('K'.($currentContentRow+15), $value->NAMA);
+                        $arr_sheet[$i]->setCellValue('K'.($currentContentRow+16), $value->NIP);
+                        $spreadsheet->addSheet($arr_sheet[$i],$n_org-1);
+                        $spreadsheet->setActiveSheetIndex($n_org-1);				
+                    $count=1;
+                    $cur=0;
+                    $trp=0;
+                    $i++;
+                }
+            }
+            if($value->JENIS =='Transportasi'){
+                if($cur==0){
+                    $spreadsheet->getActiveSheet()->setCellValue('A'.$currentContentRow, $count);
+                    $count++;
+                    $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->JENIS);
+                    $spreadsheet->getActiveSheet()->insertNewRowBefore($currentContentRow+1,1);
+                    $currentContentRow++;
+                    $cur++;
+                    $trp=1;
+                }
+                $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->TMP_BERANGKAT.' - '.$value->TMP_TUJUAN);
+                $spreadsheet->getActiveSheet()->setCellValue('D'.$currentContentRow, '1');
+                $spreadsheet->getActiveSheet()->setCellValue('E'.$currentContentRow, 'org');
+                $spreadsheet->getActiveSheet()->setCellValue('F'.$currentContentRow, 'x');
+                $spreadsheet->getActiveSheet()->setCellValue('G'.$currentContentRow, $value->JUMLAH);
+                $spreadsheet->getActiveSheet()->setCellValue('H'.$currentContentRow, 'kali');
+                $spreadsheet->getActiveSheet()->setCellValue('I'.$currentContentRow, 'x');
+                $spreadsheet->getActiveSheet()->setCellValue('J'.$currentContentRow, $value->HARGA);
+                $spreadsheet->getActiveSheet()->setCellValue('K'.$currentContentRow, '='.$value->JUMLAH * $value->HARGA);
+                if(!$value->NO_TIKET){
+                    $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->KETERANGAN.' '.$value->TMP_BERANGKAT.' '.$value->TMP_KEMBALI);
+                } else{
+                    $spreadsheet->getActiveSheet()->setCellValue('L'.$currentContentRow, $value->KETERANGAN);
+                }
+                $currentContentRow++;
+            } else{
+                if($trp==1){
+                    $spreadsheet->getActiveSheet()->insertNewRowBefore($currentContentRow,1);
+                    $currentContentRow++;
+                }
+                $spreadsheet->getActiveSheet()->setCellValue('A'.$currentContentRow, $count);
+                $count++;
+        
+                if($value->JENIS =='Penginapan'){
+                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentContentRow, 'mlm');
+                } else{
+                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentContentRow, 'hari');
+                }
+        
+                $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->JENIS);
+                $spreadsheet->getActiveSheet()->setCellValue('D'.$currentContentRow, '1');
+                $spreadsheet->getActiveSheet()->setCellValue('E'.$currentContentRow, 'org');
+                $spreadsheet->getActiveSheet()->setCellValue('F'.$currentContentRow, 'x');
+                $spreadsheet->getActiveSheet()->setCellValue('G'.$currentContentRow, $value->JUMLAH);
+                $spreadsheet->getActiveSheet()->setCellValue('I'.$currentContentRow, 'x');
+                $spreadsheet->getActiveSheet()->setCellValue('J'.$currentContentRow, $value->HARGA);
+                $spreadsheet->getActiveSheet()->setCellValue('K'.$currentContentRow, '='.$value->JUMLAH*$value->HARGA);
+                $spreadsheet->getActiveSheet()->setCellValue('L'.$currentContentRow, $value->KETERANGAN);
+                $currentContentRow++;			
+            }
+            $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+1), '=SUM(K9:K'.$currentContentRow.')');
+            $terbilang = $spreadsheet->getActiveSheet()->getCell('K'.($currentContentRow+1))->getCalculatedValue();
+            $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+2), 'Terbilang :'.$this->terbilang($terbilang).' rupiah');
+        
+        }
+        
+        header('Content-Type: application/vnd.openxmlformat-officedocument.spreadsheetml.sheet');
+        
+        header('Content-Disposition: attachment;filename="rincian.xlsx"');
+        
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        
+        $writer->save('php://output');
+        
+    }
 }
