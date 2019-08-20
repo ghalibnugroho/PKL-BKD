@@ -150,6 +150,16 @@ class data_model extends CI_Model
         return $this->db->select('*')->from('pegawai')->where('NIP',$nip)->get()->result();
     }
 
+    public function getNip_PPTK($id_sppd){
+        $query = $this->db->select('NIP_PPTK')
+        ->from('kegiatan')
+        ->join('sppd','sppd.KODE=kegiatan.KODE')
+        ->where('ID_SPPD',$id_sppd)
+        ->get();
+
+        return $query->result();
+    }
+
     public function getSPPD($id){
         $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, KATEGORI, LAMA, DASAR, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
             ->from('sppd')
@@ -251,18 +261,15 @@ class data_model extends CI_Model
         ->where('ID_SPPD', $id)
         ->order_by('peserta.SEBAGAI ASC , rincian.ID_PESERTA ASC')
         ->order_by("JENIS = 'Transportasi'",'DESC')
+        ->order_by("JENIS = 'Uang Harian'",'DESC')
+        ->order_by("JENIS = 'Uang Representatif'",'DESC')
+        ->order_by("JENIS = 'Penginapan'",'DESC')
         ->order_by("STATUS = 'Pergi'",'DESC')
+        ->order_by("STATUS = 'Pulang'",'DESC')
         ->order_by('rincian.ID_RINCIAN ASC')
         ->get();
         
         return $query->result();;
     }
 
-    function exportTTD(){
-        $query= $this->db->select('*')
-        ->from('pegawai')
-        ->where("JABATAN = 'Kepala' OR JABATAN = 'Bendahara'")
-        ->get();
-        return $query->result();
-    }
 }

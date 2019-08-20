@@ -165,7 +165,6 @@ require_once 'templates/session.php';
 
         <!-- /.container-fluid -->
 
-
       </div>
       <!-- End of Main Content -->
       <!-- Footer -->
