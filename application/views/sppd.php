@@ -45,7 +45,7 @@ require_once('templates/session.php');
                     <div class="row">
                       <div class="col-sm-7">
                         <label>Kegiatan</label>
-                        <select name="kegiatan" class="form-control sc-input-required" >
+                        <select required name="kegiatan" class="form-control sc-input-required" >
                         <option><?php echo $li->KODE?></option>
                         <?php foreach ($kegiatan as $keg) {
                           echo "<option>".$keg->NAMA_KEGIATAN."</option>";
@@ -58,7 +58,7 @@ require_once('templates/session.php');
                     <div class="row">
                       <div class="col-sm-4">
                         <label>Alat Angkut yang dipergunakan</label>
-                        <select name="alat_angkut" class="form-control sc-input-required">
+                        <select required name="alat_angkut" class="form-control sc-input-required">
                           <option><?php echo $li->ALAT_ANGKUT == null ? "--":$li->ALAT_ANGKUT; ?></option>
                           <option >Angkutan Dinas</option>
                           <option >Angkutan Umum</option>
@@ -72,12 +72,12 @@ require_once('templates/session.php');
                     <div class="row">
                     <div class="col-sm-3">
                         <label>Tempat Berangkat</label>
-                        <input type="text" id="tempat_berangkat"name="tempat_berangkat" class="form-control sc-input-required" 
+                        <input required type="text" id="tempat_berangkat"name="tempat_berangkat" class="form-control sc-input-required" 
                         value="<?php echo $li->TMP_BERANGKAT?>" placeholder="Tempat Berangkat">
                       </div>
                       <div class="col-sm-3">
                         <label>Tempat Tujuan</label>
-                        <input type="text" name="tempat_tujuan" class="form-control sc-input-required" 
+                        <input required type="text" name="tempat_tujuan" class="form-control sc-input-required" 
                         value="<?php echo $li->TMP_TUJUAN?>" placeholder="Tempat Tujuan">
                       </div>
                     </div>
@@ -86,11 +86,11 @@ require_once('templates/session.php');
                     <div class="row">
                       <div class="col-sm-3">
                         <label>Tgl Berangkat</label>
-                        <input type="text" name="tgl_berangkat" class="input-tanggal form-control sc-input-required sc-date" value="<?php echo $li->TGL_BERANGKAT?>" placeholder="Tgl Berangkat">
+                        <input required type="text" name="tgl_berangkat" class="input-tanggal form-control sc-input-required sc-date" value="<?php echo $li->TGL_BERANGKAT?>" placeholder="Tgl Berangkat">
                       </div>
                       <div class=" col-sm-3">
                         <label>Tgl Kembali</label>
-                        <input type="text" name="tgl_kembali" class="input-tanggal form-control sc-input-required sc-date" value="<?php echo $li->TGL_KEMBALI?>" placeholder="Tgl Kembali">
+                        <input required type="text" name="tgl_kembali" class="input-tanggal form-control sc-input-required sc-date" value="<?php echo $li->TGL_KEMBALI?>" placeholder="Tgl Kembali">
                       </div>
                     </div>
                   </div>
@@ -98,7 +98,7 @@ require_once('templates/session.php');
                     <div class="row">
                       <div class="col-sm-4">
                         <label>Kategori</label>
-                        <select name="kategori" class="form-control sc-input-required">
+                        <select required name="kategori" class="form-control sc-input-required">
                           <option><?php echo $li->KATEGORI == null ? "--":$li->KATEGORI; ?></option>
                           <option >Dinas Dalam</option>
                           <option >Dinas Luar</option>
@@ -110,7 +110,7 @@ require_once('templates/session.php');
                     <div class="row">
                       <div class="col-sm-4">
                         <label>Instansi Tujuan</label>
-                        <input type="text" name="instansi" class="form-control sc-input-required" placeholder="Instansi Tujuan"
+                        <input required type="text" name="instansi" class="form-control sc-input-required" placeholder="Instansi Tujuan"
                         value="<?php echo $li->INSTANSI?>">
                       </div>
                     </div>

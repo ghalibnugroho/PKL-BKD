@@ -376,9 +376,10 @@ class sppdController extends CI_Controller
         $this->data_model->insertData('rincian', $data);
         $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-success" role="alert">
         Data berhasil diupdate </div>');
-        redirect('sppdController/rincian/'.$idsppd);
+        redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
     function tambahRincian(){
+        $this->form_validation->set_rules('jumlah', 'jumlah', 'required');
         $idsppd = $this->input->post('idsppd');
         $idpeserta = $this->input->post('idpeserta');
         $jenis = $this->input->post('jenis');
@@ -401,7 +402,7 @@ class sppdController extends CI_Controller
         $this->data_model->insertData('rincian', $data);
         $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-success" role="alert">
         Data berhasil diupdate </div>');
-        redirect('sppdController/rincian/'.$idsppd);
+        redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
     function editTransportasi(){
         $idrincian = $this->input->post('idrincian');
@@ -441,7 +442,7 @@ class sppdController extends CI_Controller
         $this->data_model->update($where,'rincian',$data);
         $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-success" role="alert">
         Data berhasil diupdate </div>');
-        redirect('sppdController/rincian/'.$idsppd);
+        redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
     function editRincian(){
         $idrincian = $this->input->post('idrincian');
@@ -468,7 +469,7 @@ class sppdController extends CI_Controller
         $this->data_model->update($where,'rincian',$data);
         $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-success" role="alert">
         Data berhasil diupdate </div>');
-        redirect('sppdController/rincian/'.$idsppd);
+        redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
 
     public function exportST($id)
@@ -833,7 +834,7 @@ class sppdController extends CI_Controller
         $this->data_model->delete($where,'rincian');
         $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-danger" role="alert">
         Data rincian berhasil dihapus </div>');
-        redirect('sppdController/rincian/'.$idsppd);
+        redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
     function hapusTransportasi(){
         $idrincian = $this->input->post('idrincian');
@@ -844,7 +845,7 @@ class sppdController extends CI_Controller
         $this->data_model->delete($where,'rincian');
         $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-danger" role="alert">
         Data transportasi berhasil dihapus </div>');
-        redirect('sppdController/rincian/'.$idsppd);
+        redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
     function exportRinciana($id){
         $data = $this->data_model->exportDataRincian($id);

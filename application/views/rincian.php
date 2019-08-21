@@ -25,7 +25,7 @@ require_once 'templates/session.php';
           <?php foreach ($peserta as $p) {
             
           ?>
-          <div class="card shadow mb-4">
+          <div class="card shadow mb-4" id="peserta<?php echo $p->ID_PESERTA ?>">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary"><?php echo $p->NAMA?></h6>
                 </div>
@@ -330,6 +330,7 @@ require_once 'templates/session.php';
                           <div class="col-sm-8">
                             <label>Jenis</label>
                             <select class="form-control sc-input-required" name="jenis">
+                              <option> -- </option>
                               <option>Uang Harian</option>
                               <option>Uang Representatif</option>
                               <option>Penginapan</option>
@@ -345,14 +346,13 @@ require_once 'templates/session.php';
                         <div class="row">
                           <div class="col-sm-5">
                             <label>Jumlah</label>
-                            <input type="number" min="1" max ="99" step="any" name="jumlah" class=" form-control sc-input-required" placeholder="0">
+                            <input type="number" min="1" max ="99" required step="any" name="jumlah" class=" form-control sc-input-required" placeholder="0">
                           </div>
                           <div class="col-sm-5">
-                            <label>Harga</label>  
+                            <label>Harga per item</label>  
                             <span class="input-group-addon">
-                              <i class="fa fa-eur">tes</i>
                             </span>
-                            <input type="number" min="1" step="any" name="harga" class="form-control sc-input-required" placeholder="Rp.">
+                            <input type="number" min="1" step="any" required name="harga" class="form-control sc-input-required" placeholder="Rp.">
                           </div>
                         </div>
                       </div>
@@ -553,9 +553,8 @@ require_once 'templates/session.php';
                               <input type="number" min="1" max ="99" step="any" name="jumlah" class=" form-control sc-input-required" placeholder="0" value="<?php echo $li->JUMLAH;?>">
                             </div>
                             <div class="col-sm-5">
-                              <label>Harga</label>  
+                              <label>Harga per item</label>  
                               <span class="input-group-addon">
-                                <i class="fa fa-eur">tes</i>
                               </span>
                               <input type="number" min="1" step="any" name="harga" class="form-control sc-input-required" placeholder="Rp." value="<?php echo $li->HARGA;?>">
                             </div>
@@ -637,5 +636,16 @@ require_once 'templates/session.php';
         response(results.slice(0, 10));
     }
   });
+
+    if(window.location.hash) {
+    var hash = window.location.hash;
+
+    $('html, body').animate({
+      scrollTop: $(hash).offset().top
+    }, 1500, 'swing');
+  }
+  var timeout = 4000; // in miliseconds (3*1000)
+
+  $('.alert').delay(timeout).fadeOut(500);
 </script>
 </html>

@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <input type="hidden" name="id" value="<?php echo $d->ID_ST; ?>">
+                                    <input type="hidden" required name="id" value="<?php echo $d->ID_ST; ?>">
                                     <label>Tanggal pembuatan surat</label>
                                     <input type="text" name="tanggal"
                                     class="input-tanggal form-control sc-input-required sc-date tanggal" value="<?php echo $d->TANGGAL; ?>"
@@ -50,14 +50,14 @@
                         </div>
                         <div class="form-group">
                             <label>Dasar</label>
-                            <textarea rows="2" cols="" name="dasar" 
+                            <textarea required rows="2" cols="" name="dasar" 
                             class="form-control  sc-input-required"><?php echo $d->DASAR ;?></textarea>
                         </div>
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-4">
                             <label>Pegawai yang diperintah</label>
-                              <input type="text" name="diperintah" value="<?php echo $peserta[0]->NAMA;
+                              <input required type="text" name="diperintah" value="<?php echo $peserta[0]->NAMA;
                               ?>" class=" diperintah form-control sc-input-required" >
                             </div> 
                           </div> 
@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-group">
                             <label>Untuk</label>
-                            <textarea rows="2" cols="130" name="untuk"
+                            <textarea required  rows="2" cols="130" name="untuk"
                             class="form-control  sc-input-required"><?php echo $d->TUJUAN; ?></textarea>
                         </div>
 
