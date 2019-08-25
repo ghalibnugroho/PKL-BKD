@@ -197,7 +197,7 @@ class sppdController extends CI_Controller
         );
         $this->data_model->insertPegawai($data_insert);
         $this->session->set_flashdata('tambahPegawai', '<div class="alert alert-success" role="alert">
-        Tambah Pegawai Berhasil!</div>');
+        <b>Sukses! </b>Tambah Pegawai Berhasil!</div>');
         $this->daftarpegawai();
     }
 
@@ -234,7 +234,7 @@ class sppdController extends CI_Controller
         $where = array('ID_SPPD' => $id);
         $this->data_model->update($where,'sppd',$data_insert);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-        Data berhasil diupdate </div>');
+        <b>Sukses! </b>Data berhasil diupdate </div>');
         $this->listsppd();
     }
 
@@ -275,7 +275,7 @@ class sppdController extends CI_Controller
             $this->data_model->insertPeserta($data_diperintah);
         }
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-        Data berhasil dimasukkan </div>');
+        <b>Sukses! </b>Data berhasil dimasukkan </div>');
         $this->listst();
     }
 
@@ -315,7 +315,7 @@ class sppdController extends CI_Controller
             $this->data_model->insertPeserta($data_diperintah);
         }
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-        Data berhasil diupdate </div>');
+        <b>Sukses! </b>Data berhasil diupdate </div>');
         $this->listst();
     }
     public function readST($id)
@@ -331,8 +331,8 @@ class sppdController extends CI_Controller
     {
         $where = array('ID_ST' => $id);
         $this->data_model->delete($where,'surattugas');
-        $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-        Surat tugas berhasil dihapus </div>');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        <b>Sukses! </b>Surat tugas berhasil dihapus </div>');
 		$this->listst();
     }
 
@@ -375,7 +375,7 @@ class sppdController extends CI_Controller
         );
         $this->data_model->insertData('rincian', $data);
         $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-success" role="alert">
-        Data berhasil diupdate </div>');
+        <b>Sukses! </b>Data berhasil diupdate </div>');
         redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
     function tambahRincian(){
@@ -401,7 +401,7 @@ class sppdController extends CI_Controller
         );
         $this->data_model->insertData('rincian', $data);
         $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-success" role="alert">
-        Data berhasil diupdate </div>');
+        <b>Sukses! </b>Data berhasil diupdate </div>');
         redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
     function editTransportasi(){
@@ -441,7 +441,7 @@ class sppdController extends CI_Controller
         $where = array('ID_RINCIAN' => $idrincian);
         $this->data_model->update($where,'rincian',$data);
         $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-success" role="alert">
-        Data berhasil diupdate </div>');
+        <b>Sukses! </b>Data berhasil diupdate </div>');
         redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
     function editRincian(){
@@ -468,7 +468,7 @@ class sppdController extends CI_Controller
         $where = array('ID_RINCIAN' => $idrincian);
         $this->data_model->update($where,'rincian',$data);
         $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-success" role="alert">
-        Data berhasil diupdate </div>');
+        <b>Sukses! </b>Data berhasil diupdate </div>');
         redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
 
@@ -832,8 +832,8 @@ class sppdController extends CI_Controller
         
         $where = array('ID_RINCIAN' => $idrincian);
         $this->data_model->delete($where,'rincian');
-        $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-danger" role="alert">
-        Data rincian berhasil dihapus </div>');
+        $this->session->set_flashdata('rincian'.$idpeserta, '<div class="alert alert-success" role="alert">
+        <b>Sukses! </b>Data rincian berhasil dihapus </div>');
         redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
     function hapusTransportasi(){
@@ -843,8 +843,8 @@ class sppdController extends CI_Controller
 
         $where = array('ID_RINCIAN' => $idrincian);
         $this->data_model->delete($where,'rincian');
-        $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-danger" role="alert">
-        Data transportasi berhasil dihapus </div>');
+        $this->session->set_flashdata('transportasi'.$idpeserta, '<div class="alert alert-success" role="alert">
+        <b>Sukses! </b>Data transportasi berhasil dihapus </div>');
         redirect('sppdController/rincian/'.$idsppd.'#peserta'.$idpeserta);
     }
     function exportRinciana($id){
