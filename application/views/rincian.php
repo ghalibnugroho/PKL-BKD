@@ -534,11 +534,11 @@ require_once 'templates/session.php';
                             <div class="col-sm-8">
                               <label>Jenis</label>
                               <select class="form-control sc-input-required" name="jenis" value="<?php echo $li->JENIS;?>">
-                                <option>Uang Harian</option>
-                                <option>Uang Representatif</option>
-                                <option>Penginapan</option>
-                                <option>BBM</option>
-                                <option>Tol</option>
+                                <option <?php echo $li->JENIS=='Uang Harian'?'selected':NULL;?>>Uang Harian</option>
+                                <option <?php echo $li->JENIS=='Uang Representatif'?'selected':NULL;?>>Uang Representatif</option>
+                                <option <?php echo $li->JENIS=='Penginapan'?'selected':NULL;?>>Penginapan</option>
+                                <option <?php echo $li->JENIS=='BBM'?'selected':NULL;?>>BBM</option>
+                                <option <?php echo $li->JENIS=='Tol'?'selected':NULL;?>>Tol</option>
                               </select>
                                 
                             </div>
