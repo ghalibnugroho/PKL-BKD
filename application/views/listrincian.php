@@ -70,7 +70,7 @@
               </div>
             </div>
           </div>
-
+                    
         </div>
         <!-- /.container-fluid -->
 
@@ -111,9 +111,30 @@
       </div>
     </div>
   </div>
+  <select>
+  <option>Choose Your Name</option>
+  <option>Frank</option>
+  <option>George</option>
+  <option>Other</option>
+</select>
+<label id="tes" style="display:none;">Enter your Name
+<input>
+</label>
 
 
 
 </body>
 
 </html>
+<script>
+  $(document).ready(function(){
+    $('select').change(function(){
+        if($('select option:selected').text() == "George"){
+        $('#tes').show();
+        }
+        else{
+        $('#tes').hide();
+        }
+    })
+});
+</script>

@@ -64,7 +64,7 @@ require_once 'templates/session.php';
                             <tbody>
                               <?php $count = 0;
                               foreach ($list as $li) {
-                                if (($li->JENIS == 'Transportasi')&& ($li->ID_PESERTA == $p->ID_PESERTA)) {
+                                if (($li->JENIS == 'Transportasi')&& ($li->ID_PESERTA == $p->ID_PESERTA) && ($li->NO_TIKET)) {
                                   echo "                                
                                   <tr>
                                   <td>".$li->NO_TIKET."</td>
@@ -128,7 +128,7 @@ require_once 'templates/session.php';
                             <?php
                                 $count2=0;
                                 foreach ($list as $li) {
-                                  if (($li->JENIS != 'Transportasi') && ($li->ID_PESERTA == $p->ID_PESERTA)) {
+                                  if ((!$li->NO_TIKET) && ($li->ID_PESERTA == $p->ID_PESERTA)) {
                                     $bukti = $li->BUKTI_PEMBAYARAN ? "Ada":"Tidak ada";
                                     echo "
                                     <tr>
@@ -201,6 +201,16 @@ require_once 'templates/session.php';
       </div>
     </div>
   </div>
+  <select>
+  <option>Choose Your Name</option>
+  <option>Frank</option>
+  <option>George</option>
+  <option>Other</option>
+</select>
+<label id="tes" style="display:none;">Enter your Name
+<input>
+</label>
+
 
 </body>
   <?php 
@@ -335,7 +345,6 @@ require_once 'templates/session.php';
                               <option>BBM</option>
                               <option>Tol</option>
                             </select>
-                              
                           </div>
                         </div>
                       </div>
@@ -381,7 +390,7 @@ require_once 'templates/session.php';
   ?>
   <?php
     foreach ($list as $li) {
-      if ($li->JENIS == 'Transportasi') {
+      if ($li->NO_TIKET!=NULL) {
           ?>
         <!-- Edit Transportasi Modal-->
         <div class="modal fade " id="editTransportasi<?php echo $li->ID_RINCIAN?>" tabindex="-1" role="dialog"  aria-hidden="true">
@@ -531,48 +540,46 @@ require_once 'templates/session.php';
                         </div>
                         <div class="form-group">
                           <div class="row">
-                            <div class="col-sm-8">
+                            <div class="col-sm-5">
                               <label>Jenis</label>
-                              <select class="form-control sc-input-required" name="jenis" value="<?php echo $li->JENIS;?>">
-                                <option <?php echo $li->JENIS=='Uang Harian'?'selected':NULL;?>>Uang Harian</option>
-                                <option <?php echo $li->JENIS=='Uang Representatif'?'selected':NULL;?>>Uang Representatif</option>
-                                <option <?php echo $li->JENIS=='Penginapan'?'selected':NULL;?>>Penginapan</option>
-                                <option <?php echo $li->JENIS=='BBM'?'selected':NULL;?>>BBM</option>
-                                <option <?php echo $li->JENIS=='Tol'?'selected':NULL;?>>Tol</option>
-                              </select>
-                                
+                              <input type="text" name="jenis" class="form-control sc-input-required" placeholder="Jenis" value="<?php echo $li->JENIS?>" list="jenis" required>
+                              <datalist id="jenis">
+                                <option >Uang Harian</option>
+                                <option >Uang Representatif</option>
+                                <option >Penginapan</option>
+                                <option >Transportasi</option>
+                              </datalist>
                             </div>
                           </div>
                         </div>
-
                         <div class="form-group input-group">
                           <div class="row">
                             <div class="col-sm-5">
                               <label>Jumlah</label>
-                              <input type="number" min="1" max ="99" step="any" name="jumlah" class=" form-control sc-input-required" placeholder="0" value="<?php echo $li->JUMLAH;?>">
+                              <input type="number" id="jumlah" min="1" max ="99" step="any" name="jumlah" class=" form-control sc-input-required" placeholder="0" value="<?php echo $li->JUMLAH;?>">
                             </div>
                             <div class="col-sm-5">
                               <label>Harga</label>  
                               <span class="input-group-addon">
                                 <i class="fa fa-eur">tes</i>
                               </span>
-                              <input type="number" min="1" step="any" name="harga" class="form-control sc-input-required" placeholder="Rp." value="<?php echo $li->HARGA;?>">
+                              <input type="number" min="1" id="harga" step="any" name="harga" class="form-control sc-input-required" placeholder="Rp." value="<?php echo $li->HARGA;?>">
                             </div>
                           </div>
                         </div>
                         <div class="form-group">
-                          <input type="checkbox" name="bukti" class="checkbox" value="1"<?php echo $retVal = ($li->BUKTI_PEMBAYARAN == 1) ? 'checked' : '' ;?>>
+                          <input type="checkbox" name="bukti" id="bukti" class="checkbox" value="1"<?php echo $retVal = ($li->BUKTI_PEMBAYARAN == 1) ? 'checked' : '' ;?>>
                           <label>Bukti Pembayaran</label>
                           
                         </div>
                         <div class="form-group">
-                          <label>Keterangan &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
+                          <label>Keterangan &nbsp;&nbsp;<small id="keterangan" style="opacity:.7"><i>(optional - nama hotel, bbm, tol, dll)</i></small></label>
                           <input type="text" name="keterangan" class="form-control" placeholder="Keterangan" value="<?php echo $li->KETERANGAN?>">
                         </div>
                         <div class="modal-footer">
-                          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                          <button class="btn btn-secondary" id="cancel" type="button" data-dismiss="modal">Cancel</button>
                           <input type="submit" value="Simpan" class="btn btn-primary">
-                        </div>
+                        </div>  
                         </form>
                       </div>
                 </button>
@@ -603,7 +610,8 @@ require_once 'templates/session.php';
               </div>
             </div>
           </div>
-        </div> 
+        </div>
+
         <?php
     
       }
