@@ -100,8 +100,8 @@ require_once('templates/session.php');
                         <label>Kategori</label>
                         <select required name="kategori" class="form-control sc-input-required">
                           <option><?php echo $li->KATEGORI == null ? "--":$li->KATEGORI; ?></option>
-                          <option >Dinas Dalam</option>
-                          <option >Dinas Luar</option>
+                          <option >DALAM DAERAH</option>
+                          <option >LUAR DAERAH</option>
                         </select>
                       </div>
                     </div>

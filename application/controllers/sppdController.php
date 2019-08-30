@@ -385,7 +385,7 @@ class sppdController extends CI_Controller
         $jenis = $this->input->post('jenis');
         $jumlah = $this->input->post('jumlah');
         $harga = $this->input->post('harga');
-        $bukti = $this->input->post('bukti');
+        $bukti = $this->input->post('bukti')?1:0;
         $total = $jumlah*$harga;
         $keterangan = $this->input->post('keterangan');
 
@@ -859,15 +859,17 @@ class sppdController extends CI_Controller
         $currentContentRow = 9;
         $spreadsheet->getActiveSheet()->getStyle('A1:A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $spreadsheet->getActiveSheet()->setCellValue('A1',"RINCIAN BIAYA PERJALANAN DINAS ".$sppd[0]->KATEGORI);
+
         $spreadsheet->getActiveSheet()->setCellValue('A2',$sppd[0]->DASAR);
         
-        //ttd Bendahara
-        $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+31), $kepala[0]->NAMA);
-        $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+33), $kepala[0]->NIP);
+        //ttd kepala
+        $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+32), $kepala[0]->NAMA);
+        $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+33), $kepala[0]->PANGKAT);
+        $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+34), 'NIP. '.$this->konversi_nip($kepala[0]->NIP));
         
-        //ttd Kepala
-        $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+15), $bendahara[0]->NAMA);
-        $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+16), $bendahara[0]->NIP);
+        //ttd bendahara
+        $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+16), $bendahara[0]->NAMA);
+        $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+17), 'NIP. '.$this->konversi_nip($bendahara[0]->NIP));
         $clonedWorksheet = clone $spreadsheet->getSheetByName('Sheet1');
         
         $temp_spreadsheet = new Spreadsheet();
@@ -885,18 +887,19 @@ class sppdController extends CI_Controller
                 $spreadsheet->getActiveSheet()->removeRow($currentContentRow, 1);
                 $pst = $value->ID_PESERTA;
                 $n_org++;
+                $terbilang =0;
                 if($n_org==1){
                     $spreadsheet->setActiveSheetIndex(0);
                     $spreadsheet->getActiveSheet()->setTitle('rincian '.$value->NIP);
-                    $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+15), $value->NAMA);
-                    $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+16), $value->NIP);
+                    $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+16), $value->NAMA);
+                    $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+17), 'NIP. '.$this->konversi_nip($value->NIP));
                     
                 } else{
                         $arr_sheet [] = clone $temp_spreadsheet->getSheet(0);
                         $currentContentRow = 9;
                         $arr_sheet[$i]->setTitle('rincian '.$value->NIP);
-                        $arr_sheet[$i]->setCellValue('K'.($currentContentRow+15), $value->NAMA);
-                        $arr_sheet[$i]->setCellValue('K'.($currentContentRow+16), $value->NIP);
+                        $arr_sheet[$i]->setCellValue('K'.($currentContentRow+16), $value->NAMA);
+                        $arr_sheet[$i]->setCellValue('K'.($currentContentRow+17), 'NIP. '.$this->konversi_nip($value->NIP));
                         $spreadsheet->addSheet($arr_sheet[$i],$n_org-1);
                         $spreadsheet->setActiveSheetIndex($n_org-1);				
                     $count=1;
@@ -904,6 +907,9 @@ class sppdController extends CI_Controller
                     $trp=0;
                     $i++;
                 }
+                $height_row = ceil(strlen($sppd[0]->DASAR)/95)*15;
+                $spreadsheet->getActiveSheet()->getRowDimension(2)->setRowHeight($height_row);
+        
             }
             if($value->JENIS =='Transportasi'){
                 if($cur==0){
@@ -923,13 +929,14 @@ class sppdController extends CI_Controller
                 $spreadsheet->getActiveSheet()->setCellValue('H'.$currentContentRow, 'kali');
                 $spreadsheet->getActiveSheet()->setCellValue('I'.$currentContentRow, 'x');
                 $spreadsheet->getActiveSheet()->setCellValue('J'.$currentContentRow, $value->HARGA);
-                $spreadsheet->getActiveSheet()->setCellValue('K'.$currentContentRow, '='.$value->JUMLAH * $value->HARGA);
+                $spreadsheet->getActiveSheet()->setCellValue('K'.$currentContentRow, '='.$value->TOTAL);
                 if(!$value->NO_TIKET){
-                    $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->KETERANGAN.' '.$value->TMP_BERANGKAT.' '.$value->TMP_KEMBALI);
+                    $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->KETERANGAN.' '.$value->TMP_BERANGKAT.' '.$value->TMP_TUJUAN);
                 } else{
                     $spreadsheet->getActiveSheet()->setCellValue('L'.$currentContentRow, $value->KETERANGAN);
                 }
                 $currentContentRow++;
+                $terbilang += $value->TOTAL;
             } else{
                 if($trp==1){
                     $spreadsheet->getActiveSheet()->insertNewRowBefore($currentContentRow,1);
@@ -940,9 +947,11 @@ class sppdController extends CI_Controller
         
                 if($value->JENIS =='Penginapan'){
                     $spreadsheet->getActiveSheet()->setCellValue('H'.$currentContentRow, 'mlm');
-                } else{
+                } else if($value->JENIS =='Uang Harian' || $value->JENIS =='Uang Representatif'){
                     $spreadsheet->getActiveSheet()->setCellValue('H'.$currentContentRow, 'hari');
-                }
+                } else{
+                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentContentRow, 'kali');
+                } 
         
                 $spreadsheet->getActiveSheet()->setCellValue('B'.$currentContentRow, $value->JENIS);
                 $spreadsheet->getActiveSheet()->setCellValue('D'.$currentContentRow, '1');
@@ -954,11 +963,10 @@ class sppdController extends CI_Controller
                 $spreadsheet->getActiveSheet()->setCellValue('K'.$currentContentRow, '='.$value->JUMLAH*$value->HARGA);
                 $spreadsheet->getActiveSheet()->setCellValue('L'.$currentContentRow, $value->KETERANGAN);
                 $currentContentRow++;			
+                $terbilang += $value->TOTAL;
+
             }
-            $spreadsheet->getActiveSheet()->setCellValue('K'.($currentContentRow+1), '=SUM(K9:K'.$currentContentRow.')');
-            $terbilang = $spreadsheet->getActiveSheet()->getCell('K'.($currentContentRow+1))->getCalculatedValue();
-            $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+2), 'Terbilang :'.$this->terbilang($terbilang).' rupiah');
-        
+            $spreadsheet->getActiveSheet()->setCellValue('A'.($currentContentRow+3), 'Terbilang : '.$this->terbilang($terbilang).' rupiah');
         }
         
         header('Content-Type: application/vnd.openxmlformat-officedocument.spreadsheetml.sheet');
@@ -983,10 +991,14 @@ class sppdController extends CI_Controller
         $spreadsheet = $reader->load('template/nominatif_temp.xlsx');
         
         $spreadsheet->getActiveSheet()->setCellValue('A1',"DAFTAR NOMINATIF PERJALANAN DINAS".$sppd[0]->KATEGORI);
+        $spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+        $height_row = ceil(strlen($sppd[0]->DASAR)/200)*12;
+        $spreadsheet->getActiveSheet()->getRowDimension(2)->setRowHeight($height_row);
+        
         $spreadsheet->getActiveSheet()->setCellValue('A2',$sppd[0]->DASAR);
 
         $tanggal_berangkat = explode(' ',$this->tgl_indo($sppd[0]->TGL_BERANGKAT));
-        $tanggal_kembali = explode(' ',$this->tgl_indo($sppd[0]->TGL_BERANGKAT));
+        $tanggal_kembali = explode(' ',$this->tgl_indo($sppd[0]->TGL_KEMBALI));
         if($tanggal_berangkat[1]==$tanggal_kembali[1] && $tanggal_berangkat[0]!=$tanggal_kembali[0]){
             $tanggal_pelaksanaan = 'TANGGAL '.$tanggal_berangkat[0].' s.d. '.$tanggal_kembali[0].' '.$tanggal_kembali[1].' '.$tanggal_kembali[2];
         } else if($tanggal_berangkat[1]==$tanggal_kembali[1] && $tanggal_berangkat[0]==$tanggal_kembali[0]){
@@ -1000,14 +1012,14 @@ class sppdController extends CI_Controller
         $currentContentRow = $row_first = $row_last =9;
         
         $spreadsheet->getActiveSheet()->setCellValue('K19', $bendahara[0]->NAMA);
-        $spreadsheet->getActiveSheet()->setCellValue('K20', $bendahara[0]->NIP);
+        $spreadsheet->getActiveSheet()->setCellValue('K20', 'NIP. '.$this->konversi_nip($bendahara[0]->NIP));
 
         $spreadsheet->getActiveSheet()->setCellValue('B19', $pptk[0]->NAMA);
-        $spreadsheet->getActiveSheet()->setCellValue('B20', $pptk[0]->NIP);
+        $spreadsheet->getActiveSheet()->setCellValue('B20', 'NIP. '.$this->konversi_nip($pptk[0]->NIP));
 
         $spreadsheet->getActiveSheet()->setCellValue('F27', $data[0]->NAMA);
         $spreadsheet->getActiveSheet()->setCellValue('F28', $data[0]->PANGKAT);
-        $spreadsheet->getActiveSheet()->setCellValue('F29', $data[0]->NIP);
+        $spreadsheet->getActiveSheet()->setCellValue('F29', 'NIP. '.$this->konversi_nip($data[0]->NIP));
 
         
         $pst = '';
@@ -1133,7 +1145,7 @@ class sppdController extends CI_Controller
             }
             $row_last = $currentContentRow;
             $spreadsheet->getActiveSheet()->setCellValue('B'.($row_first+1), $value->JABATAN);
-            $spreadsheet->getActiveSheet()->setCellValue('B'.($row_first+2), $value->NIP);
+            $spreadsheet->getActiveSheet()->setCellValue('B'.($row_first+2), 'NIP. '.$this->konversi_nip($value->NIP));
             $spreadsheet->getActiveSheet()->setCellValue('B'.($row_first+3), '');
             $spreadsheet->getActiveSheet()->setCellValue('Q'.$row_first, '=SUM(J'.$row_first.':J'.$row_last.')+SUM(K'.$row_first.':K'.$row_last.')+SUM(M'.$row_first.':M'.$row_last.')+SUM(P'.$row_first.':P'.$row_last.')');
         }
@@ -1149,6 +1161,8 @@ class sppdController extends CI_Controller
         $spreadsheet->createSheet();
         $spreadsheet->setActiveSheetIndex(1);
         $spreadsheet->getActiveSheet()->setTitle('Daftar Terima'); 
+        $spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+
         
         for($i=1;$i<=3;$i++){
             $spreadsheet->getActiveSheet()->mergeCells('A'.$i.':G'.$i);
@@ -1157,10 +1171,18 @@ class sppdController extends CI_Controller
         $spreadsheet->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
         $spreadsheet->getActiveSheet()->getStyle('A1:C3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $spreadsheet->getActiveSheet()->setCellValue('A1',"DAFTAR TERIMA PERJALANAN DINAS".$sppd[0]->KATEGORI);
+
+        $spreadsheet->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $spreadsheet->getActiveSheet()->getStyle('A2')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $spreadsheet->getActiveSheet()->getStyle('A2')->getAlignment()->setWrapText(true);
+        $height_row = ceil(strlen($sppd[0]->DASAR)/175)*12;
+        $spreadsheet->getActiveSheet()->getRowDimension(2)->setRowHeight($height_row);
+
+
         $spreadsheet->getActiveSheet()->setCellValue('A2',$sppd[0]->DASAR);
 
         $tanggal_berangkat = explode(' ',$this->tgl_indo($sppd[0]->TGL_BERANGKAT));
-        $tanggal_kembali = explode(' ',$this->tgl_indo($sppd[0]->TGL_BERANGKAT));
+        $tanggal_kembali = explode(' ',$this->tgl_indo($sppd[0]->TGL_KEMBALI));
         if($tanggal_berangkat[1]==$tanggal_kembali[1] && $tanggal_berangkat[0]!=$tanggal_kembali[0]){
             $tanggal_pelaksanaan = 'TANGGAL '.$tanggal_berangkat[0].' s.d. '.$tanggal_kembali[0].' '.$tanggal_kembali[1].' '.$tanggal_kembali[2];
         } else if($tanggal_berangkat[1]==$tanggal_kembali[1] && $tanggal_berangkat[0]==$tanggal_kembali[0]){
@@ -1173,8 +1195,8 @@ class sppdController extends CI_Controller
 
         
         $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(4);
-        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(26);
-        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(21);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(25);
         $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
         $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(15);
         $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(25);
@@ -1217,12 +1239,23 @@ class sppdController extends CI_Controller
         ->setCellValue('D19','Mengetahui,')
         ->setCellValue('D20','Pengguna Anggaran,')
         ->setCellValue('B18',$pptk[0]->NAMA)
-        ->setCellValue('B19',$pptk[0]->NIP)
+        ->setCellValue('B19','NIP. '.$this->konversi_nip($pptk[0]->NIP))
         ->setCellValue('F18',$bendahara[0]->NAMA)
-        ->setCellValue('F19',$bendahara[0]->NIP)
+        ->setCellValue('F19','NIP. '.$this->konversi_nip($bendahara[0]->NIP))
         ->setCellValue('D24',$data[0]->NAMA)
         ->setCellValue('D25',$data[0]->PANGKAT)
-        ->setCellValue('D26',$data[0]->NIP);
+        ->setCellValue('D26','NIP. '.$this->konversi_nip($data[0]->NIP));
+
+        $spreadsheet->getActiveSheet()->getStyle('B18:F18')
+        ->getFont()
+        ->setBold(1)
+        ->setUnderline(1);
+
+        $spreadsheet->getActiveSheet()->getStyle('D24')
+        ->getFont()
+        ->setBold(1)
+        ->setUnderline(1);
+
         
         $count=0;
         $pst2 = '';
@@ -1232,7 +1265,7 @@ class sppdController extends CI_Controller
         $jenis ='';
         $ket = '';
         $penginapan = $tr = false;
-        $row_pg = 0;
+        $row_pg = $currentContentRow2;
         $row_dt = array();
         foreach ($data as $value) {
             if($pst2!=$value->ID_PESERTA){
@@ -1248,6 +1281,7 @@ class sppdController extends CI_Controller
                 $total_temp = 0;
                 $tr = false;
                 $lain=false;
+                $penginapan = false;
             }
         
             if($jenis!=$value->JENIS){
@@ -1294,19 +1328,18 @@ class sppdController extends CI_Controller
                     $spreadsheet->getActiveSheet()->insertNewRowBefore($row,1);
                     $currentContentRow2++;
                 }
-                if(!$tr){
-                    $spreadsheet->getActiveSheet()->insertNewRowBefore($row+1,1);
-                    $currentContentRow2++;
-                }
                 $spreadsheet->getActiveSheet()->setCellValue('D'.$row, $value->JENIS);
                 $spreadsheet->getActiveSheet()->setCellValue('E'.$row, $value->TOTAL);
                 $row_pg = $currentContentRow2-1;
             } else if($value->JENIS=='Penginapan'){
-                if($row_pg!=0){
-                    if(!$penginapan){
-                        $spreadsheet->getActiveSheet()->insertNewRowBefore($row_pg,1);
-                        $currentContentRow2++;
-                    } 
+                if(!$penginapan){
+                    $spreadsheet->getActiveSheet()->insertNewRowBefore($row_pg,1);
+                    $currentContentRow2++;
+                }
+                if((!$tr && $lain)){
+                    $spreadsheet->getActiveSheet()->insertNewRowBefore($row_pg+1,1);
+                    $currentContentRow2++;
+                    $row_pg++;
                 }
                 
                 $total_temp+= $value->TOTAL;
@@ -1334,7 +1367,7 @@ class sppdController extends CI_Controller
             }
         
                 $spreadsheet->getActiveSheet()->setCellValue('A'.$row_per,$count);
-                $spreadsheet->getActiveSheet()->setCellValue('B'.$row_per,$value->NAMA)->setCellValue('B'.($row_per+1),'NIP. '.$value->NIP);
+                $spreadsheet->getActiveSheet()->setCellValue('B'.$row_per,$value->NAMA)->setCellValue('B'.($row_per+1),'NIP. '.$this->konversi_nip($value->NIP));
                 $spreadsheet->getActiveSheet()->setCellValue('C'.$row_per,$value->PANGKAT.' ('.$value->GOLONGAN.')');
                 $spreadsheet->getActiveSheet()->setCellValue('F'.$row_per,'=sum(E'.$row_per.':E'.$currentContentRow2.')');
                 $spreadsheet->getActiveSheet()->setCellValue('G'.$row_per,$count);
@@ -1378,7 +1411,7 @@ class sppdController extends CI_Controller
         $spreadsheet->getActiveSheet()->setCellValue('A6','Nama');
         $spreadsheet->getActiveSheet()->setCellValue('C6',': '.$data[0]->NAMA);
         $spreadsheet->getActiveSheet()->setCellValue('A7','NIP');
-        $spreadsheet->getActiveSheet()->setCellValue('C7',': '.$data[0]->NIP);
+        $spreadsheet->getActiveSheet()->setCellValue('C7',': '.$this->konversi_nip($data[0]->NIP));
         $spreadsheet->getActiveSheet()->setCellValue('A8','Jabatan');
         $spreadsheet->getActiveSheet()->setCellValue('C8',': '.$data[0]->JABATAN);
         $spreadsheet->getActiveSheet()->setCellValue('A10','Berdasarkan Surat Perintah Tugas Nomor: 800/'.'    '.'/35.73.403/'.$tanggal_berangkat[2].' dengan ini kami menyatakan
@@ -1405,16 +1438,16 @@ class sppdController extends CI_Controller
         
         $spreadsheet->getActiveSheet()->setCellValue('A31','Mengetahui/Menyetujui')
         ->setCellValue('A32','Pejabat Pelaksana Teknis Kegiatan,')
-        ->setCellValue('G31','Malang,')
-        ->setCellValue('G32','Pegawai Negeri yang')
-        ->setCellValue('G33','melakukan perjalanan dinas,')
+        ->setCellValue('F31','Malang,')
+        ->setCellValue('F32','Pegawai Negeri yang')
+        ->setCellValue('F33','melakukan perjalanan dinas,')
         ->setCellValue('A38',$pptk[0]->NAMA)
         ->setCellValue('A39',$pptk[0]->PANGKAT)
-        ->setCellValue('A40',$pptk[0]->NIP)
-        ->setCellValue('G38',$data[0]->NAMA)
-        ->setCellValue('G39',$data[0]->PANGKAT)
-        ->setCellValue('G40',$data[0]->NIP)
-        ->getStyle('A38:G38')
+        ->setCellValue('A40','NIP. '.$this->konversi_nip($pptk[0]->NIP))
+        ->setCellValue('F38',$data[0]->NAMA)
+        ->setCellValue('F39',$data[0]->PANGKAT)
+        ->setCellValue('F40','NIP. '.$this->konversi_nip($data[0]->NIP))
+        ->getStyle('A38:F38')
         ->getFont()
         ->setBold(1)
         ->setUnderline(1);
@@ -1445,6 +1478,171 @@ class sppdController extends CI_Controller
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         
         $writer->save('php://output');
+    }
+
+    function exportRekap($tahun){
+        $data = $this->data_model->getRekap($tahun);
+        $reader = IOFactory::createReader('Xlsx');
+        $spreadsheet = $reader->load('template/rekaps_temp.xlsx');
+        $spreadsheet->setActiveSheetIndex(1);
+        $spreadsheet->getActiveSheet()->setCellValue('A2',' Badan Kepegawaian Daerah Kota Malang TA '.$tahun);
+        $spreadsheet->setActiveSheetIndex(2);
+        $spreadsheet->getActiveSheet()->setCellValue('A2',' Badan Kepegawaian Daerah Kota Malang TA '.$tahun);
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+        
+        $count = $count_luar = $count_dalam = 0;
+        $pst = '';
+        $currentRowL = $currentRowD = 8;
+        foreach ($data as $value) {
+            if($pst!=$value->ID_PESERTA){
+                $pst = $value->ID_PESERTA;
+                if($value['kategori']=='L'){
+                    $spreadsheet->setActiveSheetIndex(1);
+                    $count_luar++;
+                    if($count_luar>1){
+                        $spreadsheet->getActiveSheet()->insertNewRowBefore($currentRowL+1,1);
+                        $currentRowL++;
+                    }
+                    $spreadsheet->getActiveSheet()->setCellValue('A'.$currentRowL,$count_luar);
+                    $spreadsheet->getActiveSheet()->setCellValue('B'.$currentRowL,$value['nama']);
+                    $spreadsheet->getActiveSheet()->setCellValue('C'.$currentRowL,$value['nip']);
+                    $spreadsheet->getActiveSheet()->setCellValue('D'.$currentRowL,$value['maksud']);
+                    $spreadsheet->getActiveSheet()->setCellValue('F'.$currentRowL,$value['golongan']);
+                    $spreadsheet->getActiveSheet()->setCellValue('G'.$currentRowL,$value['daerah_tujuan']);
+                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentRowL,$value['instansi']);
+                    $tgl_b = $value['t_berangkat'];
+                    $spreadsheet->getActiveSheet()->setCellValue('I'.$currentRowL,substr($tgl_b,8,2).'/'.substr($tgl_b,5,2).'/'.substr($tgl_b,0,4));
+                    $tgl_k = $value['t_kembali'];
+                    $spreadsheet->getActiveSheet()->setCellValue('J'.$currentRowL,substr($tgl_k,8,2).'/'.substr($tgl_k,5,2).'/'.substr($tgl_k,0,4));
+                    $spreadsheet->getActiveSheet()->setCellValue('K'.$currentRowL,$value['lama']);
+        
+                    $spreadsheet->getActiveSheet()->setCellValue('S'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('T'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('U'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('V'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('W'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('X'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('Y'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('Z'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AA'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AB'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AC'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AD'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AE'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AF'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AG'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AH'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AI'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AJ'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AK'.$currentRowL,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('AL'.$currentRowL,'null');
+                    $row=$currentRowL;
+        
+                } 
+        
+                else{
+                    $spreadsheet->setActiveSheetIndex(2);
+                    $count_dalam++;
+                    if($count_dalam>1){
+                        $spreadsheet->getActiveSheet()->insertNewRowBefore($currentRowD+1,1);
+                        $currentRowD++;
+                    }
+                    $spreadsheet->getActiveSheet()->setCellValue('A'.$currentRowD,$count_dalam);
+                    $spreadsheet->getActiveSheet()->setCellValue('D'.$currentRowD,$value['nama']);
+                    $spreadsheet->getActiveSheet()->setCellValue('E'.$currentRowD,$value['nip']);
+                    $spreadsheet->getActiveSheet()->setCellValue('F'.$currentRowD,$value['maksud']);
+                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentRowD,$value['golongan']);
+                    $spreadsheet->getActiveSheet()->setCellValue('I'.$currentRowD,$value['daerah_tujuan']);
+                    $tgl_b = $value['t_berangkat'];
+                    $spreadsheet->getActiveSheet()->setCellValue('J'.$currentRowD,substr($tgl_b,8,2).'/'.substr($tgl_b,5,2).'/'.substr($tgl_b,0,4));
+                    $tgl_k = $value['t_kembali'];
+                    $spreadsheet->getActiveSheet()->setCellValue('K'.$currentRowD,substr($tgl_k,8,2).'/'.substr($tgl_k,5,2).'/'.substr($tgl_k,0,4));
+                    $spreadsheet->getActiveSheet()->setCellValue('L'.$currentRowD,$value['instansi']);
+                    $spreadsheet->getActiveSheet()->setCellValue('M'.$currentRowD,$value['lama']);
+                    $row=$currentRowD;
+                }
+                    $spreadsheet->getActiveSheet()->setCellValue('N'.$row,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('O'.$row,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('P'.$row,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('Q'.$row,'null');
+                    $spreadsheet->getActiveSheet()->setCellValue('R'.$row,'null');
+        
+        
+                $transportasi = 0;
+                $penginapan = 0;
+                $lain2 = 0;
+            }
+        
+            if($value['kategori']=='L'){
+                if($value['jenis']=='Uang Harian'){
+                    $spreadsheet->getActiveSheet()->setCellValue('O'.$currentRowL,$value['total']);
+                }
+        
+                else if($value['jenis']=='Transportasi' && $value['no_tiket']){
+                    $transportasi += $value['total'];
+                    
+                    $spreadsheet->getActiveSheet()->setCellValue('P'.$currentRowL,$transportasi);
+        
+                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'U':'AD').$currentRowL,$value['keterangan']);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'V':'AE').$currentRowL,$value['no_tiket']);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'W':'AF').$currentRowL,$value['no_flight']);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'X':'AG').$currentRowL,$value['jam']);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'Y':'AH').$currentRowL,$value['no_tmpt_duduk']);
+                    $tgl = $value['tanggal'];
+                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'Z':'AI').$currentRowL,substr($tgl,8,2).'/'.substr($tgl,5,2).'/'.substr($tgl,0,4));
+                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'AA':'AJ').$currentRowL,$value['berangkat']);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'AB':'AK').$currentRowL,$value['kembali']);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'AC':'AL').$currentRowL,$value['total']);
+                }
+        
+                else if($value['jenis']=='Penginapan'){
+                    $penginapan += $value['total'] ;
+                    $spreadsheet->getActiveSheet()->setCellValue('Q'.$currentRowL,$penginapan);
+                    $spreadsheet->getActiveSheet()->setCellValue('T'.$currentRowL,$value['keterangan']);
+                }
+        
+                else if($value['jenis']=='Uang Representatif'){
+                    $spreadsheet->getActiveSheet()->setCellValue('R'.$currentRowL,$value['total']);
+                }
+        
+                else {
+                    $lain2 += $value['total'];
+                    $spreadsheet->getActiveSheet()->setCellValue('S'.$currentRowL,$lain2);
+                }
+        
+                $spreadsheet->getActiveSheet()->setCellValue('N'.$currentRowL, '=SUM(O'.$currentRowL.':S'.$currentRowL.')');
+        
+            } else{
+                if($value['jenis']=='Uang Harian'){
+                    $spreadsheet->getActiveSheet()->setCellValue('N'.$currentRowD, $value['harga']);
+                    $spreadsheet->getActiveSheet()->setCellValue('O'.$currentRowD, $value['total']);
+                }
+        
+                else if($value['jenis']=='Transportasi'){
+                    $transportasi += $value['total'];
+                    $spreadsheet->getActiveSheet()->setCellValue('P'.$currentRowD, $transportasi);
+                } else{
+                    $lain2 +=$value['total'];
+                    $spreadsheet->getActiveSheet()->setCellValue('Q'.$currentRowD, $lain2);
+                }
+        
+                $spreadsheet->getActiveSheet()->setCellValue('R'.$currentRowD, '=SUM(O'.$currentRowD.':Q'.$currentRowD.')');
+        
+            }
+            
+        }
+        
+        header('Content-Type: application/vnd.openxmlformat-officedocument.spreadsheetml.sheet');
+        
+        header('Content-Disposition: attachment;filename="rekap_perjadin_'.$thn.'.xlsx"');
+        
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        
+        $writer->save('php://output');
+        
+        
+
+
     }
 
 

@@ -544,10 +544,10 @@ require_once 'templates/session.php';
                               <label>Jenis</label>
                               <input type="text" name="jenis" class="form-control sc-input-required" placeholder="Jenis" value="<?php echo $li->JENIS?>" list="jenis" required>
                               <datalist id="jenis">
-                                <option >Uang Harian</option>
-                                <option >Uang Representatif</option>
-                                <option >Penginapan</option>
-                                <option >Transportasi</option>
+                                <option value="Uang Harian">Uang Harian</option>
+                                <option value="Uang Representatif">Uang Representatif</option>
+                                <option value="Penginapan">Penginapan</option>
+                                <option value="Transportasi">Transportasi</option>
                               </datalist>
                             </div>
                           </div>
@@ -586,7 +586,7 @@ require_once 'templates/session.php';
             </div>
           </div>
         </div>
-        <!-- Hapus Rincian Modal-->
+        <!-- Hapus Rincian Modal--> 
         <div class="modal fade" id="hapus<?php echo $li->ID_RINCIAN;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
