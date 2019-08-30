@@ -36,7 +36,7 @@ require_once('templates/session.php');
                   # code...
                 ?>  
                   <form method="POST" role="form" action="<?php echo site_url('sppdController/updateSPPD');?>">
-                  <div class="form-group">
+                  <div class="formsppd form-group">
                     <input type="hidden" name="id" value="<?php echo $li->ID_SPPD; ?>">
                     <label>Maksud perjalanan Dinas</label>
                     <p><?php echo $li->TUJUAN?></p>
@@ -45,7 +45,7 @@ require_once('templates/session.php');
                     <div class="row">
                       <div class="col-sm-7">
                         <label>Kegiatan</label>
-                        <select required name="kegiatan" class="form-control sc-input-required" >
+                        <select required name="kegiatan" class="skegiatan form-control sc-input-required" >
                         <option><?php echo $li->KODE?></option>
                         <?php foreach ($kegiatan as $keg) {
                           echo "<option>".$keg->NAMA_KEGIATAN."</option>";
@@ -210,7 +210,12 @@ require_once('templates/session.php');
         
         response(results.slice(0, 10));
     }
-});
+  });
+  $('.skegiatan').select2({
+        placeholder: "Input Bidang",
+        dropdownParent: $('.formsppd'),
+        width: '100%',
+        });
 </script>
 
 </html>
