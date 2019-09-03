@@ -53,7 +53,7 @@ $route['default_controller'] = 'auth';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = false;
 
-$route['sppd'] = 'sppdController/sppd';
+$route['sppd/(:any)'] = 'sppdController/sppd/$1';
 $route['surat-tugas'] = 'sppdController/surattugas';
 $route['list-sppd'] = 'sppdController/listsppd';
 $route['list-st'] = 'sppdController/listst';
@@ -62,3 +62,5 @@ $route['rincian'] = 'sppdController/rincian';
 $route['read_st'] = 'sppdController/readST';
 $route['daftar-pegawai'] = 'sppdController/daftarpegawai';
 $route['rekap-keuangan'] = 'sppdController/rekapkeuangan';
+$route['unduh-sppd/(:any)'] = 'sppdController/exportSPPD/$1';
+$route['ubah-password'] = 'sppdController/ubahPassword';

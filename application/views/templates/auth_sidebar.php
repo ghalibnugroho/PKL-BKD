@@ -74,6 +74,15 @@
         <i class="fas fa-fw fa-table"></i>
         <span>Rekap Keuangan</span></a>
     </li>
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+      Akun
+    </div>
+    <li class="nav-item">
+      <a class="nav-link" href="<?php echo site_url('ubah-password') ?>">
+        <i class="fas fa-fw fa-table"></i>
+        <span>Ubah Password</span></a>
+    </li>
   <?php
   } else { ?>
 

@@ -15,11 +15,33 @@ class sppdController extends CI_Controller
         $this->load->model('data_model');
         $this->load->library('form_validation');
     }
+    public function ubahPassword()
+    {
+        $result['list'] = $this->data_model->getBidang();
+        $this->load->view('ubah_password', $result);
+    }
+    public function setpassword(){
+
+        $idbidang = $this->input->post('idbidang');
+        $passlama = $this->input->post('passlama');
+        $passbaru = $this->input->post('passbaru1');
+
+        if(password_verify($passlama,$this->data_model->getPassword($idbidang))){
+            $where = array('ID_BIDANG' => $idbidang);
+            $data_insert= array(
+                'PASSWORD' => password_hash($passbaru,PASSWORD_DEFAULT)
+            );
+            $this->data_model->update($where,'bidang', $data_insert);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"><b>Sukses! </b>Password berhasil diubah </div>');
+            redirect('sppdController/ubahPassword');
+        }
+    }
     public function daftarpegawai()
     {
         $result['list'] = $this->data_model->getDaftarPegawai();
         $this->load->view('listpegawai', $result);
     }
+
     public function fetchDataPegawai()
     {
         $output = '';

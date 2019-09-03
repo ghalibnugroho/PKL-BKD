@@ -201,15 +201,7 @@ require_once 'templates/session.php';
       </div>
     </div>
   </div>
-  <select>
-  <option>Choose Your Name</option>
-  <option>Frank</option>
-  <option>George</option>
-  <option>Other</option>
-</select>
-<label id="tes" style="display:none;">Enter your Name
-<input>
-</label>
+
 
 
 </body>

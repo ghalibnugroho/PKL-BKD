@@ -17,6 +17,7 @@ class data_model extends CI_Model
         ];
         $this->db->insert('admin', $data);
     }
+
     public function datalogin()
     {
         $data = $this->db->get_where('bidang', ['NAMA_BIDANG' => $this->session->userdata('username')])->row_array();
@@ -242,6 +243,21 @@ class data_model extends CI_Model
         
         $kode = $query->result();
         return $kode[0]->KODE;
+    }
+    function getBidang(){
+        $query = $this->db->select("ID_BIDANG, NAMA_BIDANG")
+        ->from('bidang')
+        ->get();
+        
+        return $query->result();
+    }
+    function getPassword($idbidang){
+        $query = $this->db->select("PASSWORD")
+        ->from('bidang')
+        ->where('ID_BIDANG',$idbidang)
+        ->get();
+        $pass = $query->result();
+        return $pass[0]->PASSWORD;
     }
     function getNamaKegiatan($kode){
         $query = $this->db->select("NAMA_KEGIATAN")
