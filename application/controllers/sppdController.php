@@ -1502,6 +1502,11 @@ class sppdController extends CI_Controller
         $writer->save('php://output');
     }
 
+    function exportRekapa($tahun){
+        $data = $this->data_model->getRekap($tahun);
+        print_r($data);
+    }
+
     function exportRekap($tahun){
         $data = $this->data_model->getRekap($tahun);
         $reader = IOFactory::createReader('Xlsx');
@@ -1518,7 +1523,7 @@ class sppdController extends CI_Controller
         foreach ($data as $value) {
             if($pst!=$value->ID_PESERTA){
                 $pst = $value->ID_PESERTA;
-                if($value['kategori']=='L'){
+                if($value->KATEGORI=='L'){
                     $spreadsheet->setActiveSheetIndex(1);
                     $count_luar++;
                     if($count_luar>1){
@@ -1526,17 +1531,17 @@ class sppdController extends CI_Controller
                         $currentRowL++;
                     }
                     $spreadsheet->getActiveSheet()->setCellValue('A'.$currentRowL,$count_luar);
-                    $spreadsheet->getActiveSheet()->setCellValue('B'.$currentRowL,$value['nama']);
-                    $spreadsheet->getActiveSheet()->setCellValue('C'.$currentRowL,$value['nip']);
-                    $spreadsheet->getActiveSheet()->setCellValue('D'.$currentRowL,$value['maksud']);
-                    $spreadsheet->getActiveSheet()->setCellValue('F'.$currentRowL,$value['golongan']);
-                    $spreadsheet->getActiveSheet()->setCellValue('G'.$currentRowL,$value['daerah_tujuan']);
-                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentRowL,$value['instansi']);
-                    $tgl_b = $value['t_berangkat'];
+                    $spreadsheet->getActiveSheet()->setCellValue('B'.$currentRowL,$value->NAMA);
+                    $spreadsheet->getActiveSheet()->setCellValue('C'.$currentRowL,$value->NIP);
+                    $spreadsheet->getActiveSheet()->setCellValue('D'.$currentRowL,$value->DASAR);
+                    $spreadsheet->getActiveSheet()->setCellValue('F'.$currentRowL,$value->GOLONGAN);
+                    $spreadsheet->getActiveSheet()->setCellValue('G'.$currentRowL,$value->DAERAH_TUJUAN);
+                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentRowL,$value->INSTANSI);
+                    $tgl_b = $value->TGL_BERANGKAT;
                     $spreadsheet->getActiveSheet()->setCellValue('I'.$currentRowL,substr($tgl_b,8,2).'/'.substr($tgl_b,5,2).'/'.substr($tgl_b,0,4));
-                    $tgl_k = $value['t_kembali'];
+                    $tgl_k = $value->TGL_KEMBALI;
                     $spreadsheet->getActiveSheet()->setCellValue('J'.$currentRowL,substr($tgl_k,8,2).'/'.substr($tgl_k,5,2).'/'.substr($tgl_k,0,4));
-                    $spreadsheet->getActiveSheet()->setCellValue('K'.$currentRowL,$value['lama']);
+                    $spreadsheet->getActiveSheet()->setCellValue('K'.$currentRowL,$value->LAMA);
         
                     $spreadsheet->getActiveSheet()->setCellValue('S'.$currentRowL,'null');
                     $spreadsheet->getActiveSheet()->setCellValue('T'.$currentRowL,'null');
@@ -1570,17 +1575,17 @@ class sppdController extends CI_Controller
                         $currentRowD++;
                     }
                     $spreadsheet->getActiveSheet()->setCellValue('A'.$currentRowD,$count_dalam);
-                    $spreadsheet->getActiveSheet()->setCellValue('D'.$currentRowD,$value['nama']);
-                    $spreadsheet->getActiveSheet()->setCellValue('E'.$currentRowD,$value['nip']);
-                    $spreadsheet->getActiveSheet()->setCellValue('F'.$currentRowD,$value['maksud']);
-                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentRowD,$value['golongan']);
-                    $spreadsheet->getActiveSheet()->setCellValue('I'.$currentRowD,$value['daerah_tujuan']);
-                    $tgl_b = $value['t_berangkat'];
+                    $spreadsheet->getActiveSheet()->setCellValue('D'.$currentRowD,$value->NAMA);
+                    $spreadsheet->getActiveSheet()->setCellValue('E'.$currentRowD,$value->NIP);
+                    $spreadsheet->getActiveSheet()->setCellValue('F'.$currentRowD,$value->DASAR);
+                    $spreadsheet->getActiveSheet()->setCellValue('H'.$currentRowD,$value->GOLONGAN);
+                    $spreadsheet->getActiveSheet()->setCellValue('I'.$currentRowD,$value->DAERAH_TUJUAN);
+                    $tgl_b = $value->TGL_BERANGKAT;
                     $spreadsheet->getActiveSheet()->setCellValue('J'.$currentRowD,substr($tgl_b,8,2).'/'.substr($tgl_b,5,2).'/'.substr($tgl_b,0,4));
-                    $tgl_k = $value['t_kembali'];
+                    $tgl_k = $value->TGL_KEMBALI;
                     $spreadsheet->getActiveSheet()->setCellValue('K'.$currentRowD,substr($tgl_k,8,2).'/'.substr($tgl_k,5,2).'/'.substr($tgl_k,0,4));
-                    $spreadsheet->getActiveSheet()->setCellValue('L'.$currentRowD,$value['instansi']);
-                    $spreadsheet->getActiveSheet()->setCellValue('M'.$currentRowD,$value['lama']);
+                    $spreadsheet->getActiveSheet()->setCellValue('L'.$currentRowD,$value->INSTANSI);
+                    $spreadsheet->getActiveSheet()->setCellValue('M'.$currentRowD,$value->LAMA);
                     $row=$currentRowD;
                 }
                     $spreadsheet->getActiveSheet()->setCellValue('N'.$row,'null');
@@ -1595,56 +1600,56 @@ class sppdController extends CI_Controller
                 $lain2 = 0;
             }
         
-            if($value['kategori']=='L'){
-                if($value['jenis']=='Uang Harian'){
-                    $spreadsheet->getActiveSheet()->setCellValue('O'.$currentRowL,$value['total']);
+            if($value->KATEGORI=='L'){
+                if($value->JENIS=='Uang Harian'){
+                    $spreadsheet->getActiveSheet()->setCellValue('O'.$currentRowL,$value->TOTAL);
                 }
         
-                else if($value['jenis']=='Transportasi' && $value['no_tiket']){
-                    $transportasi += $value['total'];
+                else if($value->JENIS=='Transportasi' && $value->NO_TIKET){
+                    $transportasi += $value->TOTAL;
                     
                     $spreadsheet->getActiveSheet()->setCellValue('P'.$currentRowL,$transportasi);
         
-                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'U':'AD').$currentRowL,$value['keterangan']);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'V':'AE').$currentRowL,$value['no_tiket']);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'W':'AF').$currentRowL,$value['no_flight']);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'X':'AG').$currentRowL,$value['jam']);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'Y':'AH').$currentRowL,$value['no_tmpt_duduk']);
-                    $tgl = $value['tanggal'];
-                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'Z':'AI').$currentRowL,substr($tgl,8,2).'/'.substr($tgl,5,2).'/'.substr($tgl,0,4));
-                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'AA':'AJ').$currentRowL,$value['berangkat']);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'AB':'AK').$currentRowL,$value['kembali']);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value['status']=='pergi'?'AC':'AL').$currentRowL,$value['total']);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS=='pergi'?'U':'AD').$currentRowL,$value->KETERANGAN);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS=='pergi'?'V':'AE').$currentRowL,$value->NO_TIKET);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS=='pergi'?'W':'AF').$currentRowL,$value->NO_FLIGHT);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS=='pergi'?'X':'AG').$currentRowL,$value->JAM);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS=='pergi'?'Y':'AH').$currentRowL,$value->NO_TMPDUDUK);
+                    $tgl = $value->TANGGAL;
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS=='pergi'?'Z':'AI').$currentRowL,substr($tgl,8,2).'/'.substr($tgl,5,2).'/'.substr($tgl,0,4));
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS=='pergi'?'AA':'AJ').$currentRowL,$value->TMP_BERANGKAT);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS=='pergi'?'AB':'AK').$currentRowL,$value->TMP_TUJUAN);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS=='pergi'?'AC':'AL').$currentRowL,$value->TOTAL);
                 }
         
-                else if($value['jenis']=='Penginapan'){
-                    $penginapan += $value['total'] ;
+                else if($value->JENIS=='Penginapan'){
+                    $penginapan += $value->TOTAL ;
                     $spreadsheet->getActiveSheet()->setCellValue('Q'.$currentRowL,$penginapan);
-                    $spreadsheet->getActiveSheet()->setCellValue('T'.$currentRowL,$value['keterangan']);
+                    $spreadsheet->getActiveSheet()->setCellValue('T'.$currentRowL,$value->KETERANGAN);
                 }
         
-                else if($value['jenis']=='Uang Representatif'){
-                    $spreadsheet->getActiveSheet()->setCellValue('R'.$currentRowL,$value['total']);
+                else if($value->JENIS=='Uang Representatif'){
+                    $spreadsheet->getActiveSheet()->setCellValue('R'.$currentRowL,$value->TOTAL);
                 }
         
                 else {
-                    $lain2 += $value['total'];
+                    $lain2 += $value->TOTAL;
                     $spreadsheet->getActiveSheet()->setCellValue('S'.$currentRowL,$lain2);
                 }
         
                 $spreadsheet->getActiveSheet()->setCellValue('N'.$currentRowL, '=SUM(O'.$currentRowL.':S'.$currentRowL.')');
         
             } else{
-                if($value['jenis']=='Uang Harian'){
-                    $spreadsheet->getActiveSheet()->setCellValue('N'.$currentRowD, $value['harga']);
-                    $spreadsheet->getActiveSheet()->setCellValue('O'.$currentRowD, $value['total']);
+                if($value->JENIS=='Uang Harian'){
+                    $spreadsheet->getActiveSheet()->setCellValue('N'.$currentRowD, $value->HARGA);
+                    $spreadsheet->getActiveSheet()->setCellValue('O'.$currentRowD, $value->TOTAL);
                 }
         
-                else if($value['jenis']=='Transportasi'){
-                    $transportasi += $value['total'];
+                else if($value->JENIS=='Transportasi'){
+                    $transportasi += $value->TOTAL;
                     $spreadsheet->getActiveSheet()->setCellValue('P'.$currentRowD, $transportasi);
                 } else{
-                    $lain2 +=$value['total'];
+                    $lain2 += $value->TOTAL;
                     $spreadsheet->getActiveSheet()->setCellValue('Q'.$currentRowD, $lain2);
                 }
         
@@ -1656,15 +1661,12 @@ class sppdController extends CI_Controller
         
         header('Content-Type: application/vnd.openxmlformat-officedocument.spreadsheetml.sheet');
         
-        header('Content-Disposition: attachment;filename="rekap_perjadin_'.$thn.'.xlsx"');
+        header('Content-Disposition: attachment;filename="rekap_perjadin_'.$tahun.'.xlsx"');
         
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         
         $writer->save('php://output');
         
-        
-
-
     }
 
 

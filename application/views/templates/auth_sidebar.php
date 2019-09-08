@@ -70,7 +70,7 @@
       Keuangan
     </div>
     <li class="nav-item">
-      <a class="nav-link" href="<?php echo site_url('rincian') ?>">
+      <a class="nav-link" href="<?php echo site_url('sppdController/exportRekap/2019') ?>">
         <i class="fas fa-fw fa-table"></i>
         <span>Rekap Keuangan</span></a>
     </li>
