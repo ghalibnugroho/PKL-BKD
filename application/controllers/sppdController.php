@@ -316,7 +316,7 @@ class sppdController extends CI_Controller
         );
         $where = array('ID_ST' => $id);
         $this->data_model->update($where, 'surattugas', $data_surattugas);
-        $this->data_model->delete($where, 'peserta');
+        $pesertalama = $this->data_model->getPeserta($id);
 
         $arr_pengikut = explode(",,", $pengikut);
         foreach ($arr_pengikut as $ap) {
@@ -324,18 +324,51 @@ class sppdController extends CI_Controller
         }
 
         $nip_diperintah = $this->data_model->getNIP($diperintah);
+
+        //hapus peserta yang dikurangi
+        for ($i = 0; $i < count($pesertalama); $i++) {
+
+        }
+        foreach ($pesertalama as $pl) {
+            $check_delete = true;
+            foreach ($nip_diperintah as $pb) {
+                if($pl->NIP == $pb[0]->NIP){
+                    $check_delete = false;
+                }
+            }
+            if($check_delete){
+                $wherePeserta = array('ID_PESERTA' => $pl->ID_PESERTA);
+                $this->data_model->delete($wherePeserta,'peserta');
+            }
+        }
+        //update dan tambah peserta
         $sebagai = 'Kepala';
         for ($i = 0; $i < count($nip_diperintah); $i++) {
+            $check_insert = true;
             if ($i > 0) {
                 $sebagai = 'Pengikut';
             }
-            $data_diperintah = array(
-                'ID_ST' => $id,
-                'NIP' => $nip_diperintah[$i][0]->NIP,
-                'SEBAGAI' => $sebagai,
-            );
-            $this->data_model->insertPeserta($data_diperintah);
+
+            foreach ($pesertalama as $pl) {
+                if($pl->NIP == $nip_diperintah[$i][0]->NIP){
+                    $check_insert = false;
+                    $wherePeserta = array('ID_PESERTA' => $pl->ID_PESERTA);
+                    $dataUpdate = array('SEBAGAI' => $sebagai);
+                    $this->data_model->update($wherePeserta,'peserta',$dataUpdate);
+                }
+            }
+
+            if($check_insert){
+                $data_diperintah = array(
+                    'ID_ST' => $id,
+                    'NIP' => $nip_diperintah[$i][0]->NIP,
+                    'SEBAGAI' => $sebagai,
+                );
+                $this->data_model->insertPeserta($data_diperintah);
+            }
         }
+
+
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
         <b>Sukses! </b>Data berhasil diupdate </div>');
         $this->listst();

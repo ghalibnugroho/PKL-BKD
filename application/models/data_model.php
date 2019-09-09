@@ -185,7 +185,7 @@ class data_model extends CI_Model
     }
     public function getPeserta($id)
     {
-        $query = $this->db->select("NAMA, peserta.ID_PESERTA,sppd.ID_SPPD")
+        $query = $this->db->select("NAMA,peserta.NIP, peserta.ID_PESERTA,sppd.ID_SPPD,SEBAGAI")
             ->from('pegawai')
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
             ->join('sppd','sppd.ID_ST = peserta.ID_ST')
