@@ -62,3 +62,4 @@ $route['rincian'] = 'sppdController/rincian';
 $route['read_st'] = 'sppdController/readST';
 $route['daftar-pegawai'] = 'sppdController/daftarpegawai';
 $route['rekap-keuangan'] = 'sppdController/rekapkeuangan';
+$route['daftar-kegiatan'] = 'sppdController/daftarkegiatan';
