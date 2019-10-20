@@ -57,7 +57,8 @@ class sppdController extends CI_Controller
             <td>' . $row->GOLONGAN . '</td>
             <td>' . $row->JABATAN . '</td>
             <td>' . $row->TANGGALLAHIR . '</td>
-            <td><a href="" data-target="#editPegawai' . $row->NIP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info"><i class="fas fa-sm fa-edit"></i> Edit </a></td>
+            <td><a href="" data-target="#editPegawai' . $row->NIP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info"><i class="fas fa-sm fa-edit"></i> Edit </a>
+            <a href="" data-target="#hapusPegawai' . $row->NIP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i> Hapus </a></td>
             </tr>
             ';
             }
@@ -203,7 +204,47 @@ class sppdController extends CI_Controller
         Tambah Pegawai Berhasil!</div>');
         $this->daftarpegawai();
     }
+    public function editPegawai()
+    {
+        $nama = $this->input->post('nama_pegawai');
+        $niphidden = $this->input->post('niphidden');
+        $nip = $this->input->post('nip_pegawai');
+        $bidang = $this->input->post('bidang1');
+        $pangkat = $this->input->post('pangkat');
+        $golongan = $this->input->post('golongan');
+        $jabatan = $this->input->post('jabatan_pegawai');
+        $tanggallahir = $this->input->post('tanggal');
+        $tingkat = $this->input->post('tingkat_pegawai');
+        $data_update = array(
+            'NIP' => $nip,
+            'ID_BIDANG' => $bidang,
+            'NAMA' => $nama,
+            'PANGKAT' => $pangkat,
+            'GOLONGAN' => $golongan,
+            'JABATAN' => $jabatan,
+            'TANGGALLAHIR' => $tanggallahir,
+            'TINGKAT' => $tingkat,
+        );
+        // $this->db->where('NIP', $niphidden);
+        // $this->db->update('pegawai', $data_update);
+        $where = array('NIP' => $niphidden);
+        $this->data_model->update($where, 'pegawai', $data_update);
+        // $where = array('NAMA' => $nama);
+        // $nip1 = array('NIP' => $nip);
+        // $this->data_model->update($where, 'pegawai', $nip1);
+        $this->session->set_flashdata('updatePegawai', '<div class="alert alert-success" role="alert">
+        Data Pegawai Berhasil di Update!</div>');
+        $this->daftarpegawai();
+    }
 
+    public function hapusPegawai($nip)
+    {
+        $where = array('NIP' => $nip);
+        $this->data_model->delete($where, 'pegawai');
+        $this->session->set_flashdata('hapusPegawai', '<div class="alert alert-danger" role="alert">
+        Pegawai berhasil dihapus </div>');
+        $this->daftarpegawai();
+    }
 
     public function updateSPPD()
     {

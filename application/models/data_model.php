@@ -25,7 +25,7 @@ class data_model extends CI_Model
 
     public function getDaftarPegawai()
     {
-        $query = $this->db->query('select NIP, NAMA, PANGKAT, GOLONGAN, JABATAN, TANGGALLAHIR FROM pegawai');
+        $query = $this->db->query('select NIP, NAMA, PANGKAT, GOLONGAN, JABATAN, ID_BIDANG, TANGGALLAHIR, TINGKAT FROM pegawai');
         return $query->result();
     }
     function fetch_data($query)
@@ -54,30 +54,33 @@ class data_model extends CI_Model
         //$query2=$this->db->query("SELECT NAMA FROM pegawai");
         return $query->result();
     }
-    public function getDataSPPD($id){
+    public function getDataSPPD($id)
+    {
         $query = $this->db->select("TUJUAN, ID_SPPD, KODE, ALAT_ANGKUT, 
         TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, LAMA, KETERANGAN , KATEGORI, INSTANSI")
-        ->from('surattugas')
-        ->join('sppd','sppd.ID_ST=surattugas.ID_ST')
-        ->where('surattugas.ID_ST',$id)
-        ->get();
+            ->from('surattugas')
+            ->join('sppd', 'sppd.ID_ST=surattugas.ID_ST')
+            ->where('surattugas.ID_ST', $id)
+            ->get();
         return $query->result();
     }
-    function getIDST(){
+    function getIDST()
+    {
         $query = $this->db->select_max('ID_ST')
-        ->from('surattugas')
-        ->get();
+            ->from('surattugas')
+            ->get();
         return $query->result();
     }
 
-    function getRincian($id){
+    function getRincian($id)
+    {
         $query = $this->db->select('*')
-        ->from('rincian')
-        ->where('ID_SPPD',$id)
-        ->get();
+            ->from('rincian')
+            ->where('ID_SPPD', $id)
+            ->get();
         return $query->result();
     }
-    public function insertSurattugas($data_insert,$id)
+    public function insertSurattugas($data_insert, $id)
     {
         $this->db->insert('surattugas', $data_insert);
         $data_sppd = array(
@@ -90,7 +93,8 @@ class data_model extends CI_Model
     {
         $this->db->insert('peserta', $data_insert);
     }
-    public function insertPegawai($data_pegawai){
+    public function insertPegawai($data_pegawai)
+    {
         $this->db->insert('pegawai', $data_pegawai);
     }
     public function getListSPPD()
@@ -122,7 +126,7 @@ class data_model extends CI_Model
             ->from('surattugas')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
-            ->join('sppd','surattugas.ID_ST=sppd.ID_ST')
+            ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
             ->where('peserta.SEBAGAI', 'Kepala')
             ->get();
 
@@ -136,39 +140,43 @@ class data_model extends CI_Model
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
             ->where('surattugas.ID_ST', $id)
-            ->order_by('SEBAGAI','ASC')
-            ->order_by('GOLONGAN','ASC')
+            ->order_by('SEBAGAI', 'ASC')
+            ->order_by('GOLONGAN', 'ASC')
             ->get();
         return $query->result();
     }
 
-    public function getPegawai_Jabatan($jabatan){
-        return $this->db->select('*')->from('pegawai')->where('JABATAN',$jabatan)->get()->result();
+    public function getPegawai_Jabatan($jabatan)
+    {
+        return $this->db->select('*')->from('pegawai')->where('JABATAN', $jabatan)->get()->result();
     }
 
-    public function getPegawai_NIP($nip){
-        return $this->db->select('*')->from('pegawai')->where('NIP',$nip)->get()->result();
+    public function getPegawai_NIP($nip)
+    {
+        return $this->db->select('*')->from('pegawai')->where('NIP', $nip)->get()->result();
     }
 
-    public function getNip_PPTK($id_sppd){
+    public function getNip_PPTK($id_sppd)
+    {
         $query = $this->db->select('NIP_PPTK')
-        ->from('kegiatan')
-        ->join('sppd','sppd.KODE=kegiatan.KODE')
-        ->where('ID_SPPD',$id_sppd)
-        ->get();
+            ->from('kegiatan')
+            ->join('sppd', 'sppd.KODE=kegiatan.KODE')
+            ->where('ID_SPPD', $id_sppd)
+            ->get();
 
         return $query->result();
     }
 
-    public function getSPPD($id){
+    public function getSPPD($id)
+    {
         $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, KATEGORI, LAMA, DASAR, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
             ->from('sppd')
             ->join('surattugas', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
             ->where('ID_SPPD', $id)
-            ->order_by('SEBAGAI','ASC')
-            ->order_by('GOLONGAN','ASC')
+            ->order_by('SEBAGAI', 'ASC')
+            ->order_by('GOLONGAN', 'ASC')
             ->get();
         return $query->result();
     }
@@ -187,7 +195,7 @@ class data_model extends CI_Model
         $query = $this->db->select("NAMA, peserta.ID_PESERTA,sppd.ID_SPPD")
             ->from('pegawai')
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
-            ->join('sppd','sppd.ID_ST = peserta.ID_ST')
+            ->join('sppd', 'sppd.ID_ST = peserta.ID_ST')
             ->where('sppd.ID_ST', $id)
             ->get();
 
@@ -198,7 +206,7 @@ class data_model extends CI_Model
         $query = $this->db->select("pegawai.NAMA,peserta.ID_PESERTA,sppd.ID_SPPD")
             ->from('pegawai')
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
-            ->join('sppd','sppd.ID_ST = peserta.ID_ST')
+            ->join('sppd', 'sppd.ID_ST = peserta.ID_ST')
             ->where('sppd.ID_SPPD', $id)
             ->get();
 
@@ -221,55 +229,59 @@ class data_model extends CI_Model
         return $this->db->get_where($table, $where)->result();
     }
 
-    function insertData( $table, $data_insert){
+    function insertData($table, $data_insert)
+    {
         $this->db->insert($table, $data_insert);
     }
-    function getKegiatan($user){
+    function getKegiatan($user)
+    {
 
         $query = $this->db->select("KODE, NAMA_KEGIATAN")
-        ->from('kegiatan')
-        ->join('bidang','kegiatan.ID_BIDANG = bidang.ID_BIDANG')
-        ->where('NAMA_BIDANG',$user)
-        ->get();
+            ->from('kegiatan')
+            ->join('bidang', 'kegiatan.ID_BIDANG = bidang.ID_BIDANG')
+            ->where('NAMA_BIDANG', $user)
+            ->get();
 
         return $query->result();
     }
-    function getKodeKegiatan($kegiatan){
+    function getKodeKegiatan($kegiatan)
+    {
         $query = $this->db->select("KODE")
-        ->from('kegiatan')
-        ->where('NAMA_KEGIATAN',$kegiatan)
-        ->get();
-        
+            ->from('kegiatan')
+            ->where('NAMA_KEGIATAN', $kegiatan)
+            ->get();
+
         $kode = $query->result();
         return $kode[0]->KODE;
     }
-    function getNamaKegiatan($kode){
+    function getNamaKegiatan($kode)
+    {
         $query = $this->db->select("NAMA_KEGIATAN")
-        ->from('kegiatan')
-        ->where('KODE',$kode)
-        ->get();
-        
+            ->from('kegiatan')
+            ->where('KODE', $kode)
+            ->get();
+
         $kode = $query->result();
         return $kode[0]->NAMA_KEGIATAN;
     }
 
-    function exportDataRincian($id){
-        $query= $this->db->select('*')
-        ->from('rincian')
-        ->join('peserta','rincian.ID_PESERTA = peserta.ID_PESERTA')
-        ->join('pegawai','peserta.NIP = pegawai.NIP')
-        ->where('ID_SPPD', $id)
-        ->order_by('peserta.SEBAGAI ASC , rincian.ID_PESERTA ASC')
-        ->order_by("JENIS = 'Transportasi'",'DESC')
-        ->order_by("JENIS = 'Uang Harian'",'DESC')
-        ->order_by("JENIS = 'Uang Representatif'",'DESC')
-        ->order_by("JENIS = 'Penginapan'",'DESC')
-        ->order_by("STATUS = 'Pergi'",'DESC')
-        ->order_by("STATUS = 'Pulang'",'DESC')
-        ->order_by('rincian.ID_RINCIAN ASC')
-        ->get();
-        
+    function exportDataRincian($id)
+    {
+        $query = $this->db->select('*')
+            ->from('rincian')
+            ->join('peserta', 'rincian.ID_PESERTA = peserta.ID_PESERTA')
+            ->join('pegawai', 'peserta.NIP = pegawai.NIP')
+            ->where('ID_SPPD', $id)
+            ->order_by('peserta.SEBAGAI ASC , rincian.ID_PESERTA ASC')
+            ->order_by("JENIS = 'Transportasi'", 'DESC')
+            ->order_by("JENIS = 'Uang Harian'", 'DESC')
+            ->order_by("JENIS = 'Uang Representatif'", 'DESC')
+            ->order_by("JENIS = 'Penginapan'", 'DESC')
+            ->order_by("STATUS = 'Pergi'", 'DESC')
+            ->order_by("STATUS = 'Pulang'", 'DESC')
+            ->order_by('rincian.ID_RINCIAN ASC')
+            ->get();
+
         return $query->result();;
     }
-
 }
