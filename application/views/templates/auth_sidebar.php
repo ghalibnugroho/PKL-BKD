@@ -41,7 +41,7 @@
       Kegiatan
     </div>
     <li class="nav-item">
-      <a class="nav-link" href="<?php echo site_url('list-st') ?>">
+      <a class="nav-link" href="<?php echo site_url('daftar-kegiatan') ?>">
         <i class="fas fa-fw fa-table"></i>
         <span>Daftar Kegiatan</span></a>
     </li>
@@ -134,17 +134,17 @@
     <?php }
     ?>
 
-  </li>
-  <!-- Divider -->
-  <!-- Divider -->
+    </li>
+    <!-- Divider -->
+    <!-- Divider -->
 
-  <!-- Divider -->
-  <hr class="sidebar-divider d-none d-md-block">
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
 
-  <!-- Sidebar Toggler (Sidebar) -->
-  <div class="text-center d-none d-md-inline">
-    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-  </div>
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+      <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
 
 </ul>
 

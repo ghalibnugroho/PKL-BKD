@@ -125,6 +125,9 @@ require_once 'templates/session.php';
                     <div class="tab-pane active col-12" id="tab_1">
                         <form method="POST" role="form" action="<?php echo site_url('sppdController/addPegawai'); ?>">
                             <div class="form-group">
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
                                 <div class="row">
                                     <!-- <?php echo date("jS F, Y", strtotime("11.12.10")); ?> -->
                                     <div class="col-6">
@@ -139,10 +142,10 @@ require_once 'templates/session.php';
                                         <label>Bidang</label>
                                         <select id="dd-bidang" name="bidang">
                                             <option></option>
-                                            <option value="SEKRETARIAT">Sekretariat</option>
-                                            <option value="MUTASI">Mutasi</option>
-                                            <option value="PKFP">PKFP</option>
-                                            <option value="PKP">PKP</option>
+                                            <option value="2">Sekretariat</option>
+                                            <option value="3">Mutasi</option>
+                                            <option value="4">PKFP</option>
+                                            <option value="5">PKP</option>
                                         </select>
                                     </div>
                                     <div class="col-3">
@@ -209,8 +212,6 @@ require_once 'templates/session.php';
                             <input type="submit" value="Tambahkan Pegawai" class="btn btn-primary col-3">
                         </form>
                     </div>
-                    <span aria-hidden="true">×</span>
-                    </button>
                 </div>
             </div>
         </div>

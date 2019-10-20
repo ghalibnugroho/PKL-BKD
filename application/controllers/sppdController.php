@@ -94,6 +94,61 @@ class sppdController extends CI_Controller
         echo $output;
     }
 
+    public function daftarkegiatan()
+    {
+        $result['list'] = $this->data_model->getDaftarKegiatan();
+        $this->load->view('listkegiatan', $result);
+    }
+
+    public function fetchDataKegiatan()
+    {
+        $output = '';
+        $query = '';
+        if ($this->input->post('query')) {
+            $query = $this->input->post('query');
+        }
+        $data = $this->data_model->fetch_dataKegiatan($query);
+        $output .=
+            '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <col width="15%">
+            <col width="15%">
+            <col width="15%">
+            <col width="17%">
+            <col width="10%">
+            <thead>
+                <tr>
+                    <th>KODE KEGIATAN</th>
+                    <th>NIP</th>
+                    <th>NAMA</th>
+                    <th>NAMA KEGIATAN</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        ';
+        if ($data->num_rows() > 0) {
+            foreach ($data->result() as $row) {
+                $KODE_TEMP = str_replace(".", "", $row->KODE);
+                $output .= '
+            <tr>
+            <td>' . $row->KODE . '</td>
+            <td>' . $row->NIP_PPTK . '</td>
+            <td>' . $row->NAMA . '</td>
+            <td>' . $row->NAMA_KEGIATAN . '</td>
+            <td><a href="" data-target="#editKegiatan' . $KODE_TEMP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info"><i class="fas fa-sm fa-edit"></i> Edit </a>
+            <a href="" data-target="#hapusKegiatan' . $KODE_TEMP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i> Hapus </a></td>
+            </tr>
+            ';
+            }
+        } else {
+            $output .= '<tr>
+            <td colspan="5">No Data Found</td>
+            </tr>';
+        }
+        $output .= '</table>';
+        echo $output;
+    }
+
+
     public function listsppd()
     {
         $result['list'] = $this->data_model->getListSPPD();
@@ -248,13 +303,8 @@ class sppdController extends CI_Controller
             'TANGGALLAHIR' => $tanggallahir,
             'TINGKAT' => $tingkat,
         );
-        // $this->db->where('NIP', $niphidden);
-        // $this->db->update('pegawai', $data_update);
         $where = array('NIP' => $niphidden);
         $this->data_model->update($where, 'pegawai', $data_update);
-        // $where = array('NAMA' => $nama);
-        // $nip1 = array('NIP' => $nip);
-        // $this->data_model->update($where, 'pegawai', $nip1);
         $this->session->set_flashdata('updatePegawai', '<div class="alert alert-success" role="alert">
         Data Pegawai Berhasil di Update!</div>');
         $this->daftarpegawai();
@@ -267,6 +317,55 @@ class sppdController extends CI_Controller
         $this->session->set_flashdata('hapusPegawai', '<div class="alert alert-success" role="alert">
         Pegawai berhasil dihapus </div>');
         $this->daftarpegawai();
+    }
+
+    public function addKegiatan()
+    {
+        $kode = $this->input->post('kode_kegiatan');
+        $namaKegiatan = $this->input->post('nama_kegiatan');
+        $nip = $this->input->post('nip_pegawai');
+        $bidang = $this->input->post('bidang');
+
+        $data_insert = array(
+            'KODE' => $kode,
+            'ID_BIDANG' => $bidang,
+            'NIP_PPTK' => $nip,
+            'NAMA_KEGIATAN' => $namaKegiatan
+        );
+        $this->data_model->insertKegiatan($data_insert);
+        $this->session->set_flashdata('tambahKegiatan', '<div class="alert alert-success" role="alert">
+        Tambah Kegiatan Berhasil!</div>');
+        $this->daftarkegiatan();
+    }
+
+    public function editKegiatan()
+    {
+        $kode = $this->input->post('kode_kegiatan');
+        $kode_hidden = $this->input->post('kode_hidden');
+        $nip = $this->input->post('nip_pegawai');
+        $namaKegiatan = $this->input->post('nama_kegiatan');
+        $bidang = $this->input->post('bidang');
+
+        $data_update = array(
+            'KODE' => $kode,
+            'ID_BIDANG' => $bidang,
+            'NIP_PPTK' => $nip,
+            'NAMA_KEGIATAN' => $namaKegiatan
+        );
+        $where = array('KODE' => $kode_hidden);
+        $this->data_model->update($where, 'kegiatan', $data_update);
+        $this->session->set_flashdata('updateKegiatan', '<div class="alert alert-success" role="alert">
+        Data Kegiatan Berhasil di Update!</div>');
+        $this->daftarkegiatan();
+    }
+
+    public function hapusKegiatan($kode)
+    {
+        $where = array('KODE' => $kode);
+        $this->data_model->delete($where, 'kegiatan');
+        $this->session->set_flashdata('hapusKegiatan', '<div class="alert alert-danger" role="alert">
+        Pegawai berhasil dihapus </div>');
+        $this->daftarkegiatan();
     }
 
     public function updateSPPD()

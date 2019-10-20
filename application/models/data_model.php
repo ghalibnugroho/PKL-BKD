@@ -29,6 +29,7 @@ class data_model extends CI_Model
         $query = $this->db->query('select NIP, NAMA, PANGKAT, GOLONGAN, JABATAN, ID_BIDANG, TANGGALLAHIR, TINGKAT FROM pegawai');
         return $query->result();
     }
+
     function fetch_data($query)
     {
         $this->db->select("*");
@@ -44,6 +45,27 @@ class data_model extends CI_Model
         $this->db->order_by('NAMA', 'ASC');
         return $this->db->get();
     }
+
+    public function getDaftarKegiatan()
+    {
+        $query = $this->db->query('select kode, nip_pptk, nama, nama_kegiatan, kegiatan.id_bidang FROM kegiatan Join pegawai ON kegiatan.NIP_PPTK = pegawai.NIP ');
+        return $query->result();
+    }
+
+    function fetch_dataKegiatan($query)
+    {
+        $this->db->select("KODE, NIP_PPTK, NAMA, NAMA_KEGIATAN");
+        $this->db->from("kegiatan");
+        $this->db->join("pegawai", "kegiatan.NIP_PPTK = pegawai.NIP");
+        if ($query != '') {
+            $this->db->like('NAMA', $query);
+            $this->db->or_like('KODE', $query);
+            $this->db->or_like('NAMA_KEGIATAN', $query);
+            $this->db->or_like('NIP_PPTK', $query);
+        }
+        $this->db->order_by('NAMA', 'ASC');
+        return $this->db->get();
+    }
     public function getPegawaiAll()
     {
         $query = $this->db->select("NAMA")
@@ -55,6 +77,16 @@ class data_model extends CI_Model
         //$query2=$this->db->query("SELECT NAMA FROM pegawai");
         return $query->result();
     }
+
+    public function getIdBidangPegawai($nip)
+    {
+        $query = $this->db->select('ID_BIDANG')
+            ->from('pegawai')
+            ->where('NIP', $nip)
+            ->get();
+        return $query->result();
+    }
+
     public function getDataSPPD($id)
     {
         $query = $this->db->select("TUJUAN, ID_SPPD, KODE, ALAT_ANGKUT, 
@@ -97,6 +129,10 @@ class data_model extends CI_Model
     public function insertPegawai($data_pegawai)
     {
         $this->db->insert('pegawai', $data_pegawai);
+    }
+    public function insertKegiatan($data_Kegiatan)
+    {
+        $this->db->insert('kegiatan', $data_Kegiatan);
     }
     public function getListSPPD()
     {
