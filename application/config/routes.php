@@ -65,3 +65,4 @@ $route['rekap-keuangan'] = 'sppdController/rekapkeuangan';
 $route['unduh-sppd/(:any)'] = 'sppdController/exportSPPD/$1';
 $route['ubah-password'] = 'sppdController/ubahPassword';
 $route['daftar-kegiatan'] = 'sppdController/daftarkegiatan';
+$route['rekap-keuangan'] = 'sppdController/rekapkeuangan';

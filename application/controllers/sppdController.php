@@ -189,11 +189,6 @@ class sppdController extends CI_Controller
     {
         $this->load->view('rincian');
     }
-    public function rekapkeuangan()
-    {
-        $result['list'] = $this->data_model->getListST();
-        $this->load->view('rekapkeuangan', $resuls);
-    }
 
     public function getPegawaiAll()
     {
@@ -1666,6 +1661,12 @@ class sppdController extends CI_Controller
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 
         $writer->save('php://output');
+    }
+
+    public function rekapkeuangan()
+    {
+        $result['list'] = $this->data_model->getTahunRekap();
+        $this->load->view('rekapkeuangan', $result);
     }
 
     function exportRekapa($tahun)

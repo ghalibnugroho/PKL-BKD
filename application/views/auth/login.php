@@ -1,6 +1,6 @@
   <!DOCTYPE html>
   <html lang="en">
-  <?php $this->load->view("templates/auth_header")?>
+  <?php $this->load->view("templates/auth_header") ?>
 
   <div class="container col-12 py-10">
 
@@ -20,15 +20,15 @@
                     <h1 class="h4 text-gray-900 mb-3 font">BKD ft. PKL</h1>
                     <h1></h1>
                   </div>
-                  <?=$this->session->flashdata('message');?>
-                  <form class="user" method="post" action="<?=base_url();?>">
+                  <?= $this->session->flashdata('message'); ?>
+                  <form class="user" method="post" action="<?= base_url(); ?>">
                     <div class="form-group padding-input-top">
-                      <input type="text" class="form-control form-control-user" placeholder="Enter Username..." name="username" value="<?=set_value('username');?>">
-                      <?=form_error('email', '<small class="text-danger pl-3">', '</small>');?>
+                      <input type="text" class="form-control form-control-user" placeholder="Enter Username..." name="username" value="<?= set_value('username'); ?>">
+                      <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" name="password" value="<?=set_value('password');?>">
-                      <?=form_error('password', '<small class="text-danger pl-3">', '</small>');?>
+                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" name="password" value="<?= set_value('password'); ?>">
+                      <?= form_error('password', '<small class="text-danger pl-3">', '</small>'); ?>
                     </div><br>
                     <button class="btn btn-primary btn-user btn-block">
                       Login

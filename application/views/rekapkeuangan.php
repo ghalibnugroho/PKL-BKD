@@ -1,5 +1,5 @@
 <?php
-require_once('templates/session.php');
+require_once 'templates/session.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,45 +26,43 @@ require_once('templates/session.php');
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DAFTAR PEGAWAI</h6>
+                        <div class="card-header">
+                            <form id="cariRekap" method="POST" role="form" action="<?php echo site_url('sppdController/rekapkeuangan'); ?>">
+                                <h6 class="m-0 font-weight-bold text-primary">REKAP KEUANGAN : </h6>
+                                <select id="tahun" name="tahun">
+                                    <option value="">-- Pilih Tahun --</option>
+                                    <?php
+                                    foreach ($list as $li) {
+                                        echo "<option value='" . $li->tanggal . "'>" . $li->tanggal . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                                <button id="btnFindRekap" name="submit" class="btn btn-primary" type="submit" form="cariRekap" value="Submit"><span class="icon text-white-50"><i class="fas fa-sm fa-search"></i></span><span class="text"> find</span></button>
+                            </form>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <col width="15%">
-                                    <col width="18%">
-                                    <col width="12%">
-                                    <col width="8%">
-                                    <col width="17%">
-                                    <thead>
-                                        <tr>
-                                            <th>NIP</th>
-                                            <th>NAMA</th>
-                                            <th>PANGKAT</th>
-                                            <th>GOLONGAN</th>
-                                            <th>JABATAN</th>
-                                            <th>TANGGAL LAHIR</th>
-                                            <th>ACTION</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        foreach ($list as $li) {
-                                            echo "<tr>
-                            <td>" . $li->NIP . "</td>
-                            <td>" . $li->NAMA . "</td>
-                            <td>" . $li->PANGKAT . " </td>
-                            <td>" . $li->GOLONGAN . "</td>
-                            <td>" . $li->JABATAN . "</td>
-                            <td>" . $li->TANGGALLAHIR . "</td>
-                            <td><a href=\"#\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
-                            </tr>";
+                                <?= $this->session->flashdata('tambahKegiatan'); ?>
+                                <?= $this->session->flashdata('updateKegiatan'); ?>
+                                <?= $this->session->flashdata('hapusKegiatan'); ?>
+                                <div id="result">
+                                    <?php
+                                    if (isset($_POST['submit'])) {
+                                        if (isset($_POST['tahun'])) {
+                                            if ($_POST['tahun'] != "") {
+                                                echo '<div class="">Rekap Keuangan Tahun <span style="color: blue"=>' . $_POST['tahun'] . ' </span> <span id="btn-margin-unduh">
+                                                <a href="" class="d-none d-sm-inline-block btn btn-sm btn-success"><i class="fas fa-sm fa-download"></i> Unduh </a> </span>
+                                                </div>';
+                                            } else {
+                                                echo "* Pilih Tahun Rekap Keuangan yang ingin anda cari";
+                                            }
                                         }
-                                        ?>
-
-                                    </tbody>
-                                </table>
+                                    } else {
+                                        echo "* Pilih Tahun Rekap Keuangan yang ingin anda cari";
+                                    }
+                                    ?>
+                                </div>
+                                <div style="clear:both"></div>
                             </div>
                         </div>
                     </div>
@@ -112,6 +110,20 @@ require_once('templates/session.php');
 
 
 
-</body>
+    <script>
+        $('#tahun').select2({
+            placeholder: "Tahun Rekap Keuangan",
+            width: '20%',
+        });
 
-</html>
+
+
+        $('#dd-bidang').keyup(function() {
+            var search = $(this).val();
+            if (search != '') {
+                load_data(search);
+            } else {
+                load_data();
+            }
+        });
+    </script>
