@@ -26,14 +26,23 @@ class sppdController extends CI_Controller
         $idbidang = $this->input->post('idbidang');
         $passlama = $this->input->post('passlama');
         $passbaru = $this->input->post('passbaru1');
+        $passbaru2 = $this->input->post('passbaru2');
 
-        if (password_verify($passlama, $this->data_model->getPassword($idbidang))) {
-            $where = array('ID_BIDANG' => $idbidang);
-            $data_insert = array(
-                'PASSWORD' => password_hash($passbaru, PASSWORD_DEFAULT)
-            );
-            $this->data_model->update($where, 'bidang', $data_insert);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"><b>Sukses! </b>Password berhasil diubah </div>');
+        if ($passbaru == $passbaru2) {
+            if (password_verify($passlama, $this->data_model->getPassword($idbidang))) {
+                $where = array('ID_BIDANG' => $idbidang);
+                $data_insert = array(
+                    'PASSWORD' => password_hash($passbaru, PASSWORD_DEFAULT)
+                );
+                $this->data_model->update($where, 'bidang', $data_insert);
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"><b>Sukses! </b>Password berhasil diubah </div>');
+                redirect('sppdController/ubahPassword');
+            } else {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"><b>Password Lama anda salah!</b> ketik password lama anda dengan benar </div>');
+                $this->ubahPassword();
+            }
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"><b>Password anda tidak match </b> cocokkan kedua password baru anda </div>');
             redirect('sppdController/ubahPassword');
         }
     }

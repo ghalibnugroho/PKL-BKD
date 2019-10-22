@@ -1,9 +1,10 @@
-<?php 
-    require_once('templates/session.php');
+<?php
+require_once('templates/session.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <?php $this->load->view("templates/auth_header") ?>
+<?php $this->load->view("templates/auth_header") ?>
+
 <body id="page-top">
   <div id="wrapper">
     <?php $this->load->view("templates/auth_sidebar") ?>
@@ -11,7 +12,7 @@
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-    
+
       <!-- Main Content -->
       <div id="content">
 
@@ -21,17 +22,12 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-        <?=$this->session->flashdata('message');?>
+          <?= $this->session->flashdata('message'); ?>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary col-sm-3" id="judul">Daftar Pengguna</h6>
-              <a href="<?php echo site_url('surat-tugas') ?>" class="btn btn-info btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-sm fa-plus"></i>
-                    </span>
-                    <span class="text">Tambah Surat Tugas</span>
-              </a>
+              <h6 class="m-0 font-weight-bold text-primary col-sm-3" id="judul">Ubah Password</h6>
+
             </div>
             <div class="card-body">
               <div class="table-responsive ">
@@ -45,77 +41,78 @@
                     </tr>
                   </thead>
                   <tbody>
-                  <?php 
-                    foreach($list as $li){
+                    <?php
+                    foreach ($list as $li) {
                       echo "<tr>
-                            <td>" .$li->NAMA_BIDANG."</td>
+                            <td>" . $li->NAMA_BIDANG . "</td>
                             <td>";
-                            ?>
-                            <a href="" data-target = "#ubah<?php echo $li->ID_BIDANG?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info">
-                              <i class="fas fa-sm fa-edit"></i> Ubah Password 
-                            </a>
-                      
+                      ?>
+                      <a href="" data-target="#ubah<?php echo $li->ID_BIDANG ?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info">
+                        <i class="fas fa-sm fa-edit"></i> Ubah Password
+                      </a>
 
-                          </td></tr>
 
-                                <!-- Ubah Password Modal-->
-                                <div class="modal fade" id="ubah<?php echo $li->ID_BIDANG;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                  <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                      <div class="modal-body">
-                                      <div class="tab-pane active" id="tab_1">  
-                                                <form method="POST" role="form" action="<?php echo site_url('sppdController/setPassword');?>">
-                                                <div class="form-group">
-                                                  <div class="row">
-                                                    <div class="col-sm-8">
-                                                    <input type="hidden" name="idbidang" value="<?php echo $li->ID_BIDANG; ?>">
-                                                    </div>
-                                                  </div>
-                                                </div>
+                      </td>
+                      </tr>
 
-                                                <div class="form-group input-group">
-                                                  <div class="row">
-                                                    <div class="col-sm-12">
-                                                      <label>Masukkan password lama</label>
-                                                      <input type="password" required  name="passlama" class=" form-control sc-input-required" >
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="form-group input-group">
-                                                  <div class="row">
-                                                    <div class="col-sm-12">
-                                                      <label>Masukkan password baru</label>
-                                                      <input type="password" required  name="passbaru1" class=" form-control sc-input-required" >
-                                                      <?= form_error('passbaru1', '<small class="text-danger pl-3">', '</small>'); ?>
-                                                    </div>
-                                                  </div>
-                                                </div>                                                
-                                                <div class="form-group input-group">
-                                                  <div class="row">
-                                                    <div class="col-sm-12">
-                                                      <label>Masukkan password baru lagi</label>
-                                                      <input type="password" required  name="passbaru2" class=" form-control sc-input-required" >
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                                  <input type="submit" value="Simpan" class="btn btn-primary">
-                                                </div>
-                                                </form>
-                                              </div>
-                                        </button>
+                      <!-- Ubah Password Modal-->
+                      <div class="modal fade" id="ubah<?php echo $li->ID_BIDANG; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <div class="tab-pane active" id="tab_1">
+                                <form method="POST" role="form" action="<?php echo site_url('sppdController/setPassword'); ?>">
+                                  <div class="form-group">
+                                    <div class="row">
+                                      <div class="col-sm-8">
+                                        <input type="hidden" name="idbidang" value="<?php echo $li->ID_BIDANG; ?>">
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                            
-                  <?php           
+
+                                  <div class="form-group input-group">
+                                    <div class="row">
+                                      <div class="col-sm-12">
+                                        <label>Masukkan password lama</label>
+                                        <input type="password" required name="passlama" class=" form-control sc-input-required">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form-group input-group">
+                                    <div class="row">
+                                      <div class="col-sm-12">
+                                        <label>Masukkan password baru</label>
+                                        <input type="password" required name="passbaru1" class=" form-control sc-input-required">
+                                        <?= form_error('passbaru1', '<small class="text-danger pl-3">', '</small>'); ?>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form-group input-group">
+                                    <div class="row">
+                                      <div class="col-sm-12">
+                                        <label>Masukkan password baru lagi</label>
+                                        <input type="password" required name="passbaru2" class=" form-control sc-input-required">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                    <input type="submit" value="Simpan" class="btn btn-primary">
+                                  </div>
+                                </form>
+                              </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    <?php
                     }
-                  ?>
-                  <script language="javascript">
-                  
-                  </script>
+                    ?>
+                    <script language="javascript">
+
+                    </script>
                   </tbody>
                 </table>
               </div>
@@ -157,7 +154,7 @@
         <div class="modal-footer">
 
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="<?=base_url('auth/logout');?>">Logout</a>
+          <a class="btn btn-primary" href="<?= base_url('auth/logout'); ?>">Logout</a>
         </div>
       </div>
     </div>
@@ -171,5 +168,5 @@
 <script>
   var timeout = 4000; // in miliseconds (3*1000)
 
-$('.alert').delay(timeout).fadeOut(500);
+  $('.alert').delay(timeout).fadeOut(500);
 </script>
