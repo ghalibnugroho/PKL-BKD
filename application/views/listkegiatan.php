@@ -64,32 +64,13 @@ require_once 'templates/session.php';
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="<?= base_url('auth/logout'); ?>">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="modal fade" id="tambahKegiatan" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="tab-pane active col-12" id="tab_1">
-                        <form method="POST" role="form" action="<?php echo site_url('sppdController/addKegiatan'); ?>">
+                        <form method="POST" role="form" action="<?php echo site_url('KegiatanController/addKegiatan'); ?>">
                             <div class="form-group">
                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">×</span>
@@ -139,7 +120,7 @@ require_once 'templates/session.php';
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="tab-pane active col-12" id="tab_1">
-                            <form method="POST" role="form" action="<?php echo site_url('sppdController/editKegiatan'); ?>">
+                            <form method="POST" role="form" action="<?php echo site_url('KegiatanController/editKegiatan'); ?>">
                                 <div class="form-group">
                                     <div class="modal-header">
                                         <h5 class="modal-title"><span style="color: blue"><?php echo $li->nama  ?></span> - EDIT DATA KEGIATAN</h5>
@@ -200,7 +181,7 @@ require_once 'templates/session.php';
                     <div class="modal-footer">
 
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-danger" href="<?= base_url('sppdController/hapusKegiatan/' . $li->kode); ?>">Hapus</a>
+                        <a class="btn btn-danger" href="<?= base_url('KegiatanController/hapusKegiatan/' . $li->kode); ?>">Hapus</a>
                     </div>
                 </div>
             </div>
@@ -231,7 +212,7 @@ require_once 'templates/session.php';
 
             function load_data(query) {
                 $.ajax({
-                    url: "<?php echo base_url(); ?>sppdController/fetchDataKegiatan",
+                    url: "<?php echo base_url(); ?>KegiatanController/fetchDataKegiatan",
                     method: "POST",
                     data: {
                         query: query

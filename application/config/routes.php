@@ -49,20 +49,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | Examples:    my-controller/index    -> my_controller/index
 |        my-controller/my-method    -> my_controller/my_method
  */
-$route['default_controller'] = 'auth';
+$route['default_controller'] = 'UserController';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = false;
 
 $route['sppd/(:any)'] = 'sppdController/sppd/$1';
-$route['surat-tugas'] = 'sppdController/surattugas';
+$route['surat-tugas'] = 'SuratTugasController/surattugas';
 $route['list-sppd'] = 'sppdController/listsppd';
-$route['list-st'] = 'sppdController/listst';
-$route['list-rincian'] = 'sppdController/listrincian';
-$route['rincian'] = 'sppdController/rincian';
+$route['list-st'] = 'SuratTugasController/listst';
+$route['list-rincian'] = 'RincianController/listrincian';
+$route['rincian'] = 'RincianController/rincian';
 $route['read_st'] = 'sppdController/readST';
-$route['daftar-pegawai'] = 'sppdController/daftarpegawai';
+$route['daftar-pegawai'] = 'PegawaiController/daftarpegawai';
 $route['rekap-keuangan'] = 'sppdController/rekapkeuangan';
 $route['unduh-sppd/(:any)'] = 'sppdController/exportSPPD/$1';
-$route['ubah-password'] = 'sppdController/ubahPassword';
-$route['daftar-kegiatan'] = 'sppdController/daftarkegiatan';
-$route['rekap-keuangan'] = 'sppdController/rekapkeuangan';
+$route['ubah-password'] = 'UserController/ubahPassword';
+$route['daftar-kegiatan'] = 'KegiatanController/daftarkegiatan';
+$route['rekap-keuangan'] = 'RincianController/rekapkeuangan';
+$route['home'] = 'UserController/home';

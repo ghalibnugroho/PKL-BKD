@@ -31,7 +31,7 @@
                 </div>
                 <div class="card-body">
                 <div class="tab-pane active full-height" id="tab_1">  
-                <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSurattugas');?>">
+                <form method="POST" role="form" action="<?php echo site_url('SuratTugasController/insertSurattugas');?>">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
@@ -142,7 +142,7 @@
    
 	$('input[name="pengikut"]').amsifySuggestags({
     suggestionsAction : {
-						url : '<?php echo site_url('sppdController/getPegawaiAll');?>'
+						url : '<?php echo site_url('SuratTugasController/getPegawaiAll');?>'
 					},
           whiteList: true
 		//suggestions: ['Malang', 'Kediri', 'Madiun', 'Surabaya', 'Jayapura', 'Timika']

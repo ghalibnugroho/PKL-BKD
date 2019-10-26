@@ -61,7 +61,7 @@ require_once('templates/session.php');
                           <div class="modal-content">
                             <div class="modal-body">
                               <div class="tab-pane active" id="tab_1">
-                                <form method="POST" role="form" action="<?php echo site_url('sppdController/setPassword'); ?>">
+                                <form method="POST" role="form" action="<?php echo site_url('UserController/setPassword'); ?>">
                                   <div class="form-group">
                                     <div class="row">
                                       <div class="col-sm-8">

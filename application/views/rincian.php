@@ -214,7 +214,7 @@ require_once 'templates/session.php';
           <div class="modal-content">
             <div class="modal-body">
             <div class="tab-pane active" id="tab_1">  
-                      <form method="POST" role="form" action="<?php echo site_url('sppdController/tambahTransportasi');?>">
+                      <form method="POST" role="form" action="<?php echo site_url('RincianController/tambahTransportasi');?>">
                       <div class="form-group">
                         <div class="row">
                           <div class="col-sm-8">
@@ -317,7 +317,7 @@ require_once 'templates/session.php';
           <div class="modal-content">
             <div class="modal-body">
             <div class="tab-pane active" id="tab_1">  
-                      <form method="POST" role="form" action="<?php echo site_url('sppdController/tambahRincian');?>">
+                      <form method="POST" role="form" action="<?php echo site_url('RincianController/tambahRincian');?>">
                       <div class="form-group">
                         <div class="row">
                           <div class="col-sm-8">
@@ -390,7 +390,7 @@ require_once 'templates/session.php';
             <div class="modal-content">
               <div class="modal-body">
               <div class="tab-pane active" id="tab_1">  
-                        <form method="POST" role="form" action="<?php echo site_url('sppdController/editTransportasi');?>">
+                        <form method="POST" role="form" action="<?php echo site_url('RincianController/editTransportasi');?>">
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-8">
@@ -499,7 +499,7 @@ require_once 'templates/session.php';
               </div>
               <div class="modal-body">Anda akan menghapus transportasi dengan nomor tiket <?php echo $li->NO_TIKET;?>.</div>
               <div class="modal-footer">
-              <form method="post" action="<?php echo site_url('sppdController/hapusTransportasi');?>">
+              <form method="post" action="<?php echo site_url('RincianController/hapusTransportasi');?>">
                   <input type="hidden" name="idrincian" value="<?php echo $li->ID_RINCIAN; ?>">
                   <input type="hidden" name="idsppd" value="<?php echo $li->ID_SPPD; ?>">
                   <input type="hidden" name="idpeserta" value="<?php echo $li->ID_PESERTA; ?>">
@@ -520,7 +520,7 @@ require_once 'templates/session.php';
             <div class="modal-content">
               <div class="modal-body">
               <div class="tab-pane active" id="tab_1">  
-                        <form method="POST" role="form" action="<?php echo site_url('sppdController/editRincian');?>">
+                        <form method="POST" role="form" action="<?php echo site_url('RincianController/editRincian');?>">
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-8">
@@ -590,7 +590,7 @@ require_once 'templates/session.php';
               </div>
               <div class="modal-body">Anda akan menghapus data rincian <?php echo $li->JENIS?>.</div>
               <div class="modal-footer">
-                <form method="post" action="<?php echo site_url('sppdController/hapusRincian');?>">
+                <form method="post" action="<?php echo site_url('RincianController/hapusRincian');?>">
                   <input type="hidden" name="idrincian" value="<?php echo $li->ID_RINCIAN; ?>">
                   <input type="hidden" name="idsppd" value="<?php echo $li->ID_SPPD; ?>">
                   <input type="hidden" name="idpeserta" value="<?php echo $li->ID_PESERTA; ?>">

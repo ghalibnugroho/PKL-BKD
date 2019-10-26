@@ -98,32 +98,12 @@ require_once 'templates/session.php';
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="<?= base_url('auth/logout'); ?>">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="tambahPegawai" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="tab-pane active col-12" id="tab_1">
-                        <form method="POST" role="form" action="<?php echo site_url('sppdController/addPegawai'); ?>">
+                        <form method="POST" role="form" action="<?php echo site_url('PegawaiController/addPegawai'); ?>">
                             <div class="form-group">
                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">×</span>
@@ -225,7 +205,7 @@ require_once 'templates/session.php';
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="tab-pane active col-12" id="tab_1">
-                            <form method="POST" role="form" action="<?php echo site_url('sppdController/editPegawai'); ?>">
+                            <form method="POST" role="form" action="<?php echo site_url('PegawaiController/editPegawai'); ?>">
                                 <div class="form-group">
                                     <div class="modal-header">
                                         <h5 class="modal-title"><span style="color: blue"><?php echo $li->NAMA  ?></span> - EDIT DATA PEGAWAI</h5>
@@ -339,7 +319,7 @@ require_once 'templates/session.php';
                     <div class="modal-footer">
 
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-danger" href="<?= base_url('sppdController/hapusPegawai/' . $li->NIP); ?>">Hapus</a>
+                        <a class="btn btn-danger" href="<?= base_url('PegawaiController/hapusPegawai/' . $li->NIP); ?>">Hapus</a>
                     </div>
                 </div>
             </div>
@@ -380,7 +360,7 @@ require_once 'templates/session.php';
 
             function load_data(query) {
                 $.ajax({
-                    url: "<?php echo base_url(); ?>sppdController/fetchDataPegawai",
+                    url: "<?php echo base_url(); ?>PegawaiController/fetchDataPegawai",
                     method: "POST",
                     data: {
                         query: query
