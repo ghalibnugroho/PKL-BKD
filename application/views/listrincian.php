@@ -50,12 +50,12 @@
                             <td>800/" .$li->ID_ST."/35.73.403/".date("Y")."</td>
                             <td>" .$li->NAMA."</td>
                             <td>" .$li->TUJUAN." </td>
-                            <td><a href=\"".site_url("sppdController/rincian/").$li->ID_SPPD."\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>"; 
+                            <td><a href=\"".site_url("RincianController/rincian/").$li->ID_SPPD."\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>"; 
                             ?>
-                            <a href="<?php echo site_url('sppdController/exportRincianPeserta/'.$li->ID_SPPD);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
+                            <a href="<?php echo site_url('RincianController/exportRincianPeserta/'.$li->ID_SPPD);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
                             <i class="fas fa-sm  fa-download "></i> Rincian Peserta </a>
                             <br><br>
-                            <a href="<?php echo site_url('sppdController/exportRincianNominatif/'.$li->ID_SPPD);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
+                            <a href="<?php echo site_url('RincianController/exportRincianNominatif/'.$li->ID_SPPD);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
                             <i class="fas fa-sm  fa-download "></i> Nominatif </a>
 
                             </td>
@@ -92,33 +92,7 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
 
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="<?=base_url('auth/logout');?>">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <select>
-  <option>Choose Your Name</option>
-  <option>Frank</option>
-  <option>George</option>
-  <option>Other</option>
-</select>
-<label id="tes" style="display:none;">Enter your Name
-<input>
 </label>
 
 
