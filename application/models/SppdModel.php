@@ -20,12 +20,13 @@ class SppdModel extends CI_Model
 
     public function getListSPPD()
     {
-        $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA")
+        $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA, KATEGORI")
             ->from('surattugas')
             ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
             ->where('peserta.SEBAGAI', 'Kepala')
+            ->order_by('TGL_BERANGKAT', 'DESC')
             ->get();
 
         return $query->result();
@@ -44,9 +45,19 @@ class SppdModel extends CI_Model
             ->get();
         return $query->result();
     }
-
-
-
-
-
+    public function total_sppd()
+    {
+        $query = $this->db->query('SELECT count(*) as total_sppd FROM `sppd` where KODE & ALAT_ANGKUT & TMP_BERANGKAT & TMP_TUJUAN & TGL_BERANGKAT & TGL_KEMBALI & LAMA & KATEGORI & INSTANSI IS NOT NULL');
+        return $query->result();
+    }
+    public function total_kategori_dinas_dalam()
+    {
+        $query = $this->db->query('SELECT count(*) as dinas_dalam FROM `sppd` where KATEGORI = "Dinas Dalam"');
+        return $query->result();
+    }
+    public function total_kategori_dinas_luar()
+    {
+        $query = $this->db->query('SELECT count(*) as dinas_luar FROM `sppd` where KATEGORI = "Dinas Luar"');
+        return $query->result();
+    }
 }

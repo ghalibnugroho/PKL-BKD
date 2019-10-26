@@ -122,10 +122,10 @@ require_once 'templates/session.php';
                                         <label>Bidang</label>
                                         <select id="dd-bidang" name="bidang">
                                             <option></option>
-                                            <option value="2">Sekretariat</option>
-                                            <option value="3">Mutasi</option>
-                                            <option value="4">PKFP</option>
-                                            <option value="5">PKP</option>
+                                            <option value="SEKRETARIAT">Sekretariat</option>
+                                            <option value="MUTASI">Mutasi</option>
+                                            <option value="PKFP">PKFP</option>
+                                            <option value="PKP">PKP</option>
                                         </select>
                                     </div>
                                     <div class="col-3">

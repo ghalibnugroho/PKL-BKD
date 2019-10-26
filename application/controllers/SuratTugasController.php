@@ -13,8 +13,8 @@ class SuratTugasController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('UserModel');
-        $this->load->model('SuratTugasModel');  
-        $this->load->model('PegawaiModel') ;
+        $this->load->model('SuratTugasModel');
+        $this->load->model('PegawaiModel');
         $this->load->library('form_validation');
     }
     public function listst()
@@ -83,7 +83,7 @@ class SuratTugasController extends CI_Controller
         );
         $where = array('ID_ST' => $id);
         $this->UserModel->update($where, 'surattugas', $data_surattugas);
-        $pesertalama = $this->SuratTgasModel->getPeserta($id);
+        $pesertalama = $this->SuratTugasModel->getPeserta($id);
 
         $arr_pengikut = explode(",,", $pengikut);
         foreach ($arr_pengikut as $ap) {

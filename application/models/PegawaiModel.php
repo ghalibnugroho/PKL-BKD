@@ -70,7 +70,7 @@ class PegawaiModel extends CI_Model
 
         return $query->result();
     }
-    
+
     public function getNIP($nama)
     {
         $nip = array();
@@ -86,6 +86,11 @@ class PegawaiModel extends CI_Model
             ->from('bidang')
             ->get();
 
+        return $query->result();
+    }
+    public function total_pegawai()
+    {
+        $query = $this->db->query('select count(*) as total_pegawai FROM pegawai');
         return $query->result();
     }
 }

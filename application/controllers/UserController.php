@@ -9,6 +9,9 @@ class UserController extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('UserModel');
         $this->load->model('PegawaiModel');
+        $this->load->model('KegiatanModel');
+        $this->load->model('SuratTugasModel');
+        $this->load->model('SppdModel');
     }
 
     public function index()
@@ -69,7 +72,13 @@ class UserController extends CI_Controller
     public function home()
     {
 
-        $data = $this->UserModel->datalogin();
+        $data['login'] = $this->UserModel->datalogin();
+        $data['total_pegawai'] = $this->PegawaiModel->total_pegawai();
+        $data['total_kegiatan'] = $this->KegiatanModel->total_kegiatan();
+        $data['total_st'] = $this->SuratTugasModel->total_st();
+        $data['total_sppd'] = $this->SppdModel->total_sppd();
+        $data['total_sppd_kat_dinas_dalam'] = $this->SppdModel->total_kategori_dinas_dalam();
+        $data['total_sppd_kat_dinas_luar'] = $this->SppdModel->total_kategori_dinas_luar();
         $this->load->view('home', $data);
     }
     public function registration()

@@ -360,5 +360,4 @@ class sppdController extends CI_Controller
         }
         return $hasil;
     }
-
 }

@@ -61,4 +61,9 @@ class SuratTugasModel extends CI_Model
 
         return $query->result();
     }
+    public function total_st()
+    {
+        $query = $this->db->query('select count(*) as total_st FROM surattugas');
+        return $query->result();
+    }
 }

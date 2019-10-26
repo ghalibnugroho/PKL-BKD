@@ -62,4 +62,9 @@ class KegiatanModel extends CI_Model
         $kode = $query->result();
         return $kode[0]->NAMA_KEGIATAN;
     }
+    function total_kegiatan()
+    {
+        $query = $this->db->query("select count(*) as total_kegiatan from kegiatan");
+        return $query->result();
+    }
 }
