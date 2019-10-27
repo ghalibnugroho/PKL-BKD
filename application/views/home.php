@@ -28,9 +28,50 @@ require_once('templates/session.php');
 
             <!-- Earnings (Monthly) Card Example -->
             <?php
-            foreach ($total_pegawai as $tp) { ?>
-              <div class="col-xl-3 col-md-6 mb-4">
-                <a style="text-decoration:none;" href=" <?php echo site_url('daftar-pegawai'); ?>">
+            if ($this->session->userdata('priority') == 1) {
+              foreach ($total_pegawai as $tp) { ?>
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <a style="text-decoration:none;" href=" <?php echo site_url('daftar-pegawai'); ?>">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Pegawai BKD</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $tp->total_pegawai ?> Pegawai</div>
+                          </div>
+                          <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              <?php } ?>
+              <!-- Earnings (Monthly) Card Example -->
+              <?php
+                foreach ($total_kegiatan as $tk) { ?>
+                <div class="col-xl-3 col-md-6 mb-4">
+                  <a style="text-decoration:none;" href=" <?php echo site_url('daftar-kegiatan'); ?>">
+                    <div class="card border-left-success shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Kegiatan BKD</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $tk->total_kegiatan ?> Kegiatan</div>
+                          </div>
+                          <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              <?php }
+              } else {
+                foreach ($total_pegawai as $tp) { ?>
+                <div class="col-xl-3 col-md-6 mb-4">
                   <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                       <div class="row no-gutters align-items-center">
@@ -44,14 +85,13 @@ require_once('templates/session.php');
                       </div>
                     </div>
                   </div>
-                </a>
-              </div>
-            <?php } ?>
-            <!-- Earnings (Monthly) Card Example -->
-            <?php
-            foreach ($total_kegiatan as $tk) { ?>
-              <div class="col-xl-3 col-md-6 mb-4">
-                <a style="text-decoration:none;" href=" <?php echo site_url('daftar-kegiatan'); ?>">
+                </div>
+              <?php }
+                ?>
+              <!-- Earnings (Monthly) Card Example -->
+              <?php
+                foreach ($total_kegiatan as $tk) { ?>
+                <div class="col-xl-3 col-md-6 mb-4">
                   <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
                       <div class="row no-gutters align-items-center">
@@ -65,9 +105,9 @@ require_once('templates/session.php');
                       </div>
                     </div>
                   </div>
-                </a>
-              </div>
-            <?php } ?>
+                </div>
+            <?php }
+            } ?>
             <!-- Earnings (Monthly) Card Example -->
             <?php
             foreach ($total_st as $st) { ?>
