@@ -15,6 +15,7 @@ class sppdController extends CI_Controller
         $this->load->model('SppdModel');
         $this->load->model('UserModel');
         $this->load->model('KegiatanModel');
+        $this->load->model('PegawaiModel');
         $this->load->library('form_validation');
     }
 

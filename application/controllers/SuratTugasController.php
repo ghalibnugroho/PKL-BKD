@@ -67,7 +67,53 @@ class SuratTugasController extends CI_Controller
         <b>Sukses! </b>Data berhasil dimasukkan </div>');
         $this->listst();
     }
+    function konversi_nip($nip)
+    {
+        $nip = trim($nip, " ");
+        $panjang = strlen($nip);
+        $batas = " ";
 
+        if ($panjang == 18) {
+            $sub[] = substr($nip, 0, 8); // tanggal lahir
+            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+            $sub[] = substr($nip, 14, 1); // jenis kelamin
+            $sub[] = substr($nip, 3, 3); // nomor urut
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2] . $batas . $sub[3];
+        } elseif ($panjang == 15) {
+            $sub[] = substr($nip, 0, 8); // tanggal lahir
+            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+            $sub[] = substr($nip, 14, 1); // jenis kelamin
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+        } elseif ($panjang == 9) {
+            $sub = str_split($nip, 3);
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+        } else {
+            return $nip;
+        }
+    }
+    function tgl_indo($tanggal)
+    {
+        $bulan = array(
+            1 =>   'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        );
+        $pecahkan = explode('-', $tanggal);
+
+        return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
+    }
     public function editST()
     {
         $id = $this->input->post('id');
@@ -83,12 +129,14 @@ class SuratTugasController extends CI_Controller
         );
         $where = array('ID_ST' => $id);
         $this->UserModel->update($where, 'surattugas', $data_surattugas);
-        $pesertalama = $this->SuratTgasModel->getPeserta($id);
+        $pesertalama = $this->SuratTugasModel->getPeserta($id);
 
-        $arr_pengikut = explode(",,", $pengikut);
-        foreach ($arr_pengikut as $ap) {
+        
+        if($pengikut != ""){
+            $arr_pengikut = explode(",,", $pengikut);
+            foreach ($arr_pengikut as $ap) {
             $diperintah[] = $ap;
-        }
+        }}
 
         $nip_diperintah = $this->PegawaiModel->getNIP($diperintah);
 
@@ -97,6 +145,7 @@ class SuratTugasController extends CI_Controller
         foreach ($pesertalama as $pl) {
             $check_delete = true;
             foreach ($nip_diperintah as $pb) {
+                if($pb)
                 if ($pl->NIP == $pb[0]->NIP) {
                     $check_delete = false;
                 }

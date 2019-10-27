@@ -25,7 +25,7 @@
 
 
           <!-- DataTales Example -->
-          <div class="card shadow mb-4">
+          <div class="card shadow mb-4" id="editst">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Surat Tugas</h6>
                 </div>
@@ -56,9 +56,14 @@
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-4">
-                            <label>Pegawai yang diperintah</label>
-                              <input required type="text" name="diperintah" value="<?php echo $peserta[0]->NAMA;
-                              ?>" class=" diperintah form-control sc-input-required" >
+                            <label>Pegawai yang diperintah </label>
+                              <select required id="selectPegawai" name="diperintah" class=" diperintah form-control sc-input-required">
+                                <option><?php echo $peserta[0]->NAMA;?></option>
+                                <?php foreach ($data as $op) {
+                                  echo "<option>".$op->NAMA."</option>";
+                                }
+                                ?>
+                              </select>
                             </div> 
                           </div> 
                         </div>
@@ -112,6 +117,11 @@
 </html>
 
 <script>
+  $('#selectPegawai').select2({
+      placeholder: "Nama Pegawai",
+      dropdownParent: $('#editst'),
+      width: '100%',
+    });
      $(document).ready(function(){
         $( ".diperintah" ).autocomplete({
           source: "<?php echo site_url('SuratTugasController/getPegawai/?');?>"
