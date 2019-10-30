@@ -79,6 +79,12 @@ class UserController extends CI_Controller
         $data['total_sppd'] = $this->SppdModel->total_sppd();
         $data['total_sppd_kat_dinas_dalam'] = $this->SppdModel->total_kategori_dinas_dalam();
         $data['total_sppd_kat_dinas_luar'] = $this->SppdModel->total_kategori_dinas_luar();
+        $data['bulan'] = $this->SppdModel->bulan_tahun_sppd();
+        $value = [];
+        foreach ($data['bulan'] as $bt) {
+            $value[] = $bt['bulan_tahun'] . " ";
+        }
+        $data['value'] = explode('-', $value[0]);
         $this->load->view('home', $data);
     }
     public function registration()

@@ -32,12 +32,12 @@ require_once('templates/session.php');
               foreach ($total_pegawai as $tp) { ?>
                 <div class="col-xl-3 col-md-6 mb-4">
                   <a style="text-decoration:none;" href=" <?php echo site_url('daftar-pegawai'); ?>">
-                    <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card border-left-danger shadow h-100 py-2">
                       <div class="card-body">
                         <div class="row no-gutters align-items-center">
                           <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Pegawai BKD</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $tp->total_pegawai ?> Pegawai</div>
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Total Pegawai BKD</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $tp->total_pegawai ?> Pegawai </div>
                           </div>
                           <div class="col-auto">
                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -53,11 +53,11 @@ require_once('templates/session.php');
                 foreach ($total_kegiatan as $tk) { ?>
                 <div class="col-xl-3 col-md-6 mb-4">
                   <a style="text-decoration:none;" href=" <?php echo site_url('daftar-kegiatan'); ?>">
-                    <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card border-left-info shadow h-100 py-2">
                       <div class="card-body">
                         <div class="row no-gutters align-items-center">
                           <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Kegiatan BKD</div>
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Kegiatan BKD</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $tk->total_kegiatan ?> Kegiatan</div>
                           </div>
                           <div class="col-auto">
@@ -113,11 +113,11 @@ require_once('templates/session.php');
             foreach ($total_st as $st) { ?>
               <div class="col-xl-3 col-md-6 mb-4">
                 <a style="text-decoration:none;" href=" <?php echo site_url('list-st'); ?>">
-                  <div class="card border-left-info shadow h-100 py-2">
+                  <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
                       <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                          <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Surat Tugas</div>
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Surat Tugas</div>
                           <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                               <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo $st->total_st ?> Surat Tugas</div>
@@ -164,7 +164,7 @@ require_once('templates/session.php');
             <div class="card shadow mb-4">
               <!-- Card Header - Dropdown -->
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                <h6 class="m-0 font-weight-bold text-success">Jumlah Keberangkatan Dinas</h6>
               </div>
               <!-- Card Body -->
               <div class="card-body">
@@ -341,6 +341,162 @@ require_once('templates/session.php');
   </a>
 
   <script>
+    //suratTugas
+    <?php
+    $a = [];
+    $c = [];
+    foreach ($bulan as $bt) {
+      $a[] = $bt['bulan_tahun'] . " ";
+    }
+    foreach ($value as $bt) {
+      $c[] = $bt;
+    }
+    ?>
+    var a = <?php echo json_encode($a); ?>;
+    var b = [4, 5, 2];
+    var c = <?php echo json_encode($c); ?>;
+
+    for (var i = 0; i < a.length; i++) {
+
+      // alert(a[i]);
+      // alert(b[i]);
+      // alert(c[i]);
+    }
+
+    function addData(chart, label, data) {
+      chart.data.labels.push(label);
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+      });
+      chart.update();
+    }
+
+    function removeData(chart) {
+      chart.data.labels.pop();
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+      });
+      chart.update();
+    }
+    // Set new default font family and font color to mimic Bootstrap's default styling
+    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
+
+    function number_format(number, decimals, dec_point, thousands_sep) {
+      // *     example: number_format(1234.56, 2, ',', ' ');
+      // *     return: '1 234,56'
+      number = (number + '').replace(',', '').replace(' ', '');
+      var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = function(n, prec) {
+          var k = Math.pow(10, prec);
+          return '' + Math.round(n * k) / k;
+        };
+      // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+      s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+      if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+      }
+      if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+      }
+      return s.join(dec);
+    }
+
+    // Area Chart Example
+    var ctx = document.getElementById("myAreaChart");
+    var myBarChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: a,
+        datasets: [{
+          label: "Surat Perintah Perjalanan Dinas",
+          lineTension: 0.3,
+          backgroundColor: "rgb(32, 172, 134)",
+          borderColor: "rgba(78, 115, 223, 1)",
+          pointRadius: 3,
+          pointBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointBorderColor: "rgba(78, 115, 223, 1)",
+          pointHoverRadius: 3,
+          pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+          pointHitRadius: 10,
+          pointBorderWidth: 2,
+          data: b,
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 10,
+            right: 25,
+            top: 25,
+            bottom: 0
+          }
+        },
+        scales: {
+          xAxes: [{
+            time: {
+              unit: 'date'
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 7
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              padding: 10,
+              beginAtZero: true
+              // Include a dollar sign in the ticks
+
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          titleMarginBottom: 10,
+          titleFontColor: '#6e707e',
+          titleFontSize: 14,
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          intersect: false,
+          mode: 'index',
+          caretPadding: 10,
+          callbacks: {
+            label: function(tooltipItem, chart) {
+              var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+              return tooltipItem.yLabel + " " + datasetLabel;
+            }
+          }
+        }
+      }
+    });
+
+    //sppd
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
     Chart.defaults.global.defaultFontColor = '#858796';
 

@@ -60,4 +60,14 @@ class SppdModel extends CI_Model
         $query = $this->db->query('SELECT count(*) as dinas_luar FROM `sppd` where KATEGORI = "Dinas Luar"');
         return $query->result();
     }
+    public function bulan_tahun_sppd()
+    {
+        $query = $this->db->query('SELECT bulan_tahun from (select DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd where TGL_BERANGKAT is NOT NULL ORDER BY bulan_tahun DESC limit 12) as tgl_sppd order by bulan_tahun ASC ');
+        return $query->result_array();
+    }
+    public function jumlah_sppd_berangkat($bulan, $tahun)
+    {
+        $query = $this->db->query('SELECT count(*) as jumlah_sppd from `sppd` where date_format(TGL_BERANGKAT, "%M") = ' + $bulan + '&& YEAR(TGL_BERANGKAT) =' + $tahun);
+        return $query->result_array();
+    }
 }
