@@ -81,10 +81,19 @@ class UserController extends CI_Controller
         $data['bulan'] = $this->SppdModel->bulan_tahun_sppd();
         $value = [];
         foreach ($data['bulan'] as $bt) {
-            $value[] = $bt['bulan_tahun'] ;
+            $value[] = $bt['bulan_tahun'];
         }
-        $data['value'] = explode('-', $value[0]);
-        print_r($value);
+        foreach($value as $val){
+            $data['value'][] = explode('-', $val);
+        }
+        
+        foreach($data['value'] as $data){
+            print("ini bulan");
+            print($data[0]);
+            print("ini tahun");
+            print($data[1]);
+        }
+
         $this->load->view('home', $data);
     }
     public function registration()
