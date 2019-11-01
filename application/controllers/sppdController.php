@@ -20,7 +20,8 @@ class sppdController extends CI_Controller
 
     public function listsppd()
     {
-        $result['list'] = $this->SppdModel->getListSPPD();
+        $user = $this->session->userdata('username');
+        $result['list'] = $this->SppdModel->getListSPPD($user);
         $this->load->view('listsppd', $result);
     }
 
@@ -37,7 +38,8 @@ class sppdController extends CI_Controller
 
     public function getListSPPD()
     {
-        $list = $this->SppdModel->getListSPPD();
+        $user = $this->session->userdata('username');
+        $list = $this->SppdModel->getListSPPD($user);
         foreach ($list->result() as $l) {
             $data_events[] = array(
                 "no" => $l->ID_ST,

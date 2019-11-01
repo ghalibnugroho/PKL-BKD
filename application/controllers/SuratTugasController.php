@@ -19,7 +19,8 @@ class SuratTugasController extends CI_Controller
     }
     public function listst()
     {
-        $result['list'] = $this->SuratTugasModel->getListST();
+        $user = $this->session->userdata('username');
+        $result['list'] = $this->SuratTugasModel->getListST($user);
         $this->load->view('listst', $result);
     }
     public function surattugas()
@@ -29,6 +30,8 @@ class SuratTugasController extends CI_Controller
     }
     public function insertSurattugas()
     {
+        $user = $this->session->userdata('username');
+        $idbidang = $this->UserModel->getIdBidang($user);
         $dasar = $this->input->post('dasar');
         $tujuan = $this->input->post('untuk');
         $tanggal = $this->input->post('tanggal');
@@ -37,6 +40,7 @@ class SuratTugasController extends CI_Controller
         $id = $this->SuratTugasModel->getIDST()[0]->ID_ST + 1;
         $data_surattugas = array(
             'ID_ST' => $id,
+            'ID_BIDANG'=>$idbidang,
             'DASAR' => $dasar,
             'TUJUAN' => $tujuan,
             'TANGGAL' => date('Y-m-d', strtotime($tanggal)),

@@ -71,7 +71,6 @@ class UserController extends CI_Controller
 
     public function home()
     {
-
         $data['login'] = $this->UserModel->datalogin();
         $data['total_pegawai'] = $this->PegawaiModel->total_pegawai();
         $data['total_kegiatan'] = $this->KegiatanModel->total_kegiatan();
@@ -82,9 +81,10 @@ class UserController extends CI_Controller
         $data['bulan'] = $this->SppdModel->bulan_tahun_sppd();
         $value = [];
         foreach ($data['bulan'] as $bt) {
-            $value[] = $bt['bulan_tahun'] . " ";
+            $value[] = $bt['bulan_tahun'] ;
         }
         $data['value'] = explode('-', $value[0]);
+        print_r($value);
         $this->load->view('home', $data);
     }
     public function registration()

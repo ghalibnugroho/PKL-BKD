@@ -18,7 +18,7 @@ class SppdModel extends CI_Model
         return $query->result();
     }
 
-    public function getListSPPD()
+    public function getListSPPD($user)
     {
         $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA, KATEGORI")
             ->from('surattugas')
@@ -27,6 +27,8 @@ class SppdModel extends CI_Model
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
             ->where('peserta.SEBAGAI', 'Kepala')
             ->order_by('TGL_BERANGKAT', 'DESC')
+            ->join('bidang', 'bidang.ID_BIDANG=surattugas.ID_BIDANG')
+            ->where('bidang.NAMA_BIDANG', $user)
             ->get();
 
         return $query->result();
