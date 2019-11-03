@@ -18,8 +18,16 @@ class PegawaiController extends CI_Controller
     }
     public function daftarpegawai()
     {
-        $result['list'] = $this->PegawaiModel->getDaftarPegawai();
-        $this->load->view('listpegawai', $result);
+        if ($this->session->userdata('priority') == 1) {
+            $result['list'] = $this->PegawaiModel->getDaftarPegawai();
+            $this->load->view('listpegawai', $result);
+        } else {
+            if ($this->session->userdata('priority') != null) {
+                redirect('home');
+            } else {
+                redirect(base_url());
+            }
+        }
     }
 
     public function fetchDataPegawai()
