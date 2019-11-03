@@ -69,7 +69,12 @@ class SppdModel extends CI_Model
     }
     public function jumlah_sppd_berangkat($bulan, $tahun)
     {
-        $query = $this->db->query('SELECT count(*) as jumlah_sppd from `sppd` where date_format(TGL_BERANGKAT, "%M") = ' + $bulan + '&& YEAR(TGL_BERANGKAT) =' + $tahun);
+        // $query = $this->db->query('SELECT count(*) as jumlah_sppd from `sppd` where date_format(TGL_BERANGKAT, "%M") = ' + $bulan + '&& YEAR(TGL_BERANGKAT) =' + $tahun);
+        $query = $this->db->select("count(*) as jumlah_sppd")
+            ->from('sppd')
+            ->where('date_format(TGL_BERANGKAT, "%M") =', $bulan)
+            ->where('YEAR(TGL_BERANGKAT)', $tahun)
+            ->get();
         return $query->result_array();
     }
 }

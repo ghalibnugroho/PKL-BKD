@@ -108,11 +108,11 @@ require_once('templates/session.php');
                     <div class="form-group">
                       <div class="row">
                         <div class="col-sm-4">
-                          <label>Kategori</label>
+                          <label>Kategori Dinas</label>
                           <select required name="kategori" class="form-control sc-input-required">
                             <option><?php echo $li->KATEGORI == null ? "--" : $li->KATEGORI; ?></option>
-                            <option>Dalam Daerah</option>
-                            <option>Luar Daerah</option>
+                            <option value="Dinas Dalam">Dalam Daerah</option>
+                            <option value="Dinas Luar">Luar Daerah</option>
                           </select>
                         </div>
                       </div>
