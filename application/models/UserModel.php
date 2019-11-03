@@ -22,6 +22,17 @@ class UserModel extends CI_Model
         $data = $this->db->get_where('bidang', ['NAMA_BIDANG' => $this->session->userdata('username')])->row_array();
         return $data;
     }
+    public function getIdBidang($user){
+        $id='';
+        $query = $this->db->select("ID_BIDANG")
+            ->from('bidang')
+            ->where('NAMA_BIDANG', $user)
+            ->get()->result();
+        if($query){
+            $id=$query[0]->ID_BIDANG;
+        }
+        return $id;
+    }
     function getPassword($idbidang)
     {
         $query = $this->db->select("PASSWORD")
@@ -51,5 +62,4 @@ class UserModel extends CI_Model
     {
         $this->db->insert($table, $data_insert);
     }
-
 }

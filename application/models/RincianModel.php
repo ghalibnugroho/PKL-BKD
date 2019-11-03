@@ -77,7 +77,7 @@ class RincianModel extends CI_Model
         return $query->result();
     }
     
-    public function getListRincian()
+    public function getListRincian($user)
     {
         $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,TUJUAN,NAMA")
             ->from('surattugas')
@@ -85,6 +85,8 @@ class RincianModel extends CI_Model
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
             ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
             ->where('peserta.SEBAGAI', 'Kepala')
+            ->join('bidang', 'bidang.ID_BIDANG=surattugas.ID_BIDANG')
+            ->where('bidang.NAMA_BIDANG', $user)
             ->get();
 
         return $query->result();
@@ -99,5 +101,14 @@ class RincianModel extends CI_Model
             ->get();
 
         return $query->result();
+    }
+    public function getMinYear(){
+        $query = $this->db->select("TANGGAL")
+        ->from('surattugas')
+        ->order_by('TANGGAL ASC')
+        ->limit(1)
+        ->get();
+
+    return $query->result();
     }
 }

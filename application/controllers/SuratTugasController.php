@@ -13,13 +13,14 @@ class SuratTugasController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('UserModel');
-        $this->load->model('SuratTugasModel');  
-        $this->load->model('PegawaiModel') ;
+        $this->load->model('SuratTugasModel');
+        $this->load->model('PegawaiModel');
         $this->load->library('form_validation');
     }
     public function listst()
     {
-        $result['list'] = $this->SuratTugasModel->getListST();
+        $user = $this->session->userdata('username');
+        $result['list'] = $this->SuratTugasModel->getListST($user);
         $this->load->view('listst', $result);
     }
     public function surattugas()
@@ -29,6 +30,9 @@ class SuratTugasController extends CI_Controller
     }
     public function insertSurattugas()
     {
+        $user = $this->session->userdata('username');
+        $idbidang = $this->UserModel->getIdBidang($user);
+        $nosurat = $this->input->post('nosurat');
         $dasar = $this->input->post('dasar');
         $tujuan = $this->input->post('untuk');
         $tanggal = $this->input->post('tanggal');
@@ -37,6 +41,8 @@ class SuratTugasController extends CI_Controller
         $id = $this->SuratTugasModel->getIDST()[0]->ID_ST + 1;
         $data_surattugas = array(
             'ID_ST' => $id,
+            'ID_BIDANG'=>$idbidang,
+            'NOMOR_SURAT'=>$nosurat,
             'DASAR' => $dasar,
             'TUJUAN' => $tujuan,
             'TANGGAL' => date('Y-m-d', strtotime($tanggal)),
@@ -117,12 +123,14 @@ class SuratTugasController extends CI_Controller
     public function editST()
     {
         $id = $this->input->post('id');
+        $nosurat = $this->input->post('nosurat');
         $dasar = $this->input->post('dasar');
         $tujuan = $this->input->post('untuk');
         $tanggal = $this->input->post('tanggal');
         $pengikut = $this->input->post('pengikut');
         $diperintah = array($this->input->post('diperintah'));
         $data_surattugas = array(
+            'NOMOR_SURAT'=>$nosurat,
             'DASAR' => $dasar,
             'TUJUAN' => $tujuan,
             'TANGGAL' => date('Y-m-d', strtotime($tanggal)),
@@ -314,5 +322,52 @@ class SuratTugasController extends CI_Controller
             $arr_result[] = $row->NAMA;
         header('Content-Type: application/json');
         echo json_encode(['suggestions' => $arr_result]);
+    }
+    function konversi_nip($nip)
+    {
+        $nip = trim($nip, " ");
+        $panjang = strlen($nip);
+        $batas = " ";
+
+        if ($panjang == 18) {
+            $sub[] = substr($nip, 0, 8); // tanggal lahir
+            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+            $sub[] = substr($nip, 14, 1); // jenis kelamin
+            $sub[] = substr($nip, 3, 3); // nomor urut
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2] . $batas . $sub[3];
+        } elseif ($panjang == 15) {
+            $sub[] = substr($nip, 0, 8); // tanggal lahir
+            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+            $sub[] = substr($nip, 14, 1); // jenis kelamin
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+        } elseif ($panjang == 9) {
+            $sub = str_split($nip, 3);
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+        } else {
+            return $nip;
+        }
+    }
+    function tgl_indo($tanggal)
+    {
+        $bulan = array(
+            1 =>   'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        );
+        $pecahkan = explode('-', $tanggal);
+
+        return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
     }
 }

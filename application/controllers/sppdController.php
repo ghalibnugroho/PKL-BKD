@@ -21,7 +21,8 @@ class sppdController extends CI_Controller
 
     public function listsppd()
     {
-        $result['list'] = $this->SppdModel->getListSPPD();
+        $user = $this->session->userdata('username');
+        $result['list'] = $this->SppdModel->getListSPPD($user);
         $this->load->view('listsppd', $result);
     }
 
@@ -38,7 +39,8 @@ class sppdController extends CI_Controller
 
     public function getListSPPD()
     {
-        $list = $this->SppdModel->getListSPPD();
+        $user = $this->session->userdata('username');
+        $list = $this->SppdModel->getListSPPD($user);
         foreach ($list->result() as $l) {
             $data_events[] = array(
                 "no" => $l->ID_ST,
@@ -321,7 +323,33 @@ class sppdController extends CI_Controller
         return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
     }
 
+    function konversi_nip($nip)
+    {
+        $nip = trim($nip, " ");
+        $panjang = strlen($nip);
+        $batas = " ";
 
+        if ($panjang == 18) {
+            $sub[] = substr($nip, 0, 8); // tanggal lahir
+            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+            $sub[] = substr($nip, 14, 1); // jenis kelamin
+            $sub[] = substr($nip, 3, 3); // nomor urut
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2] . $batas . $sub[3];
+        } elseif ($panjang == 15) {
+            $sub[] = substr($nip, 0, 8); // tanggal lahir
+            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+            $sub[] = substr($nip, 14, 1); // jenis kelamin
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+        } elseif ($panjang == 9) {
+            $sub = str_split($nip, 3);
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+        } else {
+            return $nip;
+        }
+    }
 
     function penyebut($nilai)
     {
@@ -361,5 +389,4 @@ class sppdController extends CI_Controller
         }
         return $hasil;
     }
-
 }

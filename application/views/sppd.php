@@ -34,104 +34,101 @@ require_once('templates/session.php');
               <div class="tab-pane active full-height" id="tab_1">
                 <?php foreach ($list as $li) {
                   # code...
-                ?>  
-                  <form method="POST" role="form" action="<?php echo site_url('sppdController/updateSPPD');?>">
-                  <div class="formsppd form-group">
-                    <input type="hidden" name="id" value="<?php echo $li->ID_SPPD; ?>">
-                    <label>Maksud perjalanan Dinas</label>
-                    <p><?php echo $li->TUJUAN?></p>
-                  </div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-sm-7">
-                        <label>Kegiatan</label>
-                        <select required name="kegiatan" class="skegiatan form-control sc-input-required" >
-                        <option><?php echo $li->KODE?></option>
-                        <?php foreach ($kegiatan as $keg) {
-                          echo "<option>".$keg->NAMA_KEGIATAN."</option>";
-                        } ?>
-                        </select>
-                      </div>
+                  ?>
+                  <form method="POST" role="form" action="<?php echo site_url('sppdController/updateSPPD'); ?>">
+                    <div class="formsppd form-group">
+                      <input type="hidden" name="id" value="<?php echo $li->ID_SPPD; ?>">
+                      <label>Maksud perjalanan Dinas</label>
+                      <p><?php echo $li->TUJUAN ?></p>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <label>Alat Angkut yang dipergunakan</label>
-                        <select required name="alat_angkut" class="form-control sc-input-required">
-                          <option><?php echo $li->ALAT_ANGKUT == null ? "--":$li->ALAT_ANGKUT; ?></option>
-                          <option >Angkutan Dinas</option>
-                          <option >Angkutan Umum</option>
-                          <option >Angkutan Dinas & Umum</option>
-                        </select>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-7">
+                          <label>Kegiatan</label>
+                          <select required name="kegiatan" class="skegiatan form-control sc-input-required">
+                            <option><?php echo $li->KODE ?></option>
+                            <?php foreach ($kegiatan as $keg) {
+                                echo "<option>" . $keg->NAMA_KEGIATAN . "</option>";
+                              } ?>
+                          </select>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group">
                       <div class="row">
                         <div class="col-sm-4">
                           <label>Alat Angkut yang dipergunakan</label>
-                          <select name="alat_angkut" class="form-control sc-input-required">
+                          <select required name="alat_angkut" class="form-control sc-input-required">
                             <option><?php echo $li->ALAT_ANGKUT == null ? "--" : $li->ALAT_ANGKUT; ?></option>
                             <option>Angkutan Dinas</option>
                             <option>Angkutan Umum</option>
                             <option>Angkutan Dinas & Umum</option>
                           </select>
                         </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-sm-4">
+                            <label>Alat Angkut yang dipergunakan</label>
+                            <select name="alat_angkut" class="form-control sc-input-required">
+                              <option><?php echo $li->ALAT_ANGKUT == null ? "--" : $li->ALAT_ANGKUT; ?></option>
+                              <option>Angkutan Dinas</option>
+                              <option>Angkutan Umum</option>
+                              <option>Angkutan Dinas & Umum</option>
+                            </select>
+                          </div>
 
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="row">
-                    <div class="col-sm-3">
-                        <label>Tempat Berangkat</label>
-                        <input required type="text" id="tempat_berangkat"name="tempat_berangkat" class="form-control sc-input-required" 
-                        value="<?php echo $li->TMP_BERANGKAT?>" placeholder="Tempat Berangkat">
-                      </div>
-                      <div class="col-sm-3">
-                        <label>Tempat Tujuan</label>
-                        <input required type="text" name="tempat_tujuan" class="form-control sc-input-required" 
-                        value="<?php echo $li->TMP_TUJUAN?>" placeholder="Tempat Tujuan">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-sm-3">
-                        <label>Tgl Berangkat</label>
-                        <input required type="text" name="tgl_berangkat" class="input-tanggal form-control sc-input-required sc-date" value="<?php echo $li->TGL_BERANGKAT?>" placeholder="Tgl Berangkat">
-                      </div>
-                      <div class=" col-sm-3">
-                        <label>Tgl Kembali</label>
-                        <input required type="text" name="tgl_kembali" class="input-tanggal form-control sc-input-required sc-date" value="<?php echo $li->TGL_KEMBALI?>" placeholder="Tgl Kembali">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <label>Kategori</label>
-                        <select required name="kategori" class="form-control sc-input-required">
-                          <option><?php echo $li->KATEGORI == null ? "--":$li->KATEGORI; ?></option>
-                          <option >DALAM DAERAH</option>
-                          <option >LUAR DAERAH</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <label>Instansi Tujuan</label>
-                        <input required type="text" name="instansi" class="form-control sc-input-required" placeholder="Instansi Tujuan"
-                        value="<?php echo $li->INSTANSI?>">
+                        </div>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label>Keterangan Lain &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
-                      <input type="text" name="keterangan" class="form-control" placeholder="Keterangan Lain" value="<?php echo $li->KETERANGAN ?>">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label>Tempat Berangkat</label>
+                          <input required type="text" id="tempat_berangkat" name="tempat_berangkat" class="form-control sc-input-required" value="<?php echo $li->TMP_BERANGKAT ?>" placeholder="Tempat Berangkat">
+                        </div>
+                        <div class="col-sm-3">
+                          <label>Tempat Tujuan</label>
+                          <input required type="text" name="tempat_tujuan" class="form-control sc-input-required" value="<?php echo $li->TMP_TUJUAN ?>" placeholder="Tempat Tujuan">
+                        </div>
+                      </div>
                     </div>
-                    <input type="submit" value="Simpan" class="btn btn-primary">
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <label>Tgl Berangkat</label>
+                          <input required type="text" name="tgl_berangkat" class="input-tanggal form-control sc-input-required sc-date" value="<?php echo $li->TGL_BERANGKAT ?>" placeholder="Tgl Berangkat">
+                        </div>
+                        <div class=" col-sm-3">
+                          <label>Tgl Kembali</label>
+                          <input required type="text" name="tgl_kembali" class="input-tanggal form-control sc-input-required sc-date" value="<?php echo $li->TGL_KEMBALI ?>" placeholder="Tgl Kembali">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <label>Kategori Dinas</label>
+                          <select required name="kategori" class="form-control sc-input-required">
+                            <option><?php echo $li->KATEGORI == null ? "--" : $li->KATEGORI; ?></option>
+                            <option value="Dinas Dalam">Dalam Daerah</option>
+                            <option value="Dinas Luar">Luar Daerah</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <label>Instansi Tujuan</label>
+                          <input required type="text" name="instansi" class="form-control sc-input-required" placeholder="Instansi Tujuan" value="<?php echo $li->INSTANSI ?>">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Keterangan Lain &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
+                        <input type="text" name="keterangan" class="form-control" placeholder="Keterangan Lain" value="<?php echo $li->KETERANGAN ?>">
+                      </div>
+                      <input type="submit" value="Simpan" class="btn btn-primary">
                   </form>
                 <?php } ?>
               </div>
@@ -221,10 +218,10 @@ require_once('templates/session.php');
     }
   });
   $('.skegiatan').select2({
-        placeholder: "Input Bidang",
-        dropdownParent: $('.formsppd'),
-        width: '100%',
-        });
+    placeholder: "Input Bidang",
+    dropdownParent: $('.formsppd'),
+    width: '100%',
+  });
 </script>
 
 </html>

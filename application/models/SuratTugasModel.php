@@ -27,13 +27,15 @@ class SuratTugasModel extends CI_Model
     {
         $this->db->insert('peserta', $data_insert);
     }
-    public function getListST()
+    public function getListST($user)
     {
         $query = $this->db->select("surattugas.ID_ST,DASAR,DATE_FORMAT(TANGGAL,'%d-%m-%Y') as TANGGAL,NAMA")
             ->from('surattugas')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
             ->where('peserta.SEBAGAI', 'Kepala')
+            ->join('bidang', 'bidang.ID_BIDANG=surattugas.ID_BIDANG')
+            ->where('bidang.NAMA_BIDANG', $user)
             ->get();
 
         return $query->result();
@@ -59,6 +61,11 @@ class SuratTugasModel extends CI_Model
             ->where('sppd.ID_ST', $id)
             ->get();
 
+        return $query->result();
+    }
+    public function total_st()
+    {
+        $query = $this->db->query('select count(*) as total_st FROM surattugas');
         return $query->result();
     }
 }

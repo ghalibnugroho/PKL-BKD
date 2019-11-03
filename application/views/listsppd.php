@@ -1,9 +1,10 @@
-<?php 
-    require_once('templates/session.php');
+<?php
+require_once('templates/session.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <?php $this->load->view("templates/auth_header") ?>
+<?php $this->load->view("templates/auth_header") ?>
+
 <body id="page-top">
   <div id="wrapper">
     <?php $this->load->view("templates/auth_sidebar") ?>
@@ -11,7 +12,7 @@
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-    
+
       <!-- Main Content -->
       <div id="content">
 
@@ -21,7 +22,7 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-        <?=$this->session->flashdata('message');?>
+          <?= $this->session->flashdata('message'); ?>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -32,11 +33,11 @@
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <col width="12%">
-                  <col width="40%">
+                  <col width="30%">
                   <col width="10%">
                   <col width="10%">
                   <col width="10%">
-                  <col width="18%">
+                  <col width="10%">
                   <thead>
                     <tr>
                       <th>Nama</th>
@@ -44,28 +45,30 @@
                       <th>Instansi Tujuan</th>
                       <th>Tanggal Berangkat</th>
                       <th>Tanggal Kembali</th>
+                      <th>Kateogri</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                  <?php 
-                    foreach($list as $li){
+                    <?php
+                    foreach ($list as $li) {
                       echo "<tr style='font-size:13px;'>
-                            <td>" .$li->NAMA."</td>
-                            <td>" .$li->DASAR."</td>
-                            <td>" .$li->INSTANSI." </td>
-                            <td>" .$li->TGL_BERANGKAT."</td>
-                            <td>" .$li->TGL_KEMBALI."</td>";
-                            if (($li->INSTANSI == null)&& ($li->TGL_KEMBALI == null)&&($li->TGL_BERANGKAT == null)) {
-                              echo "<td><a href=\"".site_url("sppd/").$li->ID_ST."\" class=\"d-none d-sm-inline-block btn btn-sm btn-success\"><i class=\"fas fa-sm fa-pencil\"></i> Buat SPPD </a>
-                            </tr>"; 
-                            }else{
-                              echo "<td><a href=\"".site_url("sppd/").$li->ID_ST."\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
-                              <a href=\"".site_url("unduh-sppd/").$li->ID_SPPD."\" class=\"d-none d-sm-inline-block btn btn-sm btn-success\"><i class=\"fas fa-sm fa-download\"></i> Unduh </a>
-                            </td></tr>"; 
-                            }
+                            <td>" . $li->NAMA . "</td>
+                            <td>" . $li->DASAR . "</td>
+                            <td>" . $li->INSTANSI . " </td>
+                            <td>" . $li->TGL_BERANGKAT . "</td>
+                            <td>" . $li->TGL_KEMBALI . "</td>
+                            <td>" . $li->KATEGORI . "</td>";
+                      if (($li->INSTANSI == null) && ($li->TGL_KEMBALI == null) && ($li->TGL_BERANGKAT == null)) {
+                        echo "<td><a href=\"" . site_url("sppd/") . $li->ID_ST . "\" class=\"d-none d-sm-inline-block btn btn-sm btn-success\"><i class=\"fas fa-sm fa-pencil\"></i> Buat SPPD </a>
+                            </tr>";
+                      } else {
+                        echo "<td><a href=\"" . site_url("sppd/") . $li->ID_ST . "\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>
+                              <a href=\"" . site_url("unduh-sppd/") . $li->ID_SPPD . "\" class=\"d-none d-sm-inline-block btn btn-sm btn-success\"><i class=\"fas fa-sm fa-download\"></i> Unduh </a>
+                            </td></tr>";
+                      }
                     }
-                  ?>
+                    ?>
 
                   </tbody>
                 </table>
@@ -104,5 +107,5 @@
 <script>
   var timeout = 4000; // in miliseconds (3*1000)
 
-$('.alert').delay(timeout).fadeOut(500);
+  $('.alert').delay(timeout).fadeOut(500);
 </script>

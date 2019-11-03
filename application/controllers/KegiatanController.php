@@ -117,5 +117,4 @@ class KegiatanController extends CI_Controller
         Pegawai berhasil dihapus </div>');
         $this->daftarkegiatan();
     }
-
 }

@@ -43,6 +43,16 @@
                             </div>
                         </div>
                         <div class="form-group">
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <label>Nomor Surat</label>
+                              <input type="text" name="nosurat"
+                              class="form-control sc-input-required" value=""
+                              placeholder="" >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
                             <label>Dasar</label>
                             <textarea required rows="2" cols="" name="dasar"
                             class="form-control  sc-input-required"></textarea>

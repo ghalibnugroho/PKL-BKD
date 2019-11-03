@@ -14,11 +14,13 @@ class RincianController extends CI_Controller
         parent::__construct();
         $this->load->model('UserModel');
         $this->load->model('RincianModel');
+        $this->load->model('PegawaiModel');
         $this->load->library('form_validation');
     }
     function listrincian()
     {
-        $result['list'] = $this->RincianModel->getListRincian();
+        $user = $this->session->userdata('username');
+        $result['list'] = $this->RincianModel->getListRincian($user);
         $this->load->view('listrincian', $result);
     }
     function rincian($id)
@@ -190,9 +192,9 @@ class RincianController extends CI_Controller
     function exportRincianPeserta($id)
     {
         $data = $this->RincianModel->exportDataRincian($id);
-        $bendahara = $this->RincianModel->getPegawai_Jabatan('Bendahara');
-        $kepala = $this->RincianModel->getPegawai_Jabatan('Kepala');
-        $sppd = $this->RincianModel->getSPPD($id);
+        $bendahara = $this->PegawaiModel->getPegawai_Jabatan('Bendahara');
+        $kepala = $this->PegawaiModel->getPegawai_Jabatan('Kepala');
+        $sppd = $this->SppdModel->getSPPD($id);
 
         $reader = IOFactory::createReader('Xls');
         $spreadsheet = $reader->load('template/rincian_temp.xls');
@@ -383,10 +385,10 @@ class RincianController extends CI_Controller
     function exportRincianNominatif($id)
     {
         $data = $this->RincianModel->exportDataRincian($id);
-        $bendahara = $this->RincianModel->getPegawai_Jabatan('Bendahara');
-        $nip_pptk = $this->RincianModel->getNiP_PPTK($id);
-        $pptk = $this->RincianModel->getPegawai_NIP($nip_pptk[0]->NIP_PPTK);
-        $sppd = $this->RincianModel->getSPPD($id);
+        $bendahara = $this->PegawaiModel->getPegawai_Jabatan('Bendahara');
+        $nip_pptk = $this->PegawaiModel->getNiP_PPTK($id);
+        $pptk = $this->PegawaiModel->getPegawai_NIP($nip_pptk[0]->NIP_PPTK);
+        $sppd = $this->PegawaiModel->getSPPD($id);
 
         $reader = IOFactory::createReader('Xlsx');
 
@@ -887,6 +889,8 @@ class RincianController extends CI_Controller
     public function rekapkeuangan()
     {
         $result['list'] = $this->RincianModel->getTahunRekap();
+        $tahun= $this->RincianModel->getMinYear();
+        $result['tanggal']=substr($tahun[0]->TANGGAL,0,4);
         $this->load->view('rekapkeuangan', $result);
     }
     function exportRekap($tahun)
