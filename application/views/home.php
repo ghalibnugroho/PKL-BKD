@@ -342,11 +342,13 @@ require_once('templates/session.php');
     $a = [];
     $b = [];
     //looping graphic label
-    foreach ($label_graphic as $bt) {
-      $a[] = $bt['bulan_tahun'];
-    }
-    foreach ($value_count as $vc) {
-      $b[] = $vc['jumlah_sppd'];
+    if ($this->session->userdata('priority') == 1) {
+      foreach ($label_graphic as $bt) {
+        $a[] = $bt['bulan_tahun'];
+      }
+      foreach ($value_count as $vc) {
+        $b[] = $vc['jumlah_sppd'];
+      }
     }
 
     ?>
