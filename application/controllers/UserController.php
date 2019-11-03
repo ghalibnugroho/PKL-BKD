@@ -98,8 +98,13 @@ class UserController extends CI_Controller
             for ($i = 0; $i < count($countJumlahSppdBerangkat); $i++) {
                 $value_count[] = $countJumlahSppdBerangkat[$i][0];
             }
+            $data['value_count'] = $value_count;
+        } else {
+            $user = $this->session->userdata('username');
+            $idBidang = $this->UserModel->getIdBidang($user);
+            $data['total_stBidang'] = $this->SuratTugasModel->countGetListST($user);
+            $data['total_sppdBidang'] = $this->SppdModel->countGetSppd($idBidang);
         }
-        $data['value_count'] = $value_count;
         $this->load->view('home', $data);
     }
     public function registration()

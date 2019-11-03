@@ -77,4 +77,23 @@ class SppdModel extends CI_Model
             ->get();
         return $query->result_array();
     }
+    public function countGetSppd($id)
+    {
+        $query = $this->db->select("count(*) as jumlah_sppd")
+            ->from('sppd')
+            ->join('surattugas', 'surattugas.ID_ST=sppd.ID_ST')
+            ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
+            ->join('pegawai', 'pegawai.NIP=peserta.NIP')
+            ->where('surattugas.ID_BIDANG', $id)
+            ->where('KODE IS NOT NULL')
+            ->where('ALAT_ANGKUT IS NOT NULL')
+            ->where('TMP_BERANGKAT IS NOT NULL')
+            ->where('TGL_BERANGKAT IS NOT NULL')
+            ->where('TGL_KEMBALI IS NOT NULL')
+            ->where('LAMA IS NOT NULL')
+            ->where('KATEGORI IS NOT NULL')
+            ->where('INSTANSI IS NOT NULL')
+            ->get();
+        return $query->result();
+    }
 }
