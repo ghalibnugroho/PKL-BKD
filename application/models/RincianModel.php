@@ -102,4 +102,13 @@ class RincianModel extends CI_Model
 
         return $query->result();
     }
+    public function getMinYear(){
+        $query = $this->db->select("TANGGAL")
+        ->from('surattugas')
+        ->order_by('TANGGAL ASC')
+        ->limit(1)
+        ->get();
+
+    return $query->result();
+    }
 }

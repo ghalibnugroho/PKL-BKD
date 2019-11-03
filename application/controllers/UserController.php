@@ -86,14 +86,8 @@ class UserController extends CI_Controller
         foreach($value as $val){
             $data['value'][] = explode('-', $val);
         }
+    
         
-        foreach($data['value'] as $data){
-            print("ini bulan");
-            print($data[0]);
-            print("ini tahun");
-            print($data[1]);
-        }
-
         $this->load->view('home', $data);
     }
     public function registration()

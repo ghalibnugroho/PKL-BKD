@@ -27,14 +27,14 @@ require_once 'templates/session.php';
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header">
-                            <form id="cariRekap" method="POST" role="form" action="<?php echo site_url('sppdController/rekapkeuangan'); ?>">
+                            <form id="cariRekap" method="POST" role="form" action="<?php echo site_url('RincianController/rekapkeuangan'); ?>">
                                 <h6 class="m-0 font-weight-bold text-primary">REKAP KEUANGAN : </h6>
                                 <select id="tahun" name="tahun">
                                     <option value="">-- Pilih Tahun --</option>
                                     <?php
-                                    foreach ($list as $li) {
-                                        echo "<option value='" . $li->tanggal . "'>" . $li->tanggal . "</option>";
-                                    }
+                                        for ($i=$tanggal; $i <= date('Y') ; $i++) { 
+                                            echo"<option>". $i." </option>";
+                                        }
                                     ?>
                                 </select>
                                 <button id="btnFindRekap" name="submit" class="btn btn-primary" type="submit" form="cariRekap" value="Submit"><span class="icon text-white-50"><i class="fas fa-sm fa-search"></i></span><span class="text"> find</span></button>
@@ -51,7 +51,7 @@ require_once 'templates/session.php';
                                         if (isset($_POST['tahun'])) {
                                             if ($_POST['tahun'] != "") {
                                                 echo '<div class="">Rekap Keuangan Tahun <span style="color: blue"=>' . $_POST['tahun'] . ' </span> <span id="btn-margin-unduh">
-                                                <a href="" class="d-none d-sm-inline-block btn btn-sm btn-success"><i class="fas fa-sm fa-download"></i> Unduh </a> </span>
+                                                <a href=\'' . site_url('RincianController/exportRekap/') . $_POST['tahun'] . '\' class="d-none d-sm-inline-block btn btn-sm btn-success"><i class="fas fa-sm fa-download"></i> Unduh </a> </span>
                                                 </div>';
                                             } else {
                                                 echo "* Pilih Tahun Rekap Keuangan yang ingin anda cari";

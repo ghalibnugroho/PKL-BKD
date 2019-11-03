@@ -889,6 +889,8 @@ class RincianController extends CI_Controller
     public function rekapkeuangan()
     {
         $result['list'] = $this->RincianModel->getTahunRekap();
+        $tahun= $this->RincianModel->getMinYear();
+        $result['tanggal']=substr($tahun[0]->TANGGAL,0,4);
         $this->load->view('rekapkeuangan', $result);
     }
     function exportRekap($tahun)
