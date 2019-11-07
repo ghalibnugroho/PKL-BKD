@@ -18,6 +18,21 @@ class SppdModel extends CI_Model
         return $query->result();
     }
 
+    // public function getListSPPD($user)
+    // {
+    //     $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA, KATEGORI")
+    //         ->from('surattugas')
+    //         ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
+    //         ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
+    //         ->join('pegawai', 'pegawai.NIP=peserta.NIP')
+    //         ->where('peserta.SEBAGAI', 'Kepala')
+    //         ->order_by('TGL_BERANGKAT', 'DESC')
+    //         ->join('bidang', 'bidang.ID_BIDANG=surattugas.ID_BIDANG')
+    //         ->where('bidang.NAMA_BIDANG', $user)
+    //         ->get();
+
+    //     return $query->result();
+    // }
     public function getListSPPD($user)
     {
         $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA, KATEGORI")
@@ -88,14 +103,14 @@ class SppdModel extends CI_Model
             ->order_by('TGL_BERANGKAT', 'DESC')
             ->join('bidang', 'bidang.ID_BIDANG=surattugas.ID_BIDANG')
             ->where('bidang.ID_BIDANG', $id)
-            ->where('KODE IS NOT NULL')
-            ->where('ALAT_ANGKUT IS NOT NULL')
-            ->where('TMP_BERANGKAT IS NOT NULL')
-            ->where('TGL_BERANGKAT IS NOT NULL')
-            ->where('TGL_KEMBALI IS NOT NULL')
-            ->where('LAMA IS NOT NULL')
-            ->where('KATEGORI IS NOT NULL')
-            ->where('INSTANSI IS NOT NULL')
+            ->where('sppd.KODE IS NOT NULL')
+            ->where('sppd.ALAT_ANGKUT IS NOT NULL')
+            ->where('sppd.TMP_BERANGKAT IS NOT NULL')
+            ->where('sppd.TGL_BERANGKAT IS NOT NULL')
+            ->where('sppd.TGL_KEMBALI IS NOT NULL')
+            ->where('sppd.LAMA IS NOT NULL')
+            ->where('sppd.KATEGORI IS NOT NULL')
+            ->where('sppd.INSTANSI IS NOT NULL')
             ->get();
         return $query->result();
     }

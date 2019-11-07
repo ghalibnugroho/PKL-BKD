@@ -402,8 +402,8 @@ require_once('templates/session.php');
     let b = <?php echo json_encode($b); ?>; //data
     <?php
     if ($this->session->userdata('priority') == 1) { ?>
-      adminBarGraphic();
-      adminPieGraphic();
+      BarGraphic();
+      PieGraphic();
     <?php } ?>
 
     function addData(chart, label, data) {
@@ -426,7 +426,7 @@ require_once('templates/session.php');
     Chart.defaults.global.defaultFontColor = '#858796';
 
     // Area Chart Example
-    function adminBarGraphic() {
+    function BarGraphic() {
       var ctx = document.getElementById("myAreaChart");
       var myBarChart = new Chart(ctx, {
         type: 'bar',
@@ -516,7 +516,7 @@ require_once('templates/session.php');
       });
     }
     //sppd
-    function adminPieGraphic() {
+    function PieGraphic() {
       Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
       Chart.defaults.global.defaultFontColor = '#858796';
 
