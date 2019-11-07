@@ -163,7 +163,7 @@ class RincianController extends CI_Controller
         $this->UserModel->update($where, 'rincian', $data);
         $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-success" role="alert">
         <b>Sukses! </b>Data berhasil diupdate </div>');
-        redirect('sppdController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
     }
     function hapusRincian()
     {
