@@ -57,6 +57,8 @@
                             <br><br>
                             <a href="<?php echo site_url('RincianController/exportRincianNominatif/'.$li->ID_SPPD);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
                             <i class="fas fa-sm  fa-download "></i> Nominatif </a>
+                            <a href="<?php echo site_url('RincianController/exportKwitansi/'.$li->ID_SPPD);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
+                            <i class="fas fa-sm  fa-download "></i> Kwitansi </a>
 
                             </td>
                             </tr>

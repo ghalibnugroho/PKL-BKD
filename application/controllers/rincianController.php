@@ -383,6 +383,65 @@ class RincianController extends CI_Controller
         }
         return $hasil;
     }
+    function exportKwitansi($id)
+    {
+        $data = $this->RincianModel->exportDataRincian($id);
+        $bendahara = $this->PegawaiModel->getPegawai_Jabatan('Bendahara');
+        $nip_pptk = $this->PegawaiModel->getNiP_PPTK($id);
+        $pptk = $this->PegawaiModel->getPegawai_NIP($nip_pptk[0]->NIP_PPTK);
+        $sppd = $this->SppdModel->getSPPD($id);
+        $total=0;
+        $pst = "";
+        $count_pst=0;
+
+        $reader = IOFactory::createReader('Xls');
+
+        $spreadsheet = $reader->load('template/kwitansi_temp.xls');
+
+        foreach($data as $value){
+            $total += $value->TOTAL;
+            if($pst!=$value->ID_PESERTA){
+                $count_pst++;
+            }
+        }
+
+        $terbilang = $this->terbilang($total);
+
+        $spreadsheet->getActiveSheet()->setCellValue('F7',$terbilang);
+
+        $spreadsheet->getActiveSheet()->setCellValue('F10',$sppd[0]->TUJUAN);
+
+        $spreadsheet->getActiveSheet()->setCellValue('E15',$total);
+        
+        $spreadsheet->getActiveSheet()->setCellValue('I15',$count_pst>1?"untuk diberikan kepada yang berhak":" ");
+        
+        $spreadsheet->getActiveSheet()->setCellValue('I19',$data[0]->NAMA);
+
+        $spreadsheet->getActiveSheet()->setCellValue('A141',$data[0]->NAMA);
+        $spreadsheet->getActiveSheet()->setCellValue('A142',$data[0]->PANGKAT);
+        $spreadsheet->getActiveSheet()->setCellValue('A143',"NIP. ".$this->konversi_nip($data[0]->NIP));
+
+        $spreadsheet->getActiveSheet()->setCellValue('E141',$pptk[0]->NAMA);
+        $spreadsheet->getActiveSheet()->setCellValue('E142',$pptk[0]->PANGKAT);
+        $spreadsheet->getActiveSheet()->setCellValue('E143',"NIP. ".$this->konversi_nip($pptk[0]->NIP));
+
+        $spreadsheet->getActiveSheet()->setCellValue('I141',$bendahara[0]->NAMA);
+        $spreadsheet->getActiveSheet()->setCellValue('I142',$bendahara[0]->PANGKAT);
+        $spreadsheet->getActiveSheet()->setCellValue('I143',"NIP. ".$this->konversi_nip($bendahara[0]->NIP));
+
+
+
+
+        header('Content-Type: application/vnd.openxmlformat-officedocument.spreadsheetml.sheet');
+
+        header('Content-Disposition: attachment;filename="kwitansi.xlsx"');
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+
+        $writer->save('php://output');
+
+    }
+
     function exportRincianNominatif($id)
     {
         $data = $this->RincianModel->exportDataRincian($id);
