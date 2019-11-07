@@ -68,4 +68,16 @@ class SuratTugasModel extends CI_Model
         $query = $this->db->query('select count(*) as total_st FROM surattugas');
         return $query->result();
     }
+    public function countGetListST($user)
+    {
+        $query = $this->db->select("count(*) as jumlah_st")
+            ->from('surattugas')
+            ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
+            ->join('pegawai', 'pegawai.NIP=peserta.NIP')
+            ->where('peserta.SEBAGAI', 'Kepala')
+            ->join('bidang', 'bidang.ID_BIDANG=surattugas.ID_BIDANG')
+            ->where('bidang.NAMA_BIDANG', $user)
+            ->get();
+        return $query->result();
+    }
 }

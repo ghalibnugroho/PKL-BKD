@@ -88,6 +88,14 @@ class PegawaiModel extends CI_Model
 
         return $query->result();
     }
+    function getAdm()
+    {
+        $query = $this->db->select("ID_ADM")
+            ->from('admin')
+            ->get();
+
+        return $query->result();
+    }
     public function total_pegawai()
     {
         $query = $this->db->query('select count(*) as total_pegawai FROM pegawai');

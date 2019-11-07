@@ -23,10 +23,10 @@ require_once('templates/session.php');
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <?= $this->session->flashdata('message'); ?>
-          <!-- DataTales Example -->
+          <!-- DataTales User -->
           <div class="card shadow mb-4">
             <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary col-sm-3" id="judul">Ubah Password</h6>
+              <h6 class="m-0 font-weight-bold text-primary col-sm-3" id="judul">Ubah Password User Bidang</h6>
 
             </div>
             <div class="card-body">
@@ -65,7 +65,7 @@ require_once('templates/session.php');
                                   <div class="form-group">
                                     <div class="row">
                                       <div class="col-sm-8">
-                                        <input type="hidden" name="idbidang" value="<?php echo $li->ID_BIDANG; ?>">
+                                        <input type="hidden"  name="idbidang" value="<?php echo $li->ID_BIDANG; ?>">
                                       </div>
                                     </div>
                                   </div>
@@ -74,7 +74,7 @@ require_once('templates/session.php');
                                     <div class="row">
                                       <div class="col-sm-12">
                                         <label>Masukkan password lama</label>
-                                        <input type="password" required name="passlama" class=" form-control sc-input-required">
+                                        <input type="password" required placeholder="Password Lama" name="passlama" class=" form-control sc-input-required">
                                       </div>
                                     </div>
                                   </div>
@@ -82,7 +82,7 @@ require_once('templates/session.php');
                                     <div class="row">
                                       <div class="col-sm-12">
                                         <label>Masukkan password baru</label>
-                                        <input type="password" required name="passbaru1" class=" form-control sc-input-required">
+                                        <input type="password" placeholder="Passsword Baru" required name="passbaru1" class=" form-control sc-input-required">
                                         <?= form_error('passbaru1', '<small class="text-danger pl-3">', '</small>'); ?>
                                       </div>
                                     </div>
@@ -91,7 +91,7 @@ require_once('templates/session.php');
                                     <div class="row">
                                       <div class="col-sm-12">
                                         <label>Masukkan password baru lagi</label>
-                                        <input type="password" required name="passbaru2" class=" form-control sc-input-required">
+                                        <input type="password" placeholder="Verifikasi Password Baru" required name="passbaru2" class=" form-control sc-input-required">
                                       </div>
                                     </div>
                                   </div>
@@ -118,7 +118,101 @@ require_once('templates/session.php');
               </div>
             </div>
           </div>
+          <!-- DataTales Admin -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary col-sm-3" id="judul">Ubah Password Admin</h6>
 
+            </div>
+            <div class="card-body">
+              <div class="table-responsive ">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <col width="50%">
+                  <col width="50%">
+                  <thead>
+                    <tr>
+                      <th>Nama Admin</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    foreach ($adm as $li) {
+                      echo "<tr>
+                            <td>" . $li->ID_ADM . "</td>
+                            <td>";
+                      ?>
+                      <a href="" data-target="#ubahadm<?php echo $li->ID_ADM ?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info">
+                        <i class="fas fa-sm fa-edit"></i> Ubah Password
+                      </a>
+
+
+                      </td>
+                      </tr>
+
+                      <!-- Ubah Password Modal-->
+                      <div class="modal fade" id="ubahadm<?php echo $li->ID_ADM; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <div class="tab-pane active" id="tab_1">
+                                <form method="POST" role="form" action="<?php echo site_url('UserController/setPasswordAdm'); ?>">
+                                  <div class="form-group">
+                                    <div class="row">
+                                      <div class="col-sm-8">
+                                        <input type="hidden"  name="idadm" value="<?php echo $li->ID_ADM; ?>">
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group input-group">
+                                    <div class="row">
+                                      <div class="col-sm-12">
+                                        <label>Masukkan password lama</label>
+                                        <input type="password" required placeholder="Password Lama" name="passlama" class=" form-control sc-input-required">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form-group input-group">
+                                    <div class="row">
+                                      <div class="col-sm-12">
+                                        <label>Masukkan password baru</label>
+                                        <input type="password" placeholder="Passsword Baru" required name="passbaru1" class=" form-control sc-input-required">
+                                        <?= form_error('passbaru1', '<small class="text-danger pl-3">', '</small>'); ?>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form-group input-group">
+                                    <div class="row">
+                                      <div class="col-sm-12">
+                                        <label>Masukkan password baru lagi</label>
+                                        <input type="password" placeholder="Verifikasi Password Baru" required name="passbaru2" class=" form-control sc-input-required">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                    <input type="submit" value="Simpan" class="btn btn-primary">
+                                  </div>
+                                </form>
+                              </div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    <?php
+                    }
+                    ?>
+                    <script language="javascript">
+
+                    </script>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- /.container-fluid -->
 

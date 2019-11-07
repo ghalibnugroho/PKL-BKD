@@ -74,21 +74,37 @@ class UserController extends CI_Controller
         $data['login'] = $this->UserModel->datalogin();
         $data['total_pegawai'] = $this->PegawaiModel->total_pegawai();
         $data['total_kegiatan'] = $this->KegiatanModel->total_kegiatan();
-        $data['total_st'] = $this->SuratTugasModel->total_st();
-        $data['total_sppd'] = $this->SppdModel->total_sppd();
-        $data['total_sppd_kat_dinas_dalam'] = $this->SppdModel->total_kategori_dinas_dalam();
-        $data['total_sppd_kat_dinas_luar'] = $this->SppdModel->total_kategori_dinas_luar();
-        $data['label_graphic'] = $this->SppdModel->bulan_tahun_sppd();
         $value = [];
         $countJumlahSppdBerangkat = [];
-        foreach ($data['label_graphic'] as $bt) {
-            $value[] = $bt['bulan_tahun'];
+        if ($this->session->userdata('priority') == 1) {
+            $data['total_st'] = $this->SuratTugasModel->total_st();
+            $data['total_sppd'] = $this->SppdModel->total_sppd();
+            $data['total_sppd_kat_dinas_dalam'] = $this->SppdModel->total_kategori_dinas_dalam();
+            $data['total_sppd_kat_dinas_luar'] = $this->SppdModel->total_kategori_dinas_luar();
+            $data['label_graphic'] = $this->SppdModel->bulan_tahun_sppd();
+            foreach ($data['label_graphic'] as $bt) {
+                $value[] = $bt['bulan_tahun'];
+            }
+            foreach ($value as $val) {
+                $bulan_tahun[] = explode('-', $val);
+            }
+            for ($i = 0; $i < count($bulan_tahun); $i++) {
+                $bulan[] = $bulan_tahun[$i][0];
+                $tahun[] = $bulan_tahun[$i][1];
+            }
+            for ($i = 0; $i < count($bulan_tahun); $i++) {
+                $countJumlahSppdBerangkat[] = $this->SppdModel->jumlah_sppd_berangkat($bulan[$i], $tahun[$i]);
+            }
+            for ($i = 0; $i < count($countJumlahSppdBerangkat); $i++) {
+                $value_count[] = $countJumlahSppdBerangkat[$i][0];
+            }
+            $data['value_count'] = $value_count;
+        } else {
+            $user = $this->session->userdata('username');
+            $idBidang = $this->UserModel->getIdBidang($user);
+            $data['total_stBidang'] = $this->SuratTugasModel->countGetListST($user);
+            $data['total_sppdBidang'] = $this->SppdModel->countGetSppd($idBidang);
         }
-        foreach ($value as $val) {
-            $bulan_tahun[] = explode('-', $val);
-        }
-    
-        
         $this->load->view('home', $data);
     }
     public function registration()
@@ -124,6 +140,7 @@ class UserController extends CI_Controller
     public function ubahPassword()
     {
         $result['list'] = $this->PegawaiModel->getBidang();
+        $result['adm'] = $this->PegawaiModel->getAdm();
         $this->load->view('ubah_password', $result);
     }
     public function setpassword()
@@ -142,14 +159,40 @@ class UserController extends CI_Controller
                 );
                 $this->UserModel->update($where, 'bidang', $data_insert);
                 $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"><b>Sukses! </b>Password berhasil diubah </div>');
-                redirect('sppdController/ubahPassword');
+                redirect('UserController/ubahPassword');
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"><b>Password Lama anda salah!</b> ketik password lama anda dengan benar </div>');
                 $this->ubahPassword();
             }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"><b>Password anda tidak match </b> cocokkan kedua password baru anda </div>');
-            redirect('sppdController/ubahPassword');
+            redirect('UserController/ubahPassword');
+        }
+    }
+    public function setPasswordAdm()
+    {
+
+        $idadm = $this->input->post('idadm');
+        $passlama = $this->input->post('passlama');
+        $passbaru = $this->input->post('passbaru1');
+        $passbaru2 = $this->input->post('passbaru2');
+
+        if ($passbaru == $passbaru2) {
+            if (password_verify($passlama, $this->UserModel->getPasswordAdm($idadm))) {
+                $where = array('ID_ADM' => $idadm);
+                $data_insert = array(
+                    'PASSWORD' => password_hash($passbaru, PASSWORD_DEFAULT)
+                );
+                $this->UserModel->update($where, 'admin', $data_insert);
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"><b>Sukses! </b>Password berhasil diubah </div>');
+                redirect('UserController/ubahPassword');
+            } else {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"><b>Password Lama anda salah!</b> ketik password lama anda dengan benar </div>');
+                $this->ubahPassword();
+            }
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"><b>Password anda tidak match </b> cocokkan kedua password baru anda </div>');
+            redirect('UserController/ubahPassword');
         }
     }
 }

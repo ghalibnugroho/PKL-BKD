@@ -112,15 +112,15 @@ require_once 'templates/session.php';
                                     <!-- <?php echo date("jS F, Y", strtotime("11.12.10")); ?> -->
                                     <div class="col-6">
                                         <label>Nama</label>
-                                        <input type="text" name="nama_pegawai" placeholder="Nama Pegawai" class="form-control sc-input-required sc-select">
+                                        <input required type="text" name="nama_pegawai" placeholder="Nama Pegawai" class="form-control sc-input-required sc-select">
                                     </div>
                                     <div class="col-6">
                                         <label>NIP</label>
-                                        <input type="text" name="nip_pegawai" placeholder="NIP Pegawai" class="form-control sc-input-required sc-select">
+                                        <input required type="text" name="nip_pegawai" placeholder="NIP Pegawai" class="form-control sc-input-required sc-select">
                                     </div>
                                     <div class="col-12">
                                         <label>Bidang</label>
-                                        <select id="dd-bidang" name="bidang">
+                                        <select required id="dd-bidang" name="bidang">
                                             <option></option>
                                             <option value="SEKRETARIAT">Sekretariat</option>
                                             <option value="MUTASI">Mutasi</option>
@@ -130,7 +130,7 @@ require_once 'templates/session.php';
                                     </div>
                                     <div class="col-3">
                                         <label>Pangkat</label>
-                                        <select id="dd-pangkat" name="pangkat">
+                                        <select required id="dd-pangkat" name="pangkat">
                                             <option></option>
                                             <option value="Juru Muda">Juru Muda</option>
                                             <option value="Juru Muda Tingkat I">Juru Muda Tingkat I</option>
@@ -153,7 +153,7 @@ require_once 'templates/session.php';
                                     </div>
                                     <div class="col-3">
                                         <label>Golongan</label>
-                                        <select id="dd-golongan" name="golongan">
+                                        <select required id="dd-golongan" name="golongan">
                                             <option></option>
                                             <option value="I/a">I/a</option>
                                             <option value="I/b">I/b</option>
@@ -176,15 +176,15 @@ require_once 'templates/session.php';
                                     </div>
                                     <div class="col-6">
                                         <label>Jabatan</label>
-                                        <input type="text" name="jabatan_pegawai" placeholder="Jabatan Pegawai" class="form-control sc-input-required sc-select ">
+                                        <input required type="text" name="jabatan_pegawai" placeholder="Jabatan Pegawai" class="form-control sc-input-required sc-select ">
                                     </div>
                                     <div class="col-6">
                                         <label>Tanggal Lahir</label>
-                                        <input type="text" name="tanggal" class="input-tanggal form-control sc-input-required sc-date tanggal" value="" placeholder="Tgl Lahir">
+                                        <input required type="text" name="tanggal" class="input-tanggal form-control sc-input-required sc-date tanggal" value="" placeholder="Tgl Lahir">
                                     </div>
                                     <div class="col-6">
                                         <label>Tingkat</label>
-                                        <input type="text" name="tingkat_pegawai" placeholder="Tingkat Pegawai" class="form-control sc-input-required sc-select">
+                                        <input required type="text" name="tingkat_pegawai" placeholder="Tingkat Pegawai" class="form-control sc-input-required sc-select">
                                     </div>
 
                                 </div>
@@ -216,16 +216,16 @@ require_once 'templates/session.php';
                                     <div class="row">
                                         <div class="col-6">
                                             <label>Nama</label>
-                                            <input type="text" name="nama_pegawai" placeholder="Nama Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->NAMA ?>">
+                                            <input required type="text" name="nama_pegawai" placeholder="Nama Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->NAMA ?>">
                                         </div>
                                         <div class="col-6">
                                             <label>NIP</label>
-                                            <input type="text" name="nip_pegawai" placeholder="NIP Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->NIP ?>">
+                                            <input required type="text" name="nip_pegawai" placeholder="NIP Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->NIP ?>">
                                             <input type="hidden" name="niphidden" value="<?php echo $li->NIP ?>">
                                         </div>
                                         <div class="col-12">
                                             <label>Bidang</label>
-                                            <select id="dd-bidang1" name="bidang1" class="form-control">
+                                            <select required id="dd-bidang1" name="bidang1" class="form-control">
                                                 <option></option>
                                                 <option value="2" <?php if ($li->ID_BIDANG == 2) echo 'selected="selected"'; ?>>Sekretariat</option>
                                                 <option value="3" <?php if ($li->ID_BIDANG == 3) echo 'selected="selected"'; ?>>Mutasi</option>
@@ -235,7 +235,7 @@ require_once 'templates/session.php';
                                         </div>
                                         <div class="col-3">
                                             <label>Pangkat</label>
-                                            <select id="dd-pangkat" name="pangkat" class="form-control">
+                                            <select required id="dd-pangkat" name="pangkat" class="form-control">
                                                 <option></option>
                                                 <option value="Juru Muda" <?php if ($li->PANGKAT == "Juru Muda") echo 'selected="selected"'; ?>>Juru Muda</option>
                                                 <option value="Juru Muda Tingkat I" <?php if ($li->PANGKAT == "Juru Muda Tingkat I") echo 'selected="selected"'; ?>>Juru Muda Tingkat I</option>
@@ -258,7 +258,7 @@ require_once 'templates/session.php';
                                         </div>
                                         <div class="col-3">
                                             <label>Golongan</label>
-                                            <select id="dd-golongan" name="golongan" class="form-control">
+                                            <select required id="dd-golongan" name="golongan" class="form-control">
                                                 <option></option>
                                                 <option value="I/a" <?php if ($li->GOLONGAN == "I/a") echo 'selected="selected"'; ?>>I/a</option>
                                                 <option value="I/b" <?php if ($li->GOLONGAN == "I/b") echo 'selected="selected"'; ?>>I/b</option>
@@ -281,15 +281,15 @@ require_once 'templates/session.php';
                                         </div>
                                         <div class="col-6">
                                             <label>Jabatan</label>
-                                            <input type="text" name="jabatan_pegawai" placeholder="Jabatan Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->JABATAN ?>">
+                                            <input required type="text" name="jabatan_pegawai" placeholder="Jabatan Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->JABATAN ?>">
                                         </div>
                                         <div class="col-6">
                                             <label>Tanggal Lahir</label>
-                                            <input type="text" name="tanggal" class="input-tanggal form-control sc-input-required sc-date " placeholder="Tanggal Lahir" value="<?php echo $li->TANGGALLAHIR ?>">
+                                            <input required type="text" name="tanggal" class="input-tanggal form-control sc-input-required sc-date " placeholder="Tanggal Lahir" value="<?php echo $li->TANGGALLAHIR ?>">
                                         </div>
                                         <div class="col-6">
                                             <label>Tingkat</label>
-                                            <input type="text" name="tingkat_pegawai" placeholder="Tingkat Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->TINGKAT ?>">
+                                            <input required type="text" name="tingkat_pegawai" placeholder="Tingkat Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->TINGKAT ?>">
                                         </div>
 
                                     </div>

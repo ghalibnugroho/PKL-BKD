@@ -14,6 +14,7 @@ class RincianController extends CI_Controller
         parent::__construct();
         $this->load->model('UserModel');
         $this->load->model('RincianModel');
+        $this->load->model('SppdModel');
         $this->load->model('PegawaiModel');
         $this->load->library('form_validation');
     }
@@ -388,7 +389,7 @@ class RincianController extends CI_Controller
         $bendahara = $this->PegawaiModel->getPegawai_Jabatan('Bendahara');
         $nip_pptk = $this->PegawaiModel->getNiP_PPTK($id);
         $pptk = $this->PegawaiModel->getPegawai_NIP($nip_pptk[0]->NIP_PPTK);
-        $sppd = $this->PegawaiModel->getSPPD($id);
+        $sppd = $this->SppdModel->getSPPD($id);
 
         $reader = IOFactory::createReader('Xlsx');
 

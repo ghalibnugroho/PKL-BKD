@@ -62,22 +62,7 @@ require_once('templates/session.php');
                             <option><?php echo $li->ALAT_ANGKUT == null ? "--" : $li->ALAT_ANGKUT; ?></option>
                             <option>Angkutan Dinas</option>
                             <option>Angkutan Umum</option>
-                            <option>Angkutan Dinas & Umum</option>
                           </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="row">
-                          <div class="col-sm-4">
-                            <label>Alat Angkut yang dipergunakan</label>
-                            <select name="alat_angkut" class="form-control sc-input-required">
-                              <option><?php echo $li->ALAT_ANGKUT == null ? "--" : $li->ALAT_ANGKUT; ?></option>
-                              <option>Angkutan Dinas</option>
-                              <option>Angkutan Umum</option>
-                              <option>Angkutan Dinas & Umum</option>
-                            </select>
-                          </div>
-
                         </div>
                       </div>
                     </div>
@@ -102,6 +87,38 @@ require_once('templates/session.php');
                         <div class=" col-sm-3">
                           <label>Tgl Kembali</label>
                           <input required type="text" name="tgl_kembali" class="input-tanggal form-control sc-input-required sc-date" value="<?php echo $li->TGL_KEMBALI ?>" placeholder="Tgl Kembali">
+                        </div>
+                      </div>
+                    </div>
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Daftar SPPD</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="table-responsive">
+                          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <col width="10%">
+                            <col width="35%">
+                            <col width="30%">
+                            <col width="15%">
+                            <thead>
+                              <tr>
+                                <th>No</th>
+                                <th>Instansi Tujuan</th>
+                                <th>Tanggal Berangkat</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            <tr style='font-size:13px;'>
+                              <td>1</td>
+                              <td>aba</td>
+                              <td>tasa</td>
+                              <td>hapus</td>
+                            </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>

@@ -133,11 +133,11 @@ require_once('templates/session.php');
         <?php
           foreach ($total_kegiatan as $tk) { ?>
           <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
+            <div class="card border-left-info shadow h-100 py-2">
               <div class="card-body">
                 <div class="row no-gutters align-items-center">
                   <div class="col mr-2">
-                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Kegiatan BKD</div>
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Kegiatan BKD</div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $tk->total_kegiatan ?> Kegiatan</div>
                   </div>
                   <div class="col-auto">
@@ -146,6 +146,52 @@ require_once('templates/session.php');
                 </div>
               </div>
             </div>
+          </div>
+        <?php }
+          foreach ($total_stBidang as $st) { ?>
+          <div class="col-xl-3 col-md-6 mb-4">
+            <a style="text-decoration:none;" href=" <?php echo site_url('list-st'); ?>">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Surat Tugas</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo $st->jumlah_st ?> Surat Tugas</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <?php }
+          foreach ($total_sppdBidang as $sppd) { ?>
+          <div class="col-xl-3 col-md-6 mb-4">
+            <a style="text-decoration:none;" href=" <?php echo site_url('list-sppd'); ?>">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Total Surat Perintah Perjalanan Dinas</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo $sppd->jumlah_sppd ?> SPPD</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
           </div>
       <?php }
       } ?>
@@ -342,11 +388,13 @@ require_once('templates/session.php');
     $a = [];
     $b = [];
     //looping graphic label
-    foreach ($label_graphic as $bt) {
-      $a[] = $bt['bulan_tahun'];
-    }
-    foreach ($value_count as $vc) {
-      $b[] = $vc['jumlah_sppd'];
+    if ($this->session->userdata('priority') == 1) {
+      foreach ($label_graphic as $bt) {
+        $a[] = $bt['bulan_tahun'];
+      }
+      foreach ($value_count as $vc) {
+        $b[] = $vc['jumlah_sppd'];
+      }
     }
 
     ?>
@@ -354,8 +402,8 @@ require_once('templates/session.php');
     let b = <?php echo json_encode($b); ?>; //data
     <?php
     if ($this->session->userdata('priority') == 1) { ?>
-      adminBarGraphic();
-      adminPieGraphic();
+      BarGraphic();
+      PieGraphic();
     <?php } ?>
 
     function addData(chart, label, data) {
@@ -378,7 +426,7 @@ require_once('templates/session.php');
     Chart.defaults.global.defaultFontColor = '#858796';
 
     // Area Chart Example
-    function adminBarGraphic() {
+    function BarGraphic() {
       var ctx = document.getElementById("myAreaChart");
       var myBarChart = new Chart(ctx, {
         type: 'bar',
@@ -468,7 +516,7 @@ require_once('templates/session.php');
       });
     }
     //sppd
-    function adminPieGraphic() {
+    function PieGraphic() {
       Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
       Chart.defaults.global.defaultFontColor = '#858796';
 
