@@ -9,11 +9,19 @@ class SppdModel extends CI_Model
 
     public function getDataSPPD($id)
     {
-        $query = $this->db->select("TUJUAN, ID_SPPD, KODE, ALAT_ANGKUT, 
+        $query = $this->db->select("surattugas.ID_ST,TUJUAN, ID_SPPD, KODE, ALAT_ANGKUT, 
         TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, LAMA, KETERANGAN , KATEGORI, INSTANSI")
             ->from('surattugas')
             ->join('sppd', 'sppd.ID_ST=surattugas.ID_ST')
             ->where('surattugas.ID_ST', $id)
+            ->get();
+        return $query->result();
+    }
+    public function getInstansi($id){
+        $query = $this->db->select("ID_INSTANSI,instansitujuan.INSTANSI,TANGGAL")
+            ->from('instansitujuan')
+            ->join('sppd', 'sppd.ID_SPPD=instansitujuan.ID_SPPD')
+            ->where('sppd.ID_ST', $id)
             ->get();
         return $query->result();
     }

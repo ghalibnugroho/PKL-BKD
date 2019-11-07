@@ -34,6 +34,8 @@ class sppdController extends CI_Controller
         if ($result['list'][0]->KODE != null) {
             $result['list'][0]->KODE = $this->KegiatanModel->getNamaKegiatan($result['list'][0]->KODE);
         }
+        $result['instansi']= $this->SppdModel->getInstansi($id);
+
         $this->load->view('sppd', $result);
     }
 
@@ -71,6 +73,22 @@ class sppdController extends CI_Controller
     //     return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
     // }
 
+    function tambahInstansi()
+    {
+        $idsppd = $this->input->post('idsppd');
+        $idst = $this->input->post('idst');
+        $instansi = $this->input->post('minstansi');
+        $tanggal = $this->input->post('mtanggal');
+        $data = array(
+            'ID_SPPD' => $idsppd,
+            'INSTANSI' => $instansi,
+            'TANGGAL' => $tanggal,
+        );
+        $this->UserModel->insertData('instansitujuan', $data);
+        $this->session->set_flashdata('rincian', '<div class="alert alert-success" role="alert">
+        <b>Sukses! </b>Data berhasil diupdate </div>');
+        redirect('sppd/' . $idst);
+    }
 
     public function updateSPPD()
     {
