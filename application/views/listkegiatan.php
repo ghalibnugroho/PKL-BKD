@@ -79,19 +79,19 @@ require_once 'templates/session.php';
                                     <!-- <?php echo date("jS F, Y", strtotime("11.12.10")); ?> -->
                                     <div class="col-6">
                                         <label>Kode Kegiatan</label>
-                                        <input type="text" name="kode_kegiatan" placeholder="Kode Kegiatan" class="form-control sc-input-required sc-select">
+                                        <input required type="text" name="kode_kegiatan" placeholder="Kode Kegiatan" class="form-control sc-input-required sc-select">
                                     </div>
                                     <div class="col-6">
                                         <label>NIP</label>
-                                        <input type="text" name="nip_pegawai" placeholder="NIP Pegawai" class="form-control sc-input-required sc-select">
+                                        <input required type="text" name="nip_pegawai" placeholder="NIP Pegawai" class="form-control sc-input-required sc-select">
                                     </div>
                                     <div class="col-6">
                                         <label>Nama Kegiatan</label>
-                                        <input type="text" name="nama_kegiatan" placeholder="Nama Kegiatan" class="form-control sc-input-required sc-select">
+                                        <input required type="text" name="nama_kegiatan" placeholder="Nama Kegiatan" class="form-control sc-input-required sc-select">
                                     </div>
                                     <div class="col-6">
                                         <label>Bidang Pegawai</label>
-                                        <select id="dd-bidang" name="bidang" class="form-control">
+                                        <select required id="dd-bidang" name="bidang" class="form-control">
                                             <option></option>
                                             <option value="2">Sekretariat</option>
                                             <option value="3">Mutasi</option>
@@ -131,20 +131,20 @@ require_once 'templates/session.php';
                                     <div class="row">
                                         <div class="col-6">
                                             <label>Kode Kegiatan</label>
-                                            <input type="text" name="kode_kegiatan" placeholder="Kode Kegiatan" class="form-control sc-input-required sc-select" value="<?php echo $li->kode ?>">
+                                            <input required type="text" name="kode_kegiatan" placeholder="Kode Kegiatan" class="form-control sc-input-required sc-select" value="<?php echo $li->kode ?>">
                                             <input type="hidden" name="kode_hidden" value="<?php echo $li->kode ?>">
                                         </div>
                                         <div class=" col-6">
                                             <label>NIP</label>
-                                            <input type="text" name="nip_pegawai" placeholder="NIP Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->nip_pptk ?>">
+                                            <input required type="text" name="nip_pegawai" placeholder="NIP Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->nip_pptk ?>">
                                         </div>
                                         <div class=" col-6">
                                             <label>Nama Kegiatan</label>
-                                            <input type="text" name="nama_kegiatan" placeholder="Nama Kegiatan" class="form-control sc-input-required sc-select" value="<?php echo $li->nama_kegiatan ?>">
+                                            <input required type="text" name="nama_kegiatan" placeholder="Nama Kegiatan" class="form-control sc-input-required sc-select" value="<?php echo $li->nama_kegiatan ?>">
                                         </div>
                                         <div class="col-6">
                                             <label>Bidang Pegawai</label>
-                                            <select id="dd-bidang" name="bidang" class="form-control">
+                                            <select required id="dd-bidang" name="bidang" class="form-control">
                                                 <option></option>
                                                 <option value="2" <?php if ($li->id_bidang == 2) echo 'selected="selected"'; ?>>Sekretariat</option>
                                                 <option value="3" <?php if ($li->id_bidang == 3) echo 'selected="selected"'; ?>>Mutasi</option>
