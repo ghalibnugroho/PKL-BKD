@@ -42,6 +42,15 @@ class UserModel extends CI_Model
         $pass = $query->result();
         return $pass[0]->PASSWORD;
     }
+    function getPasswordAdm($idadm)
+    {
+        $query = $this->db->select("PASSWORD")
+            ->from('admin')
+            ->where('ID_ADM', $idadm)
+            ->get();
+        $pass = $query->result();
+        return $pass[0]->PASSWORD;
+    }
     public function update($where, $table, $data)
     {
         $this->db->where($where);
