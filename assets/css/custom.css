@@ -68,8 +68,12 @@ ul.ui-autocomplete {
     left: 1%;
 }
 .btn-action{
-    width: 90px;
+    width: 70px;
     height: 30px;
+    font-size: 12px;
+}
+.fa-sm{
+    font-size: 10px;
 }
 .right1{
     display: flex;
