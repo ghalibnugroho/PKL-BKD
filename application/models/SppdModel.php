@@ -9,11 +9,20 @@ class SppdModel extends CI_Model
 
     public function getDataSPPD($id)
     {
-        $query = $this->db->select("TUJUAN, ID_SPPD, KODE, ALAT_ANGKUT, 
+        $query = $this->db->select("surattugas.ID_ST,TUJUAN, ID_SPPD, KODE, ALAT_ANGKUT, 
         TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, LAMA, KETERANGAN , KATEGORI, INSTANSI")
             ->from('surattugas')
             ->join('sppd', 'sppd.ID_ST=surattugas.ID_ST')
             ->where('surattugas.ID_ST', $id)
+            ->get();
+        return $query->result();
+    }
+    public function getInstansi($id)
+    {
+        $query = $this->db->select("ID_INSTANSI,instansitujuan.INSTANSI,TANGGAL")
+            ->from('instansitujuan')
+            ->join('sppd', 'sppd.ID_SPPD=instansitujuan.ID_SPPD')
+            ->where('sppd.ID_ST', $id)
             ->get();
         return $query->result();
     }
@@ -79,7 +88,7 @@ class SppdModel extends CI_Model
     }
     public function bulan_tahun_sppd()
     {
-        $query = $this->db->query('SELECT bulan_tahun from (select DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd where TGL_BERANGKAT is NOT NULL ORDER BY bulan_tahun DESC limit 12) as tgl_sppd order by bulan_tahun ASC ');
+        $query = $this->db->query('SELECT bulan_tahun from (select DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd where TGL_BERANGKAT is NOT NULL ORDER BY bulan_tahun ASC limit 12) as tgl_sppd order by bulan_tahun DESC ');
         return $query->result_array();
     }
     public function jumlah_sppd_berangkat($bulan, $tahun)

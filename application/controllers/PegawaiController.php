@@ -40,11 +40,11 @@ class PegawaiController extends CI_Controller
         $data = $this->PegawaiModel->fetch_data($query);
         $output .=
             '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-            <col width="15%">
+            <col width="18%">
             <col width="18%">
             <col width="12%">
-            <col width="8%">
-            <col width="17%">
+            <col width="5%">
+            <col width="23%">
             <thead>
                 <tr>
                     <th>NIP</th>
@@ -52,7 +52,6 @@ class PegawaiController extends CI_Controller
                     <th>PANGKAT</th>
                     <th>GOLONGAN</th>
                     <th>JABATAN</th>
-                    <th>TANGGAL LAHIR</th>
                     <th>ACTION</th>
                 </tr>
             </thead>
@@ -64,11 +63,10 @@ class PegawaiController extends CI_Controller
             <td>' . $row->NIP . '</td>
             <td>' . $row->NAMA . '</td>
             <td>' . $row->PANGKAT . '</td>
-            <td>' . $row->GOLONGAN . '</td>
+            <td class="text-center">' . $row->GOLONGAN . '</td>
             <td>' . $row->JABATAN . '</td>
-            <td>' . $row->TANGGALLAHIR . '</td>
-            <td><a href="" data-target="#editPegawai' . $row->NIP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info"><i class="fas fa-sm fa-edit"></i> Edit </a>
-            <a href="" data-target="#hapusPegawai' . $row->NIP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i> Hapus </a></td>
+            <td><a href="" data-target="#editPegawai' . $row->NIP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info btn-action"><i class="fas fa-sm fa-edit"></i> Edit </a>
+            <a href="" data-target="#hapusPegawai' . $row->NIP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger btn-action"><i class="fas fa-sm fa-trash"></i> Hapus </a></td>
             </tr>
             ';
             }

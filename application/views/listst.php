@@ -72,9 +72,7 @@
                   <?php           
                     }
                   ?>
-                  <script language="javascript">
-                  
-                  </script>
+
                   </tbody>
                 </table>
               </div>
