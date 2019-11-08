@@ -36,20 +36,12 @@ ul.ui-autocomplete {
     margin: 20% 5%;
     height:30px;
 }
-@media only screen and (min-height: 550px) and (min-width: 720px) {
+@media only screen and (min-height: 480px) and (min-width: 360px) {
     .py-10{
         margin: 4.5% 0px 5% 0px;
     }
     .py-9{
         padding: 0.5% 3.5% 5% 0%;
-    }
-    .btn-action{
-        width: 70px;
-        height: 30px;
-        font-size: 12px;
-    }
-    .fa-sm{
-        font-size: 10px;
     }
   }
 @media only screen and (min-height: 1000px) and (min-width: 720px) {
@@ -59,10 +51,23 @@ ul.ui-autocomplete {
     .py-9{
         padding: 5% 2% 5% 0%;
     }
+  }
+
+@media only screen and (min-width: 1000px) {
     .btn-action{
         width: 70px;
         height: 30px;
         font-size: 12px;
+    }
+    .fa-sm{
+        font-size: 10px;
+    }
+  }
+@media only screen and (min-width: 1600px) {
+    .btn-action{
+        width: 100px;
+        height: 30px;
+        font-size: 14px;
     }
     .fa-sm{
         font-size: 10px;

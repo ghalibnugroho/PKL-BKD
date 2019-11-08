@@ -45,7 +45,7 @@ class PegawaiController extends CI_Controller
             <col width="12%">
             <col width="5%">
             <col width="20%">
-            <col width="15%">
+            <col width="18%">
             <thead>
                 <tr>
                     <th>NIP</th>
