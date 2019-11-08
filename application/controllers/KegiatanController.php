@@ -32,11 +32,11 @@ class KegiatanController extends CI_Controller
         $data = $this->KegiatanModel->fetch_dataKegiatan($query);
         $output .=
             '<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-            <col width="15%">
-            <col width="15%">
-            <col width="15%">
-            <col width="17%">
+            <col width="5%">
+            <col width="5%">
             <col width="10%">
+            <col width="5%">
+            <col width="13%">
             <thead>
                 <tr>
                     <th>KODE KEGIATAN</th>
@@ -56,8 +56,8 @@ class KegiatanController extends CI_Controller
             <td>' . $row->NIP_PPTK . '</td>
             <td>' . $row->NAMA . '</td>
             <td>' . $row->NAMA_KEGIATAN . '</td>
-            <td><a href="" data-target="#editKegiatan' . $KODE_TEMP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info"><i class="fas fa-sm fa-edit"></i> Edit </a>
-            <a href="" data-target="#hapusKegiatan' . $KODE_TEMP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger"><i class="fas fa-sm fa-trash"></i> Hapus </a></td>
+            <td><a href="" data-target="#editKegiatan' . $KODE_TEMP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-info btn-action"><i class="fas fa-sm fa-edit"></i> Edit </a>
+            <a href="" data-target="#hapusKegiatan' . $KODE_TEMP . '" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger btn-action"><i class="fas fa-sm fa-trash"></i> Hapus </a></td>
             </tr>
             ';
             }
