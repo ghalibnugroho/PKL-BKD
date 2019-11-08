@@ -43,6 +43,14 @@ ul.ui-autocomplete {
     .py-9{
         padding: 0.5% 3.5% 5% 0%;
     }
+    .btn-action{
+        width: 70px;
+        height: 30px;
+        font-size: 12px;
+    }
+    .fa-sm{
+        font-size: 10px;
+    }
   }
 @media only screen and (min-height: 1000px) and (min-width: 720px) {
     .py-10{
@@ -50,6 +58,14 @@ ul.ui-autocomplete {
     }
     .py-9{
         padding: 5% 2% 5% 0%;
+    }
+    .btn-action{
+        width: 70px;
+        height: 30px;
+        font-size: 12px;
+    }
+    .fa-sm{
+        font-size: 10px;
     }
   }
 .card-header h6, .card-header input{
@@ -67,14 +83,7 @@ ul.ui-autocomplete {
     /* top: 0.3%; */
     left: 1%;
 }
-.btn-action{
-    width: 70px;
-    height: 30px;
-    font-size: 12px;
-}
-.fa-sm{
-    font-size: 10px;
-}
+
 .right1{
     display: flex;
     position: absoulte;
