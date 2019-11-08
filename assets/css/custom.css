@@ -68,7 +68,8 @@ ul.ui-autocomplete {
     left: 1%;
 }
 .btn-action{
-    width: 40%;
+    width: 90px;
+    height: 30px;
 }
 .right1{
     display: flex;
