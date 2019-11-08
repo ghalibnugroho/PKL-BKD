@@ -85,9 +85,21 @@ class sppdController extends CI_Controller
             'TANGGAL' => $tanggal,
         );
         $this->UserModel->insertData('instansitujuan', $data);
-        $this->session->set_flashdata('rincian', '<div class="alert alert-success" role="alert">
-        <b>Sukses! </b>Data berhasil diupdate </div>');
-        redirect('sppd/' . $idst);
+        $this->session->set_flashdata('instansi', '<div class="alert alert-success" role="alert">
+        <b>Sukses! </b>Data instansi berhasil ditambah </div>');
+        redirect('sppd/' . $idst.'#instansi');
+    }
+
+    function hapusInstansi()
+    {
+        $idinstansi = $this->input->post('idinstansi');
+        $idst = $this->input->post('idst');
+
+        $where = array('ID_INSTANSI' => $idinstansi);
+        $this->UserModel->delete($where, 'instansitujuan');
+        $this->session->set_flashdata('instansi' . $idpeserta, '<div class="alert alert-success" role="alert">
+        <b>Sukses! </b>Data rincian berhasil dihapus </div>');
+        redirect('sppdController/sppd/' . $idst.'#instansi');
     }
 
     public function updateSPPD()
