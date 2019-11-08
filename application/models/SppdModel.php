@@ -17,7 +17,8 @@ class SppdModel extends CI_Model
             ->get();
         return $query->result();
     }
-    public function getInstansi($id){
+    public function getInstansi($id)
+    {
         $query = $this->db->select("ID_INSTANSI,instansitujuan.INSTANSI,TANGGAL")
             ->from('instansitujuan')
             ->join('sppd', 'sppd.ID_SPPD=instansitujuan.ID_SPPD')
@@ -87,7 +88,7 @@ class SppdModel extends CI_Model
     }
     public function bulan_tahun_sppd()
     {
-        $query = $this->db->query('SELECT bulan_tahun from (select DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd where TGL_BERANGKAT is NOT NULL ORDER BY bulan_tahun DESC limit 12) as tgl_sppd order by bulan_tahun ASC ');
+        $query = $this->db->query('SELECT bulan_tahun from (select DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd where TGL_BERANGKAT is NOT NULL ORDER BY bulan_tahun ASC limit 12) as tgl_sppd order by bulan_tahun DESC ');
         return $query->result_array();
     }
     public function jumlah_sppd_berangkat($bulan, $tahun)
