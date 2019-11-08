@@ -42,7 +42,7 @@ require_once('templates/session.php');
                     <tr>
                       <th>Nama</th>
                       <th>Maksud</th>
-                      <th>Instansi Tujuan</th>
+                      <th>Kab/Kota Tujuan</th>
                       <th>Tanggal Berangkat</th>
                       <th>Tanggal Kembali</th>
                       <th>Kateogri</th>
@@ -55,11 +55,11 @@ require_once('templates/session.php');
                       echo "<tr style='font-size:13px;'>
                             <td>" . $li->NAMA . "</td>
                             <td>" . $li->DASAR . "</td>
-                            <td>" . $li->INSTANSI . " </td>
+                            <td>" . $li->TMP_TUJUAN . " </td>
                             <td>" . $li->TGL_BERANGKAT . "</td>
                             <td>" . $li->TGL_KEMBALI . "</td>
                             <td>" . $li->KATEGORI . "</td>";
-                      if (($li->INSTANSI == null) && ($li->TGL_KEMBALI == null) && ($li->TGL_BERANGKAT == null)) {
+                      if (($li->TMP_TUJUAN == null) && ($li->TGL_KEMBALI == null) && ($li->TGL_BERANGKAT == null)) {
                         echo "<td><a href=\"" . site_url("sppd/") . $li->ID_ST . "\" class=\"d-none d-sm-inline-block btn btn-sm btn-success\"><i class=\"fas fa-sm fa-pencil\"></i> Buat SPPD </a>
                             </tr>";
                       } else {

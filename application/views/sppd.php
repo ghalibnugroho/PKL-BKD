@@ -133,28 +133,7 @@ require_once('templates/session.php');
                                       </a>
                                     </td></tr>
                                       
-                                    <div class="modal fade" id="modalhapus<?php echo $in->ID_INSTANSI;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                          <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Anda yakin ingin menghapus data transportasi?</h5>
-                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                              <span aria-hidden="true">×</span>
-                                            </button>
-                                          </div>
-                                          <div class="modal-body">Anda akan menghapus instansi <?php echo $in->INSTANSI;?>.</div>
-                                          <div class="modal-footer">
-                                          <form method="post" action="<?php echo site_url('sppdController/hapusInstansi');?>">
-                                              <input type="hidden" name="idinstansi" value="<?php echo $in->ID_INSTANSI; ?>">
-                                              <input type="hidden" name="idst" value="<?php echo $li->ID_ST; ?>">
-                                              
-                                              <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                                              <input type="submit" value="Hapus" class="btn btn-danger">
-                                            </form>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div> 
+
                             <?php           
                               }
                             ?>
@@ -177,12 +156,6 @@ require_once('templates/session.php');
                       </div>
                     </div>
                     <div class="form-group">
-                      <div class="row">
-                        <div class="col-sm-4">
-                          <label>Instansi Tujuan</label>
-                          <input required type="text" name="instansi" class="form-control sc-input-required" placeholder="Instansi Tujuan" value="<?php echo $li->INSTANSI ?>">
-                        </div>
-                      </div>
                       <div class="form-group">
                         <label>Keterangan Lain &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
                         <input type="text" name="keterangan" class="form-control" placeholder="Keterangan Lain" value="<?php echo $li->KETERANGAN ?>">
@@ -251,6 +224,34 @@ require_once('templates/session.php');
       <i class="fas fa-angle-up"></i>
     </a>
 
+    <?php
+    foreach($instansi as $in){
+    ?>
+      <div class="modal fade" id="modalhapus<?php echo $in->ID_INSTANSI;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Anda yakin ingin menghapus data instansi?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">Anda akan menghapus instansi <?php echo $in->INSTANSI;?>.</div>
+              <div class="modal-footer">
+                <form method="post" action="<?php echo site_url('sppdController/hapusInstansi');?>">
+                  <input type="hidden" name="idinstansi" value="<?php echo $in->ID_INSTANSI; ?>">
+                  <input type="hidden" name="idst" value="<?php echo $list[0]->ID_ST; ?>">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                  <input type="submit" value="Hapus" class="btn btn-danger">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div> 
+      </div>  
+    <?php
+    }
+    ?>
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -273,6 +274,8 @@ require_once('templates/session.php');
 
 </body>
 <script>
+
+
   $(document).ready(function() {
     $(".pegawai_diperintah").autocomplete({
       source: "<?php echo site_url('sppdController/getPegawai/?'); ?>"
