@@ -34,7 +34,7 @@ class sppdController extends CI_Controller
         if ($result['list'][0]->KODE != null) {
             $result['list'][0]->KODE = $this->KegiatanModel->getNamaKegiatan($result['list'][0]->KODE);
         }
-        $result['instansi']= $this->SppdModel->getInstansi($id);
+        $result['instansi'] = $this->SppdModel->getInstansi($id);
 
         $this->load->view('sppd', $result);
     }
@@ -87,7 +87,7 @@ class sppdController extends CI_Controller
         $this->UserModel->insertData('instansitujuan', $data);
         $this->session->set_flashdata('instansi', '<div class="alert alert-success" role="alert">
         <b>Sukses! </b>Data instansi berhasil ditambah </div>');
-        redirect('sppd/' . $idst.'#instansi');
+        redirect('sppd/' . $idst . '#instansi');
     }
 
     function hapusInstansi()
@@ -99,7 +99,7 @@ class sppdController extends CI_Controller
         $this->UserModel->delete($where, 'instansitujuan');
         $this->session->set_flashdata('instansi' . $idpeserta, '<div class="alert alert-success" role="alert">
         <b>Sukses! </b>Data rincian berhasil dihapus </div>');
-        redirect('sppdController/sppd/' . $idst.'#instansi');
+        redirect('sppdController/sppd/' . $idst . '#instansi');
     }
 
     public function updateSPPD()

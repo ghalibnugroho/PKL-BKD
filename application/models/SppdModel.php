@@ -88,7 +88,7 @@ class SppdModel extends CI_Model
     }
     public function bulan_tahun_sppd()
     {
-        $query = $this->db->query('SELECT bulan_tahun from (select DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd where TGL_BERANGKAT is NOT NULL ORDER BY bulan_tahun ASC limit 12) as tgl_sppd order by bulan_tahun DESC ');
+        $query = $this->db->query('SELECT DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd where TGL_BERANGKAT is NOT NULL ORDER BY STR_TO_DATE( bulan_tahun, "%M-%Y" ) DESC limit 12 ');
         return $query->result_array();
     }
     public function jumlah_sppd_berangkat($bulan, $tahun)
