@@ -80,6 +80,7 @@ class RincianController extends CI_Controller
         $bukti = $this->input->post('bukti') ? 1 : 0;
         $total = $jumlah * $harga;
         $keterangan = $this->input->post('keterangan');
+        $uhcheck = false;
 
         $data = array(
             'ID_SPPD' => $idsppd,
@@ -91,11 +92,27 @@ class RincianController extends CI_Controller
             'KETERANGAN' => $keterangan,
             'BUKTI_PEMBAYARAN' => $bukti,
         );
-        $this->UserModel->insertData('rincian', $data);
-        $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-success" role="alert">
-        <b>Sukses! </b>Data berhasil diupdate </div>');
-        redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        if($jenis == "Uang Harian"){
+            $result = $this->RincianModel->getRincian($idsppd);
+            foreach ($result as $res) {
+                if($res->ID_PESERTA == $idpeserta && $res->JENIS == "Uang Harian"){
+                    $uhcheck = true;
+                    break;
+                }
+            }
+        }
+        if($uhcheck){
+            $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-danger" role="alert">
+            <b>Gagal! </b>Anda hanya dapat memasukkan satu data Uang Harian pada tiap peserta perjalanan dinas </div>');
+            redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        }else{
+            $this->UserModel->insertData('rincian', $data);
+            $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-success" role="alert">
+            <b>Sukses! </b>Data berhasil diupdate </div>');
+            redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        }
     }
+
     function editTransportasi()
     {
         $idrincian = $this->input->post('idrincian');
@@ -148,7 +165,7 @@ class RincianController extends CI_Controller
         $bukti = $this->input->post('bukti');
         $total = $jumlah * $harga;
         $keterangan = $this->input->post('keterangan');
-
+        $uhcheck = false;
         $data = array(
             'ID_SPPD' => $idsppd,
             'ID_PESERTA' => $idpeserta,
@@ -159,11 +176,27 @@ class RincianController extends CI_Controller
             'KETERANGAN' => $keterangan,
             'BUKTI_PEMBAYARAN' => $bukti,
         );
-        $where = array('ID_RINCIAN' => $idrincian);
-        $this->UserModel->update($where, 'rincian', $data);
-        $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-success" role="alert">
-        <b>Sukses! </b>Data berhasil diupdate </div>');
-        redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        if($jenis == "Uang Harian"){
+            $result = $this->RincianModel->getRincian($idsppd);
+            foreach ($result as $res) {
+                if($res->ID_PESERTA == $idpeserta && $res->JENIS == "Uang Harian"){
+                    $uhcheck = true;
+                    break;
+                }
+            }
+        }
+        if($uhcheck){
+            $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-danger" role="alert">
+            <b>Gagal! </b>Anda hanya dapat memasukkan satu data Uang Harian pada tiap peserta perjalanan dinas  </div>');
+            redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        }else{
+            $where = array('ID_RINCIAN' => $idrincian);
+            $this->UserModel->update($where, 'rincian', $data);
+            $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-success" role="alert">
+            <b>Sukses! </b>Data berhasil diupdate </div>');
+            redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        }
+
     }
     function hapusRincian()
     {

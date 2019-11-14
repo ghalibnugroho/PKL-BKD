@@ -114,7 +114,6 @@ class sppdController extends CI_Controller
         $tgl_kembali = $this->input->post('tgl_kembali');
         $pengikut = $this->input->post('pengikut');
         $kategori = $this->input->post('kategori');
-        $instansi = $this->input->post('instansi');
         $keterangan = $this->input->post('keterangan');
         $lama = date_diff(date_create($tgl_kembali), date_create($tgl_berangkat));
         $kode = $this->KegiatanModel->getKodeKegiatan($kegiatan);
@@ -129,7 +128,6 @@ class sppdController extends CI_Controller
             'LAMA' => $lama->days,
             'KETERANGAN' => $keterangan,
             'KATEGORI' => $kategori,
-            'INSTANSI' => $instansi,
         );
         $where = array('ID_SPPD' => $id);
         $this->UserModel->update($where, 'sppd', $data_insert);

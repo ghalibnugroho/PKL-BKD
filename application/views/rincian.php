@@ -335,8 +335,7 @@ require_once 'templates/session.php';
                               <option>Uang Harian</option>
                               <option>Uang Representatif</option>
                               <option>Penginapan</option>
-                              <option>BBM</option>
-                              <option>Tol</option>
+                              <option>Lain-lain</option>
                             </select>
                           </div>
                         </div>
