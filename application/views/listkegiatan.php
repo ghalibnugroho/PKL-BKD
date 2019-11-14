@@ -83,7 +83,14 @@ require_once 'templates/session.php';
                                     </div>
                                     <div class="col-6">
                                         <label>NIP</label>
-                                        <input required type="text" name="nip_pegawai" placeholder="NIP Pegawai" class="form-control sc-input-required sc-select">
+                                        <select required id="nip" name="nip_pegawai" class="form-control sc-input-required sc-select">
+                                            <option></option>
+                                            <?php 
+                                            foreach($NIP as $n){
+                                                echo "<option>".$n->NIP."</option>";
+                                            };
+                                            ?>
+                                        </select>
                                     </div>
                                     <div class="col-6">
                                         <label>Nama Kegiatan</label>
@@ -192,6 +199,11 @@ require_once 'templates/session.php';
     <script>
         $('#dd-bidang').select2({
             placeholder: "Input Bidang Pegawai",
+            dropdownParent: $('#tambahKegiatan'),
+            width: '100%',
+        });
+        $('#nip').select2({
+            placeholder: "Input NIP Pegawai",
             dropdownParent: $('#tambahKegiatan'),
             width: '100%',
         });

@@ -79,6 +79,12 @@ class sppdController extends CI_Controller
         $idst = $this->input->post('idst');
         $instansi = $this->input->post('minstansi');
         $tanggal = $this->input->post('mtanggal');
+        $result=$this->SppdModel->getInstansi($idst);
+        if(count($result) == 4){
+            $this->session->set_flashdata('instansi', '<div class="alert alert-danger" role="alert">
+            <b>Gagal! </b>Anda hanya dapat memasukkan maksimal 4 instansi tujuan dalam 1 perjalanan dinas </div>');
+            redirect('sppd/' . $idst . '#instansi');
+        }else{
         $data = array(
             'ID_SPPD' => $idsppd,
             'INSTANSI' => $instansi,
@@ -88,6 +94,8 @@ class sppdController extends CI_Controller
         $this->session->set_flashdata('instansi', '<div class="alert alert-success" role="alert">
         <b>Sukses! </b>Data instansi berhasil ditambah </div>');
         redirect('sppd/' . $idst . '#instansi');
+        }
+        
     }
 
     function hapusInstansi()
@@ -133,7 +141,8 @@ class sppdController extends CI_Controller
         $this->UserModel->update($where, 'sppd', $data_insert);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
         <b>Sukses! </b>Data berhasil diupdate </div>');
-        $this->listsppd();
+        //$this->listsppd();
+        redirect('list-sppd');
     }
 
     public function getKota()

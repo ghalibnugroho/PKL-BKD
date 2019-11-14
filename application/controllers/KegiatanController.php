@@ -14,11 +14,13 @@ class KegiatanController extends CI_Controller
         parent::__construct();
         $this->load->model('UserModel');
         $this->load->model('KegiatanModel');
+        $this->load->model('PegawaiModel');
         $this->load->library('form_validation');
     }
     public function daftarkegiatan()
     {
         $result['list'] = $this->KegiatanModel->getDaftarKegiatan();
+        $result['NIP'] = $this->PegawaiModel->getAllNIP();
         $this->load->view('listkegiatan', $result);
     }
 
@@ -85,7 +87,7 @@ class KegiatanController extends CI_Controller
         $this->KegiatanModel->insertKegiatan($data_insert);
         $this->session->set_flashdata('tambahKegiatan', '<div class="alert alert-success" role="alert">
         Tambah Kegiatan Berhasil!</div>');
-        $this->daftarkegiatan();
+        redirect('daftar-kegiatan');
     }
 
     public function editKegiatan()
@@ -106,7 +108,7 @@ class KegiatanController extends CI_Controller
         $this->UserModel->update($where, 'kegiatan', $data_update);
         $this->session->set_flashdata('updateKegiatan', '<div class="alert alert-success" role="alert">
         Data Kegiatan Berhasil di Update!</div>');
-        $this->daftarkegiatan();
+        redirect('daftar-kegiatan');
     }
 
     public function hapusKegiatan($kode)
@@ -115,6 +117,6 @@ class KegiatanController extends CI_Controller
         $this->UserModel->delete($where, 'kegiatan');
         $this->session->set_flashdata('hapusKegiatan', '<div class="alert alert-danger" role="alert">
         Pegawai berhasil dihapus </div>');
-        $this->daftarkegiatan();
+        redirect('daftar-kegiatan');
     }
 }
