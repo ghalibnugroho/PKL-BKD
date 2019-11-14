@@ -272,6 +272,7 @@ require_once('templates/session.php');
     <?php
     $a = [];
     $b = [];
+    $c = [];
     //looping graphic label
     if ($this->session->userdata('priority') == 1) {
       foreach ($label_graphic as $bt) {
@@ -280,13 +281,31 @@ require_once('templates/session.php');
       foreach ($value_count as $vc) {
         $b[] = $vc['jumlah_sppd'];
       }
+      foreach ($total_sppd_kat_dinas_luar as $total) {
+        $c[] +=  $total->dinas_luar;
+      }
+      foreach ($total_sppd_kat_dinas_dalam as $total) {
+        $c[] +=  $total->dinas_dalam;
+      }
+    } else {
+      foreach ($total_sppd_dinas_dalam_bidang as $total) {
+        $c[] += $total->dinas_dalam;
+      }
+      foreach ($total_sppd_dinas_luar_bidang as $total) {
+        $c[] += $total->dinas_luar;
+      }
+      $c = array_reverse($c);
     }
 
     ?>
     let a = <?php echo json_encode($a); ?>; //label
-    let b = <?php echo json_encode($b); ?>; //data
+    let b = <?php echo json_encode($b); ?>;
+    let c = <?php echo json_encode($c); ?>; //data
     <?php
     if ($this->session->userdata('priority') == 1) { ?>
+      BarGraphic();
+      PieGraphic();
+    <?php } else { ?>
       BarGraphic();
       PieGraphic();
     <?php } ?>
@@ -413,11 +432,7 @@ require_once('templates/session.php');
         data: {
           labels: ["Dinas Luar", "Dinas Dalam"],
           datasets: [{
-            data: [<?php foreach ($total_sppd_kat_dinas_luar as $total) {
-                      echo $total->dinas_luar;
-                    } ?>, <?php foreach ($total_sppd_kat_dinas_dalam as $total) {
-                            echo $total->dinas_dalam;
-                          } ?>],
+            data: c,
             backgroundColor: ['#e74a3b', '#f6c23e'],
             hoverBackgroundColor: ['#17a673', '#17a673'],
             hoverBorderColor: "rgba(234, 236, 244, 1)",

@@ -81,9 +81,31 @@ class SppdModel extends CI_Model
         $query = $this->db->query('SELECT count(*) as dinas_dalam FROM `sppd` where KATEGORI = "Dinas Dalam"');
         return $query->result();
     }
+    public function total_kategori_dinas_dalam_bidang($user)
+    {
+        $query = $this->db->select("count(*) as dinas_dalam")
+            ->from('sppd')
+            ->join('surattugas', 'sppd.ID_ST=surattugas.ID_ST')
+            ->join('bidang', 'bidang.ID_BIDANG=surattugas.ID_BIDANG')
+            ->where('bidang.NAMA_BIDANG', $user)
+            ->where('sppd.KATEGORI', 'Dinas Dalam')
+            ->get();
+        return $query->result();
+    }
     public function total_kategori_dinas_luar()
     {
         $query = $this->db->query('SELECT count(*) as dinas_luar FROM `sppd` where KATEGORI = "Dinas Luar"');
+        return $query->result();
+    }
+    public function total_kategori_dinas_luar_bidang($user)
+    {
+        $query = $this->db->select("count(*) as dinas_luar")
+            ->from('sppd')
+            ->join('surattugas', 'sppd.ID_ST=surattugas.ID_ST')
+            ->join('bidang', 'bidang.ID_BIDANG=surattugas.ID_BIDANG')
+            ->where('bidang.NAMA_BIDANG', $user)
+            ->where('sppd.KATEGORI', 'Dinas Luar')
+            ->get();
         return $query->result();
     }
     public function bulan_tahun_sppd()
