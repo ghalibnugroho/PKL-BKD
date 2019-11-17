@@ -22,7 +22,7 @@ class SppdModel extends CI_Model
         $query = $this->db->select("ID_INSTANSI,instansitujuan.INSTANSI,TANGGAL")
             ->from('instansitujuan')
             ->join('sppd', 'sppd.ID_SPPD=instansitujuan.ID_SPPD')
-            ->where('sppd.ID_SPPD', $id)
+            ->where('sppd.ID_ST', $id)
             ->order_by('TANGGAL','ASC')
             ->get();
         return $query->result();
