@@ -23,6 +23,7 @@ class SppdModel extends CI_Model
             ->from('instansitujuan')
             ->join('sppd', 'sppd.ID_SPPD=instansitujuan.ID_SPPD')
             ->where('sppd.ID_ST', $id)
+            ->or_where('sppd.ID_SPPD', $id)
             ->order_by('TANGGAL','ASC')
             ->get();
         return $query->result();
