@@ -261,7 +261,8 @@ class SuratTugasController extends CI_Controller
             $pdf->Cell(30, 7, '', 0, 0, 'L');
             $pdf->Cell(10, 7, '', 0, 0, 'L');
             $pdf->Cell(35, 7, 'Jabatan', 0, 0, 'L');
-            $pdf->Cell(0, 7, ':  ' . $value->JABATAN, 0, 1, 'L');
+            $pdf->Cell(3, 7, ': ', 0, 0, 'L');
+            $pdf->MultiCell(0, 7, $value->JABATAN, 0, 'L', false);
         }
 
         $pdf->Cell(5);

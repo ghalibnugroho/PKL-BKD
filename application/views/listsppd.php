@@ -58,7 +58,7 @@ require_once('templates/session.php');
                             <td>" . $li->TMP_TUJUAN . " </td>
                             <td>" . $li->TGL_BERANGKAT . "</td>
                             <td>" . $li->TGL_KEMBALI . "</td>
-                            <td>" . $li->KATEGORI . "</td>";
+                            <td>" . $li->KATEGORI. "</td>";
                       if (($li->TMP_TUJUAN == null) && ($li->TGL_KEMBALI == null) && ($li->TGL_BERANGKAT == null)) {
                         echo "<td><a href=\"" . site_url("sppd/") . $li->ID_ST . "\" class=\"d-none d-sm-inline-block btn btn-sm btn-success\"><i class=\"fas fa-sm fa-pencil\"></i> Buat SPPD </a>
                             </tr>";

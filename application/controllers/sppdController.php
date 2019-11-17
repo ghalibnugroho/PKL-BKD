@@ -206,7 +206,29 @@ class sppdController extends CI_Controller
 
         $pdf->Cell(10, 6, '', 'LR', 0, 'C');
         $pdf->Cell(80, 6, ' ' . 'b. Jabatan', 'R', 0, 'L');
-        $pdf->Cell(100, 6, ' b. ' . $data[0]->JABATAN, 'R', 1, 'L');
+
+        $y = $pdf->GetY();
+
+        if (strlen($data[0]->JABATAN) <= 60) {
+            $pdf->Cell(100, 6, ' b. ' . $data[0]->JABATAN, 'R', 1, 'L');
+        } else {
+            $pdf->Cell(4, 6, ' b. ', 0, 0, 'L');
+            $pdf->MultiCell(96, 6,$data[0]->JABATAN, 'R', 'L', false);
+            $y1 = $pdf->GetY();
+
+            $nrow_4 = (($y1 - $y) / 6) - 1; // nilai 7 adalah dari nilai default height cell, tujuannya untuk membuat baris ke 4 tabelnya wrap text
+
+            $pdf->SetY($y);
+            for ($i = 0; $i < $nrow_4; $i++) {
+                $pdf->Cell(10, 6, '', 'R', 0, 'C');
+                $pdf->Cell(80, 6, '', 'R', 1, 'L');
+                if ($i == $nrow_4 - 1) {
+                    $pdf->Cell(10, 6, '', 'LR', 0, 'C');
+                    $pdf->Cell(80, 6, '', 'R', 0, 'L');
+                    $pdf->Cell(1, 6, '', '', 1, 'L');
+                }
+            }
+        }
 
         $pdf->Cell(10, 6, '', 'LR', 0, 'C');
         $pdf->Cell(80, 6, ' ' . 'c. Tingkat Biaya Perjalanan Dinas', 'R', 0, 'L');

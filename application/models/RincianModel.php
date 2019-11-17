@@ -36,7 +36,7 @@ class RincianModel extends CI_Model
 
     function getRekap($thn)
     {
-        $query = $this->db->select('rincian.ID_PESERTA, NAMA, pegawai.NIP, GOLONGAN, DASAR, sppd.TMP_TUJUAN as DAERAH_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, INSTANSI, LAMA, KATEGORI, JENIS, TOTAL, NO_TIKET, rincian.KETERANGAN, NO_FLIGHT, JAM, NO_TMPDUDUK, rincian.TANGGAL, rincian.TMP_BERANGKAT, rincian.TMP_TUJUAN, HARGA, STATUS')
+        $query = $this->db->select('rincian.ID_PESERTA, NAMA, pegawai.NIP, GOLONGAN, DASAR, sppd.ID_SPPD, sppd.TMP_TUJUAN as DAERAH_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, LAMA, KATEGORI, JENIS, TOTAL, NO_TIKET, rincian.KETERANGAN, NO_FLIGHT, JAM, NO_TMPDUDUK, rincian.TANGGAL, rincian.TMP_BERANGKAT, rincian.TMP_TUJUAN, HARGA, STATUS')
             ->from('rincian')
             ->join('peserta', 'rincian.ID_PESERTA = peserta.ID_PESERTA')
             ->join('pegawai', 'peserta.NIP = pegawai.NIP')

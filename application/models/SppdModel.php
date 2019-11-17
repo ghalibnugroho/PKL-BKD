@@ -62,7 +62,7 @@ class SppdModel extends CI_Model
 
     public function getSPPD($id)
     {
-        $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, KATEGORI, LAMA, DASAR, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
+        $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, KATEGORI, LAMA, NOMOR_SURAT, DASAR, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
             ->from('sppd')
             ->join('surattugas', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')

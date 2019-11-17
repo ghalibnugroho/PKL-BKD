@@ -59,9 +59,11 @@ require_once('templates/session.php');
                         <div class="col-sm-4">
                           <label>Alat Angkut yang dipergunakan</label>
                           <select required name="alat_angkut" class="form-control sc-input-required">
-                            <option><?php echo $li->ALAT_ANGKUT == null ? "--" : $li->ALAT_ANGKUT; ?></option>
-                            <option>Angkutan Dinas</option>
-                            <option>Angkutan Umum</option>
+                          <option value="none" selected disabled hidden> 
+                              Pilih Jenis Angkutan 
+                          </option>
+                            <option value="Dinas" <?php echo $li->ALAT_ANGKUT=="Dinas"? "selected":" " ?>>Angkutan Dinas</option>
+                            <option value="Umum" <?php echo $li->ALAT_ANGKUT=="Umum"? "selected":" " ?>>Angkutan Umum</option>
                           </select>
                         </div>
                       </div>
@@ -148,9 +150,11 @@ require_once('templates/session.php');
                         <div class="col-sm-4">
                           <label>Kategori Dinas</label>
                           <select required name="kategori" class="form-control sc-input-required">
-                            <option><?php echo $li->KATEGORI == null ? "--" : $li->KATEGORI; ?></option>
-                            <option value="Dinas Dalam">Dalam Daerah</option>
-                            <option value="Dinas Luar">Luar Daerah</option>
+                          <option value="none" selected disabled hidden> 
+                              Pilih Jenis Dinas 
+                          </option>
+                            <option value="DALAM" <?php echo $li->KATEGORI=="DALAM"? "selected":" " ?>>Dalam Daerah</option>
+                            <option value="LUAR" <?php echo $li->KATEGORI=="LUAR"? "selected":" " ?>>Luar Daerah</option>
                           </select>
                         </div>
                       </div>
