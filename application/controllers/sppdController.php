@@ -154,8 +154,11 @@ class sppdController extends CI_Controller
     public function exportSPPD($id)
     {
         $data = $this->SppdModel->getSPPD($id);
+        $instansi = $this->SppdModel->getInstansi($id);
         $kepala = $this->PegawaiModel->getPegawai_Jabatan('Kepala');
         $sekretaris = $this->PegawaiModel->getPegawai_Jabatan('Sekretaris');
+        $count_inst = 0;
+
         $pdf = new FPDF('P', 'mm', array(216, 330));
         $pdf->AddPage();
         $pdf->Image('././assets/img/logoHtmpth.png', 10, 5, 35, 35);
@@ -311,8 +314,162 @@ class sppdController extends CI_Controller
         $pdf->Cell(120);
         $pdf->Cell(0, 5, 'NIP. ' . $this->konversi_nip($kepala[0]->NIP), 0, 1, 'L');
 
+        //buat halaman tabel perjalanan
+        $pdf->AddPage();
+
+        $pdf->Ln(6);
+        $pdf->Cell(10,4,'I','LTR',0,'L'); 
+        $pdf->Cell(80,4,' ','TR',0,'L');
+        $pdf->Cell(8,4,'','TR',0,'L');
+        $pdf->Cell(92,4,' Berangkat dari : '.$data[0]->TMP_BERANGKAT,'TR',1,'L');
+        $pdf->Cell(10,4,'','LR',0,'L'); 
+        $pdf->Cell(80,4,' ','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(92,4,' (Tempat Kedudukan)','R',1,'L');
+        $pdf->Cell(10,4,'','LR',0,'L'); 
+        $pdf->Cell(80,4,' ','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(92,4,' Ke                    : '.$data[0]->TMP_TUJUAN,'R',1,'L');
+        $pdf->Cell(10,4,'','LR',0,'L'); 
+        $pdf->Cell(80,4,' ','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(92,4,' Pada tanggal    : '.$this->tgl_indo($instansi[0]->TANGGAL),'R',1,'L');
+        $pdf->Cell(10,4,'','LR',0,'L'); 
+        $pdf->Cell(80,4,' ','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(92,4,' Kepala             : '.'an Kepala Badan Kepegawaian Daerah,','R',1,'L');
+        $pdf->Cell(10,4,'','LR',0,'L'); 
+        $pdf->Cell(80,4,' ','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(92,4,' Sekretaris','R',1,'C');
+        $pdf->Cell(10,15,'','LR',0,'L'); 
+        $pdf->Cell(80,15,' ','R',0,'L');
+        $pdf->Cell(8,15,'','R',0,'L');
+        $pdf->Cell(92,15,' ','R',1,'C');
+        $pdf->Cell(10,4,'','LR',0,'L'); 
+        $pdf->Cell(80,4,' ','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->SetFont('Times','BU',10);
+        $pdf->Cell((strlen($sekretaris[0]->NAMA)<15?35:30),4,'',0,0,'L');
+        $pdf->Cell((strlen($sekretaris[0]->NAMA)<15?57:62),4,$sekretaris[0]->NAMA,'R',1,'L');
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(10,4,'','LBR',0,'L'); 
+        $pdf->Cell(80,4,' ','BR',0,'L');
+        $pdf->Cell(8,4,'','BR',0,'L');
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(30,4,'','B',0,'L');
+        $pdf->Cell(62,4,'NIP. '.$this->konversi_nip($sekretaris[0]->NIP),'BR',1,'L');
+
+        for($i=2 ; $i<=5; $i++){
+            switch ($i) {
+                case 2:
+                    $no='II';
+                    break;
+                case 3:
+                    $no='III';
+                    break;
+                case 4:
+                    $no='IV';
+                    break;
+                case 5:
+                    $no='V';
+                    break;
+            }
+
+            $pdf->Cell(10,4,$no,'LTR',0,'L'); 
+            $pdf->Cell(80,4,' Tiba di          : '.(($i-2)<count($instansi)?$data[0]->TMP_TUJUAN:" "),'TR',0,'L');
+            $pdf->Cell(8,4,'','TR',0,'L');
+            $pdf->Cell(92,4,' Berangkat dari : '.(($i-2)<count($instansi)?$data[0]->TMP_TUJUAN:" "),'TR',1,'L');
+            $pdf->Cell(10,4,' ','LR',0,'L'); 
+            $pdf->Cell(80,4,' Pada tanggal : '.(($i-2)<count($instansi)?$this->tgl_indo($instansi[$i-2]->TANGGAL):" "),'R',0,'L');
+            $pdf->Cell(8,4,'','R',0,'L');
+            $pdf->Cell(92,4,' (Tempat Kedudukan)','R',1,'L');
+            $pdf->Cell(10,4,' ','LR',0,'L'); 
+            $pdf->Cell(80,4,' Kepala          : ','R',0,'L');
+            $pdf->Cell(8,4,'','R',0,'L');
+            $pdf->Cell(92,4,' Ke                    : '.(($i-2)<count($instansi)?(($i-1)==count($instansi)?$data[0]->TMP_BERANGKAT:$data[0]->TMP_TUJUAN):" "),'R',1,'L');
+            $pdf->Cell(10,4,'','LR',0,'L'); 
+            $pdf->Cell(80,4,' ','R',0,'L');
+            $pdf->Cell(8,4,'','R',0,'L');
+            $pdf->Cell(92,4,' Pada tanggal    : '.(($i-2)<count($instansi)?$this->tgl_indo(($i-1)==count($instansi)?$data[0]->TGL_KEMBALI:$instansi[$i-1]->TANGGAL):" "),'R',1,'L');
+            $pdf->Cell(10,4,'','LR',0,'L'); 
+            $pdf->Cell(80,4,' ','R',0,'L');
+            $pdf->Cell(8,4,'','R',0,'L');
+            $pdf->Cell(92,4,' Kepala             : ','R',1,'L');
+            $pdf->Cell(10,20,'','LR',0,'L'); 
+            $pdf->Cell(80,20,' ','R',0,'L');
+            $pdf->Cell(8,20,'','R',0,'L');
+            $pdf->Cell(92,20,' ','R',1,'C');
+
+        }
+
+        $pdf->Cell(10,4,'VI','LTR',0,'L'); 
+        $pdf->Cell(80,4,' Tiba di          : '.$data[0]->TMP_BERANGKAT,'TR',0,'L');
+        $pdf->Cell(8,4,'','TR',0,'L');
+        $pdf->Cell(1,4,'','T',0,'L');
+        $y = $pdf->GetY();
+        $pdf->MultiCell(91,4,'Telah diperiksa dengan keterangan bahwa perjalanan tersebut atas perintahnya dan semata-mata untuk  kepentingan jabatan dalam waktu sesingkat-singkatnya','TR','L',false);
+        $pdf->SetY($y);
+        $pdf->Cell(1,4,'',0,1,'L');
+        $pdf->Cell(10,4,' ','LR',0,'L'); 
+        $pdf->Cell(80,4,' (Tempat Kedudukan)','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(1,4,'',0,1,'L');
+        $pdf->Cell(10,4,' ','LR',0,'L'); 
+        $pdf->Cell(80,4,' Pada tanggal : '.$this->tgl_indo($data[0]->TGL_KEMBALI),'R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(1,4,'',0,1,'L');
+        $pdf->Cell(10,4,' ','LR',0,'L'); 
+        $pdf->Cell(80,4,' Pejabat Yang Berwenang/','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(92,4,' Pejabat Yang Berwenang/','R',1,'L');
+        $pdf->Cell(10,4,' ','LR',0,'L'); 
+        $pdf->Cell(80,4,' Pejabat lainnya yang ditunjuk :','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(92,4,' Pejabat lainnya yang ditunjuk :','R',1,'L');
+        $pdf->Cell(10,4,' ','LR',0,'L'); 
+        $pdf->Cell(15,4,'',0,0,'L');
+        $pdf->Cell(65,4,'a.n. Kepala Badan Kepegawaian Daerah','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(15,4,'',0,0,'L');
+        $pdf->Cell(77,4,'a.n. Kepala Badan Kepegawaian Daerah','R',1,'L');
+        $pdf->Cell(10,4,' ','LR',0,'L'); 
+        $pdf->Cell(30,4,'',0,0,'L');
+        $pdf->Cell(50,4,'Sekretaris,','R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell(30,4,'',0,0,'L');
+        $pdf->Cell(62,4,'Sekretaris,','R',1,'L');
+        $pdf->Cell(10,15,' ','LR',0,'L'); 
+        $pdf->Cell(80,15,' ','R',0,'L');
+        $pdf->Cell(8,15,'','R',0,'L');
+        $pdf->Cell(92,15,' ','R',1,'L');
+        $pdf->SetFont('Times','BU',10);
+        $pdf->Cell(10,4,'','LR',0,'L'); 
+        $pdf->Cell((strlen($sekretaris[0]->NAMA)<15?29:20),4,'',0,0,'L');
+        $pdf->Cell((strlen($sekretaris[0]->NAMA)<15?51:60),4,$sekretaris[0]->NAMA,'R',0,'L');
+        $pdf->Cell(8,4,'','R',0,'L');
+        $pdf->Cell((strlen($sekretaris[0]->NAMA)<15?29:20),4,'',0,0,'L');
+        $pdf->Cell((strlen($sekretaris[0]->NAMA)<15?63:72),4,$sekretaris[0]->NAMA,'R',1,'L');
+        $pdf->SetFont('Times','',10);
+        $pdf->Cell(10,4,'','LBR',0,'L'); 
+        $pdf->Cell(20,4,'','B',0,'L');
+        $pdf->Cell(60,4,'NIP. '.$this->konversi_nip($sekretaris[0]->NIP),'BR',0,'L');
+        $pdf->Cell(8,4,'','BR',0,'L');
+        $pdf->Cell(20,4,'','B',0,'L');
+        $pdf->Cell(72,4,'NIP. '.$this->konversi_nip($sekretaris[0]->NIP),'BR',1,'L');
+        $pdf->Cell(10,4,'VII','LBR',0,'L'); 
+        $pdf->Cell(80,4,' Catatan Lain-lain','BR',0,'L');
+        $pdf->Cell(8,4,'','BR',0,'L');
+        $pdf->Cell(92,4,' ','BR',1,'L');
+        $pdf->Cell(10,4,'VIII','LR',0,'L'); 
+        $pdf->Cell(180,4,' PERHATIAN : ','R',1,'L');
+        $pdf->Cell(10,12,'','LBR',0,'L');
+        $pdf->Cell(1,12,'','B',0,'L'); 
+        $pdf->MultiCell(179,4,'Pejabat yang berwenang menerbitkan SPPD, pegawai yang melakukan perjalanan dinas, para pejabat yang mengesahkan tanggal berangkat/tiba, serta bendaharawan bertanggung jawab berdasarkan peraturan-peraturan Keuangan apabila Negara menderita rugi akibat kesalahan, kelalaian dan kealpaannya.','BR','L',false);
+
         $pdf->Output('SPPD_' . $data[0]->NAMA . '_' . $data[0]->TGL_BERANGKAT . '.pdf', 'I');
     }
+    
 
     public function headerSurat($pdf)
     {
@@ -360,29 +517,27 @@ class sppdController extends CI_Controller
         return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
     }
 
-    function konversi_nip($nip)
-    {
-        $nip = trim($nip, " ");
+    function konversi_nip($nip, $batas = " ") {
+        $nip = trim($nip," ");
         $panjang = strlen($nip);
-        $batas = " ";
-
-        if ($panjang == 18) {
+         
+        if($panjang == 18) {
             $sub[] = substr($nip, 0, 8); // tanggal lahir
             $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
             $sub[] = substr($nip, 14, 1); // jenis kelamin
-            $sub[] = substr($nip, 3, 3); // nomor urut
-
-            return $sub[0] . $batas . $sub[1] . $batas . $sub[2] . $batas . $sub[3];
-        } elseif ($panjang == 15) {
+            $sub[] = substr($nip, 15, 3); // nomor urut
+             
+            return $sub[0].$batas.$sub[1].$batas.$sub[2].$batas.$sub[3];
+        } elseif($panjang == 15) {
             $sub[] = substr($nip, 0, 8); // tanggal lahir
             $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
             $sub[] = substr($nip, 14, 1); // jenis kelamin
-
-            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
-        } elseif ($panjang == 9) {
-            $sub = str_split($nip, 3);
-
-            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+             
+            return $sub[0].$batas.$sub[1].$batas.$sub[2];
+        } elseif($panjang == 9) {
+            $sub = str_split($nip,3);
+             
+            return $sub[0].$batas.$sub[1].$batas.$sub[2];
         } else {
             return $nip;
         }

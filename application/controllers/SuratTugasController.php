@@ -226,7 +226,7 @@ class SuratTugasController extends CI_Controller
         $pdf->SetFont('Times', 'BU', '18');
         $pdf->Cell(0, 15, 'SURAT PERINTAH TUGAS', 0, 1, 'C');
         $pdf->SetFont('Times', '', '12');
-        $pdf->Cell(0, 5, 'Nomor : 800/      /35.73.403/2019', 0, 1, 'C');
+        $pdf->Cell(0, 5, 'Nomor : '.$data[0]->NOMOR_SURAT, 0, 1, 'C');
         $pdf->Ln(10);
         $pdf->Cell(5);
         $pdf->Cell(30, 7, 'Dasar                : ', 0, 0, 'L');
