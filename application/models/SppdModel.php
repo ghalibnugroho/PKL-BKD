@@ -90,7 +90,10 @@ class SppdModel extends CI_Model
             ->where('bidang.NAMA_BIDANG', $user)
             ->where('sppd.KATEGORI', 'Dinas Dalam')
             ->get();
-        return $query->result();
+        if ($query->num_rows() != 0) {
+            return $query->result();
+        }
+        return null;
     }
     public function total_kategori_dinas_luar()
     {
@@ -106,7 +109,10 @@ class SppdModel extends CI_Model
             ->where('bidang.NAMA_BIDANG', $user)
             ->where('sppd.KATEGORI', 'Dinas Luar')
             ->get();
-        return $query->result();
+        if ($query->num_rows() != 0) {
+            return $query->result();
+        }
+        return null;
     }
     public function bulan_tahun_sppd()
     {

@@ -229,6 +229,7 @@ require_once('templates/session.php');
           <div class="card-body">
             <div class="chart-pie pt-4 pb-2">
               <canvas id="myPieChart"></canvas>
+              <p id="message_pie" style="color: black; text-align: center; padding-top: 70px; font-size: 20px; font-weight: bold;"></p>
             </div>
             <div class="mt-4 text-center small">
               <span class="mr-2">
@@ -301,13 +302,24 @@ require_once('templates/session.php');
     let a = <?php echo json_encode($a); ?>; //label
     let b = <?php echo json_encode($b); ?>;
     let c = <?php echo json_encode($c); ?>; //data
+    var message_pie = document.getElementById('message_pie');
     <?php
     if ($this->session->userdata('priority') == 1) { ?>
       BarGraphic();
-      PieGraphic();
-    <?php } else { ?>
+      if (c[0] == 0 && c[1] == 0) {
+        $('#myPieChart').remove();
+        message_pie.innerHTML = "Chart values is Empty";
+      } else {
+        PieGraphic();
+      }
+    <?php } else if ($this->session->userdata('priority') == 2) { ?>
       BarGraphic();
-      PieGraphic();
+      if (c[0] == 0 && c[1] == 0) {
+        $('#myPieChart').remove();
+        message_pie.innerHTML = "Chart values is Empty";
+      } else {
+        PieGraphic();
+      }
     <?php } ?>
 
     function addData(chart, label, data) {
