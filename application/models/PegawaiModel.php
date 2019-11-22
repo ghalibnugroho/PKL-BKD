@@ -12,6 +12,13 @@ class PegawaiModel extends CI_Model
         return $query->result();
     }
 
+    public function getAllNIP(){
+        $query = $this->db->select('NIP')
+        ->from('pegawai')
+        ->get();
+    return $query->result();
+    }
+
     function fetch_data($query)
     {
         $this->db->select("*");
