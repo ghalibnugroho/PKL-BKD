@@ -100,7 +100,6 @@ class UserController extends CI_Controller
             for ($i = 0; $i < count($countJumlahSppdBerangkat); $i++) {
                 $value_count[] = $countJumlahSppdBerangkat[$i][0];
             }
-            print_r($value_count);
             $data['value_count'] = $value_count;
         } else {
             $user = $this->session->userdata('username');
@@ -162,14 +161,14 @@ class UserController extends CI_Controller
                 );
                 $this->UserModel->update($where, 'bidang', $data_insert);
                 $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"><b>Sukses! </b>Password berhasil diubah </div>');
-                redirect('UserController/ubahPassword');
+                redirect('ubah-password');
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"><b>Password Lama anda salah!</b> ketik password lama anda dengan benar </div>');
                 $this->ubahPassword();
             }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"><b>Password anda tidak match </b> cocokkan kedua password baru anda </div>');
-            redirect('UserController/ubahPassword');
+            redirect('ubah-password');
         }
     }
     public function setPasswordAdm()
@@ -188,14 +187,14 @@ class UserController extends CI_Controller
                 );
                 $this->UserModel->update($where, 'admin', $data_insert);
                 $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"><b>Sukses! </b>Password berhasil diubah </div>');
-                redirect('UserController/ubahPassword');
+                redirect('ubah-password');
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"><b>Password Lama anda salah!</b> ketik password lama anda dengan benar </div>');
                 $this->ubahPassword();
             }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"><b>Password anda tidak match </b> cocokkan kedua password baru anda </div>');
-            redirect('UserController/ubahPassword');
+            redirect('ubah-password');
         }
     }
 }

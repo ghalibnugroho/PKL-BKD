@@ -42,7 +42,7 @@ class SuratTugasModel extends CI_Model
     }
     public function getST($id)
     {
-        $query = $this->db->select("surattugas.ID_ST,DASAR,TUJUAN,TANGGAL,peserta.NIP,SEBAGAI,NAMA,PANGKAT, GOLONGAN, JABATAN")
+        $query = $this->db->select("surattugas.ID_ST,NOMOR_SURAT, DASAR,TUJUAN,TANGGAL,peserta.NIP,SEBAGAI,NAMA,PANGKAT, GOLONGAN, JABATAN")
             ->from('surattugas')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')

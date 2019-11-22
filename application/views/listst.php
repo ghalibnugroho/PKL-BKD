@@ -63,7 +63,7 @@
                             <a href="" data-target="#modal<?php echo $li->ID_ST;?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger">
                             <i class="fas fa-sm fa-trash"></i> Hapus
                             </a>
-                            <a href="<?php echo site_url('SuratTugasController/exportST/'.$li->ID_ST);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
+                            <a href="<?php echo site_url('SuratTugasController/exportST/'.$li->ID_ST);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success" target="_blank">
                             <i class="fas fa-sm  fa-download "></i> Unduh </a>
                           </td></tr>
 
@@ -126,6 +126,9 @@
 
 </html>
 <script>
+  $(document).ready( function () {
+    $('#dataTable').DataTable();
+  } );
   var timeout = 4000; // in miliseconds (3*1000)
 
 $('.alert').delay(timeout).fadeOut(500);

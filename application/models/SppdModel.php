@@ -10,7 +10,7 @@ class SppdModel extends CI_Model
     public function getDataSPPD($id)
     {
         $query = $this->db->select("surattugas.ID_ST,TUJUAN, ID_SPPD, KODE, ALAT_ANGKUT, 
-        TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, LAMA, KETERANGAN , KATEGORI, INSTANSI")
+        TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, LAMA, KETERANGAN , KATEGORI")
             ->from('surattugas')
             ->join('sppd', 'sppd.ID_ST=surattugas.ID_ST')
             ->where('surattugas.ID_ST', $id)
@@ -23,6 +23,8 @@ class SppdModel extends CI_Model
             ->from('instansitujuan')
             ->join('sppd', 'sppd.ID_SPPD=instansitujuan.ID_SPPD')
             ->where('sppd.ID_ST', $id)
+            ->or_where('sppd.ID_SPPD', $id)
+            ->order_by('TANGGAL','ASC')
             ->get();
         return $query->result();
     }
@@ -44,7 +46,7 @@ class SppdModel extends CI_Model
     // }
     public function getListSPPD($user)
     {
-        $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,DASAR,INSTANSI, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA, KATEGORI")
+        $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,TMP_TUJUAN,DASAR, DATE_FORMAT(TGL_BERANGKAT,'%d-%m-%Y') as TGL_BERANGKAT,DATE_FORMAT(TGL_KEMBALI,'%d-%m-%Y')TGL_KEMBALI,NAMA, KATEGORI")
             ->from('surattugas')
             ->join('sppd', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
@@ -60,7 +62,7 @@ class SppdModel extends CI_Model
 
     public function getSPPD($id)
     {
-        $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, KATEGORI, LAMA, DASAR, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
+        $query = $this->db->select("KODE, ALAT_ANGKUT, TMP_BERANGKAT, TMP_TUJUAN, TGL_BERANGKAT, TGL_KEMBALI, KATEGORI, LAMA, NOMOR_SURAT, DASAR, TUJUAN, SEBAGAI, peserta.NIP,NAMA,PANGKAT, GOLONGAN, JABATAN, TINGKAT, TANGGALLAHIR")
             ->from('sppd')
             ->join('surattugas', 'surattugas.ID_ST=sppd.ID_ST')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
@@ -73,7 +75,7 @@ class SppdModel extends CI_Model
     }
     public function total_sppd()
     {
-        $query = $this->db->query('SELECT count(*) as total_sppd FROM `sppd` where KODE & ALAT_ANGKUT & TMP_BERANGKAT & TMP_TUJUAN & TGL_BERANGKAT & TGL_KEMBALI & LAMA & KATEGORI & INSTANSI IS NOT NULL');
+        $query = $this->db->query('SELECT count(*) as total_sppd FROM `sppd` where KODE & ALAT_ANGKUT & TMP_BERANGKAT & TMP_TUJUAN & TGL_BERANGKAT & TGL_KEMBALI & LAMA & KATEGORI IS NOT NULL');
         return $query->result();
     }
     public function total_kategori_dinas_dalam()
@@ -119,7 +121,6 @@ class SppdModel extends CI_Model
             ->where('sppd.TGL_KEMBALI IS NOT NULL')
             ->where('sppd.LAMA IS NOT NULL')
             ->where('sppd.KATEGORI IS NOT NULL')
-            ->where('sppd.INSTANSI IS NOT NULL')
             ->get();
         return $query->result();
     }

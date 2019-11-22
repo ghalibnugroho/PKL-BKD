@@ -73,7 +73,53 @@ class SuratTugasController extends CI_Controller
         <b>Sukses! </b>Data berhasil dimasukkan </div>');
         $this->listst();
     }
+    function konversi_nip($nip)
+    {
+        $nip = trim($nip, " ");
+        $panjang = strlen($nip);
+        $batas = " ";
 
+        if ($panjang == 18) {
+            $sub[] = substr($nip, 0, 8); // tanggal lahir
+            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+            $sub[] = substr($nip, 14, 1); // jenis kelamin
+            $sub[] = substr($nip, 3, 3); // nomor urut
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2] . $batas . $sub[3];
+        } elseif ($panjang == 15) {
+            $sub[] = substr($nip, 0, 8); // tanggal lahir
+            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+            $sub[] = substr($nip, 14, 1); // jenis kelamin
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+        } elseif ($panjang == 9) {
+            $sub = str_split($nip, 3);
+
+            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+        } else {
+            return $nip;
+        }
+    }
+    function tgl_indo($tanggal)
+    {
+        $bulan = array(
+            1 =>   'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        );
+        $pecahkan = explode('-', $tanggal);
+
+        return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
+    }
     public function editST()
     {
         $id = $this->input->post('id');
@@ -93,10 +139,12 @@ class SuratTugasController extends CI_Controller
         $this->UserModel->update($where, 'surattugas', $data_surattugas);
         $pesertalama = $this->SuratTugasModel->getPeserta($id);
 
-        $arr_pengikut = explode(",,", $pengikut);
-        foreach ($arr_pengikut as $ap) {
+        
+        if($pengikut != ""){
+            $arr_pengikut = explode(",,", $pengikut);
+            foreach ($arr_pengikut as $ap) {
             $diperintah[] = $ap;
-        }
+        }}
 
         $nip_diperintah = $this->PegawaiModel->getNIP($diperintah);
 
@@ -105,6 +153,7 @@ class SuratTugasController extends CI_Controller
         foreach ($pesertalama as $pl) {
             $check_delete = true;
             foreach ($nip_diperintah as $pb) {
+                if($pb)
                 if ($pl->NIP == $pb[0]->NIP) {
                     $check_delete = false;
                 }
@@ -177,7 +226,7 @@ class SuratTugasController extends CI_Controller
         $pdf->SetFont('Times', 'BU', '18');
         $pdf->Cell(0, 15, 'SURAT PERINTAH TUGAS', 0, 1, 'C');
         $pdf->SetFont('Times', '', '12');
-        $pdf->Cell(0, 5, 'Nomor : 800/      /35.73.403/2019', 0, 1, 'C');
+        $pdf->Cell(0, 5, 'Nomor : '.$data[0]->NOMOR_SURAT, 0, 1, 'C');
         $pdf->Ln(10);
         $pdf->Cell(5);
         $pdf->Cell(30, 7, 'Dasar                : ', 0, 0, 'L');
@@ -212,7 +261,8 @@ class SuratTugasController extends CI_Controller
             $pdf->Cell(30, 7, '', 0, 0, 'L');
             $pdf->Cell(10, 7, '', 0, 0, 'L');
             $pdf->Cell(35, 7, 'Jabatan', 0, 0, 'L');
-            $pdf->Cell(0, 7, ':  ' . $value->JABATAN, 0, 1, 'L');
+            $pdf->Cell(3, 7, ': ', 0, 0, 'L');
+            $pdf->MultiCell(0, 7, $value->JABATAN, 0, 'L', false);
         }
 
         $pdf->Cell(5);
@@ -274,51 +324,51 @@ class SuratTugasController extends CI_Controller
         header('Content-Type: application/json');
         echo json_encode(['suggestions' => $arr_result]);
     }
-    function konversi_nip($nip)
-    {
-        $nip = trim($nip, " ");
-        $panjang = strlen($nip);
-        $batas = " ";
+    // function konversi_nip($nip)
+    // {
+    //     $nip = trim($nip, " ");
+    //     $panjang = strlen($nip);
+    //     $batas = " ";
 
-        if ($panjang == 18) {
-            $sub[] = substr($nip, 0, 8); // tanggal lahir
-            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
-            $sub[] = substr($nip, 14, 1); // jenis kelamin
-            $sub[] = substr($nip, 3, 3); // nomor urut
+    //     if ($panjang == 18) {
+    //         $sub[] = substr($nip, 0, 8); // tanggal lahir
+    //         $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+    //         $sub[] = substr($nip, 14, 1); // jenis kelamin
+    //         $sub[] = substr($nip, 3, 3); // nomor urut
 
-            return $sub[0] . $batas . $sub[1] . $batas . $sub[2] . $batas . $sub[3];
-        } elseif ($panjang == 15) {
-            $sub[] = substr($nip, 0, 8); // tanggal lahir
-            $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
-            $sub[] = substr($nip, 14, 1); // jenis kelamin
+    //         return $sub[0] . $batas . $sub[1] . $batas . $sub[2] . $batas . $sub[3];
+    //     } elseif ($panjang == 15) {
+    //         $sub[] = substr($nip, 0, 8); // tanggal lahir
+    //         $sub[] = substr($nip, 8, 6); // tanggal pengangkatan
+    //         $sub[] = substr($nip, 14, 1); // jenis kelamin
 
-            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
-        } elseif ($panjang == 9) {
-            $sub = str_split($nip, 3);
+    //         return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+    //     } elseif ($panjang == 9) {
+    //         $sub = str_split($nip, 3);
 
-            return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
-        } else {
-            return $nip;
-        }
-    }
-    function tgl_indo($tanggal)
-    {
-        $bulan = array(
-            1 =>   'Januari',
-            'Februari',
-            'Maret',
-            'April',
-            'Mei',
-            'Juni',
-            'Juli',
-            'Agustus',
-            'September',
-            'Oktober',
-            'November',
-            'Desember'
-        );
-        $pecahkan = explode('-', $tanggal);
+    //         return $sub[0] . $batas . $sub[1] . $batas . $sub[2];
+    //     } else {
+    //         return $nip;
+    //     }
+    // }
+    // function tgl_indo($tanggal)
+    // {
+    //     $bulan = array(
+    //         1 =>   'Januari',
+    //         'Februari',
+    //         'Maret',
+    //         'April',
+    //         'Mei',
+    //         'Juni',
+    //         'Juli',
+    //         'Agustus',
+    //         'September',
+    //         'Oktober',
+    //         'November',
+    //         'Desember'
+    //     );
+    //     $pecahkan = explode('-', $tanggal);
 
-        return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
-    }
+    //     return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
+    // }
 }

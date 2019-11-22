@@ -80,6 +80,7 @@ class RincianController extends CI_Controller
         $bukti = $this->input->post('bukti') ? 1 : 0;
         $total = $jumlah * $harga;
         $keterangan = $this->input->post('keterangan');
+        $uhcheck = false;
 
         $data = array(
             'ID_SPPD' => $idsppd,
@@ -91,11 +92,27 @@ class RincianController extends CI_Controller
             'KETERANGAN' => $keterangan,
             'BUKTI_PEMBAYARAN' => $bukti,
         );
-        $this->UserModel->insertData('rincian', $data);
-        $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-success" role="alert">
-        <b>Sukses! </b>Data berhasil diupdate </div>');
-        redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        if($jenis == "Uang Harian"){
+            $result = $this->RincianModel->getRincian($idsppd);
+            foreach ($result as $res) {
+                if($res->ID_PESERTA == $idpeserta && $res->JENIS == "Uang Harian"){
+                    $uhcheck = true;
+                    break;
+                }
+            }
+        }
+        if($uhcheck){
+            $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-danger" role="alert">
+            <b>Gagal! </b>Anda hanya dapat memasukkan satu data Uang Harian pada tiap peserta perjalanan dinas </div>');
+            redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        }else{
+            $this->UserModel->insertData('rincian', $data);
+            $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-success" role="alert">
+            <b>Sukses! </b>Data berhasil diupdate </div>');
+            redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        }
     }
+
     function editTransportasi()
     {
         $idrincian = $this->input->post('idrincian');
@@ -148,7 +165,7 @@ class RincianController extends CI_Controller
         $bukti = $this->input->post('bukti');
         $total = $jumlah * $harga;
         $keterangan = $this->input->post('keterangan');
-
+        $uhcheck = false;
         $data = array(
             'ID_SPPD' => $idsppd,
             'ID_PESERTA' => $idpeserta,
@@ -159,11 +176,27 @@ class RincianController extends CI_Controller
             'KETERANGAN' => $keterangan,
             'BUKTI_PEMBAYARAN' => $bukti,
         );
-        $where = array('ID_RINCIAN' => $idrincian);
-        $this->UserModel->update($where, 'rincian', $data);
-        $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-success" role="alert">
-        <b>Sukses! </b>Data berhasil diupdate </div>');
-        redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        if($jenis == "Uang Harian"){
+            $result = $this->RincianModel->getRincian($idsppd);
+            foreach ($result as $res) {
+                if($res->ID_PESERTA == $idpeserta && $res->JENIS == "Uang Harian"){
+                    $uhcheck = true;
+                    break;
+                }
+            }
+        }
+        if($uhcheck){
+            $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-danger" role="alert">
+            <b>Gagal! </b>Anda hanya dapat memasukkan satu data Uang Harian pada tiap peserta perjalanan dinas  </div>');
+            redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        }else{
+            $where = array('ID_RINCIAN' => $idrincian);
+            $this->UserModel->update($where, 'rincian', $data);
+            $this->session->set_flashdata('rincian' . $idpeserta, '<div class="alert alert-success" role="alert">
+            <b>Sukses! </b>Data berhasil diupdate </div>');
+            redirect('RincianController/rincian/' . $idsppd . '#peserta' . $idpeserta);
+        }
+
     }
     function hapusRincian()
     {
@@ -454,7 +487,7 @@ class RincianController extends CI_Controller
 
         $spreadsheet = $reader->load('template/nominatif_temp.xlsx');
 
-        $spreadsheet->getActiveSheet()->setCellValue('A1', "DAFTAR NOMINATIF PERJALANAN DINAS" . $sppd[0]->KATEGORI);
+        $spreadsheet->getActiveSheet()->setCellValue('A1', "DAFTAR NOMINATIF PERJALANAN DINAS " . $sppd[0]->KATEGORI);
         $spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
         $height_row = ceil(strlen($sppd[0]->DASAR) / 200) * 12;
         $spreadsheet->getActiveSheet()->getRowDimension(2)->setRowHeight($height_row);
@@ -511,7 +544,7 @@ class RincianController extends CI_Controller
 
                 $spreadsheet->getActiveSheet()->setCellValue('C' . ($row_per - 1), 'A. Berangkat');
                 $spreadsheet->getActiveSheet()->setCellValue('K' . ($row_per - 1), 'berangkat');
-                $spreadsheet->getActiveSheet()->setCellValue('C' . $row_per, 'Kendaraan ' . 'NANI???');
+                $spreadsheet->getActiveSheet()->setCellValue('C' . $row_per, 'Kendaraan ' . $sppd[0]->ALAT_ANGKUT);
 
                 $spreadsheet->getActiveSheet()->setCellValue('D' . $currentContentRow, '-');
                 $spreadsheet->getActiveSheet()->setCellValue('E' . $currentContentRow, '-');
@@ -527,7 +560,7 @@ class RincianController extends CI_Controller
                 $spreadsheet->getActiveSheet()->setCellValue('K' . $currentContentRow, 'kembali');
                 $spreadsheet->getActiveSheet()->insertNewRowBefore($currentContentRow + 1, 1);
                 $currentContentRow++;
-                $spreadsheet->getActiveSheet()->setCellValue('C' . ($currentContentRow), 'Kendaraan ' . 'NANI???');
+                $spreadsheet->getActiveSheet()->setCellValue('C' . ($currentContentRow), 'Kendaraan ' . $sppd[0]->ALAT_ANGKUT);
                 $spreadsheet->getActiveSheet()->setCellValue('D' . ($currentContentRow), '-');
                 $spreadsheet->getActiveSheet()->setCellValue('E' . ($currentContentRow), '-');
                 $spreadsheet->getActiveSheet()->setCellValue('F' . ($currentContentRow), '-');
@@ -861,7 +894,7 @@ class RincianController extends CI_Controller
         $spreadsheet->getActiveSheet()->setCellValue('C7', ': ' . $this->konversi_nip($data[0]->NIP));
         $spreadsheet->getActiveSheet()->setCellValue('A8', 'Jabatan');
         $spreadsheet->getActiveSheet()->setCellValue('C8', ': ' . $data[0]->JABATAN);
-        $spreadsheet->getActiveSheet()->setCellValue('A10', 'Berdasarkan Surat Perintah Tugas Nomor: 800/' . '    ' . '/35.73.403/' . $tanggal_berangkat[2] . ' dengan ini kami menyatakan
+        $spreadsheet->getActiveSheet()->setCellValue('A10', 'Berdasarkan Surat Perintah Tugas Nomor: '.$sppd[0]->NOMOR_SURAT.' '. $tanggal_berangkat[2] . ' dengan ini kami menyatakan
         ');
         $spreadsheet->getActiveSheet()->setCellValue('A11', 'dengan sesungguhnya bahwa : ');
         $spreadsheet->getActiveSheet()->setCellValue('A13', '1.');
@@ -970,7 +1003,17 @@ class RincianController extends CI_Controller
         foreach ($data as $value) {
             if ($pst != $value->ID_PESERTA) {
                 $pst = $value->ID_PESERTA;
-                if ($value->KATEGORI == 'L') {
+                $ins = $this->SppdModel->getInstansi($value->ID_SPPD);
+                $instansi = "";
+                $count_ins = 1;
+                foreach($ins as $temp_ins){
+                    if($count_ins != 1){
+                        $instansi .= ", ";
+                    }
+                    $instansi .= $temp_ins->INSTANSI;
+                    $count_ins++;
+                }
+                if ($value->KATEGORI == 'LUAR') {
                     $spreadsheet->setActiveSheetIndex(1);
                     $count_luar++;
                     if ($count_luar > 1) {
@@ -983,7 +1026,7 @@ class RincianController extends CI_Controller
                     $spreadsheet->getActiveSheet()->setCellValue('D' . $currentRowL, $value->DASAR);
                     $spreadsheet->getActiveSheet()->setCellValue('F' . $currentRowL, $value->GOLONGAN);
                     $spreadsheet->getActiveSheet()->setCellValue('G' . $currentRowL, $value->DAERAH_TUJUAN);
-                    $spreadsheet->getActiveSheet()->setCellValue('H' . $currentRowL, $value->INSTANSI);
+                    $spreadsheet->getActiveSheet()->setCellValue('H' . $currentRowL, $instansi);
                     $tgl_b = $value->TGL_BERANGKAT;
                     $spreadsheet->getActiveSheet()->setCellValue('I' . $currentRowL, substr($tgl_b, 8, 2) . '/' . substr($tgl_b, 5, 2) . '/' . substr($tgl_b, 0, 4));
                     $tgl_k = $value->TGL_KEMBALI;
@@ -1028,7 +1071,7 @@ class RincianController extends CI_Controller
                     $spreadsheet->getActiveSheet()->setCellValue('J' . $currentRowD, substr($tgl_b, 8, 2) . '/' . substr($tgl_b, 5, 2) . '/' . substr($tgl_b, 0, 4));
                     $tgl_k = $value->TGL_KEMBALI;
                     $spreadsheet->getActiveSheet()->setCellValue('K' . $currentRowD, substr($tgl_k, 8, 2) . '/' . substr($tgl_k, 5, 2) . '/' . substr($tgl_k, 0, 4));
-                    $spreadsheet->getActiveSheet()->setCellValue('L' . $currentRowD, $value->INSTANSI);
+                    $spreadsheet->getActiveSheet()->setCellValue('L' . $currentRowD, $instansi);
                     $spreadsheet->getActiveSheet()->setCellValue('M' . $currentRowD, $value->LAMA);
                     $row = $currentRowD;
                 }
@@ -1044,7 +1087,7 @@ class RincianController extends CI_Controller
                 $lain2 = 0;
             }
 
-            if ($value->KATEGORI == 'L') {
+            if ($value->KATEGORI == 'LUAR') {
                 if ($value->JENIS == 'Uang Harian') {
                     $spreadsheet->getActiveSheet()->setCellValue('O' . $currentRowL, $value->TOTAL);
                 } else if ($value->JENIS == 'Transportasi' && $value->NO_TIKET) {
@@ -1052,16 +1095,16 @@ class RincianController extends CI_Controller
 
                     $spreadsheet->getActiveSheet()->setCellValue('P' . $currentRowL, $transportasi);
 
-                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'pergi' ? 'U' : 'AD') . $currentRowL, $value->KETERANGAN);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'pergi' ? 'V' : 'AE') . $currentRowL, $value->NO_TIKET);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'pergi' ? 'W' : 'AF') . $currentRowL, $value->NO_FLIGHT);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'pergi' ? 'X' : 'AG') . $currentRowL, $value->JAM);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'pergi' ? 'Y' : 'AH') . $currentRowL, $value->NO_TMPDUDUK);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'Pergi' ? 'U' : 'AD') . $currentRowL, $value->KETERANGAN);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'Pergi' ? 'V' : 'AE') . $currentRowL, $value->NO_TIKET);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'Pergi' ? 'W' : 'AF') . $currentRowL, $value->NO_FLIGHT);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'Pergi' ? 'X' : 'AG') . $currentRowL, $value->JAM);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'Pergi' ? 'Y' : 'AH') . $currentRowL, $value->NO_TMPDUDUK);
                     $tgl = $value->TANGGAL;
-                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'pergi' ? 'Z' : 'AI') . $currentRowL, substr($tgl, 8, 2) . '/' . substr($tgl, 5, 2) . '/' . substr($tgl, 0, 4));
-                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'pergi' ? 'AA' : 'AJ') . $currentRowL, $value->TMP_BERANGKAT);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'pergi' ? 'AB' : 'AK') . $currentRowL, $value->TMP_TUJUAN);
-                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'pergi' ? 'AC' : 'AL') . $currentRowL, $value->TOTAL);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'Pergi' ? 'Z' : 'AI') . $currentRowL, substr($tgl, 8, 2) . '/' . substr($tgl, 5, 2) . '/' . substr($tgl, 0, 4));
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'Pergi' ? 'AA' : 'AJ') . $currentRowL, $value->TMP_BERANGKAT);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'Pergi' ? 'AB' : 'AK') . $currentRowL, $value->TMP_TUJUAN);
+                    $spreadsheet->getActiveSheet()->setCellValue(($value->STATUS == 'Pergi' ? 'AC' : 'AL') . $currentRowL, $value->TOTAL);
                 } else if ($value->JENIS == 'Penginapan') {
                     $penginapan += $value->TOTAL;
                     $spreadsheet->getActiveSheet()->setCellValue('Q' . $currentRowL, $penginapan);
