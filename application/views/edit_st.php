@@ -36,11 +36,11 @@
                         
                     
                 ?>
-                <form method="POST" role="form" action="<?php echo base_url('sppdController/editST');?>">
+                <form method="POST" role="form" action="<?php echo base_url('SuratTugasController/editST');?>">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <input type="hidden" name="id" value="<?php echo $d->ID_ST; ?>">
+                                    <input type="hidden" required name="id" value="<?php echo $d->ID_ST; ?>">
                                     <label>Tanggal pembuatan surat</label>
                                     <input type="text" name="tanggal"
                                     class="input-tanggal form-control sc-input-required sc-date tanggal" value="<?php echo $d->TANGGAL; ?>"
@@ -49,15 +49,25 @@
                             </div>
                         </div>
                         <div class="form-group">
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <label>Nomor Surat</label>
+                              <input type="text" name="nosurat"
+                              class="form-control sc-input-required " value="<?php echo $d->NOMOR_SURAT; ?>"
+                              placeholder="" >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
                             <label>Dasar</label>
-                            <textarea rows="2" cols="" name="dasar" 
+                            <textarea required rows="2" cols="" name="dasar" 
                             class="form-control  sc-input-required"><?php echo $d->DASAR ;?></textarea>
                         </div>
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-4">
                             <label>Pegawai yang diperintah</label>
-                              <input type="text" name="diperintah" value="<?php echo $peserta[0]->NAMA;
+                              <input required type="text" name="diperintah" value="<?php echo $peserta[0]->NAMA;
                               ?>" class=" diperintah form-control sc-input-required" >
                             </div> 
                           </div> 
@@ -75,7 +85,7 @@
                         </div>
                         <div class="form-group">
                             <label>Untuk</label>
-                            <textarea rows="2" cols="130" name="untuk"
+                            <textarea required  rows="2" cols="130" name="untuk"
                             class="form-control  sc-input-required"><?php echo $d->TUJUAN; ?></textarea>
                         </div>
 
@@ -106,25 +116,6 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="<?=base_url('auth/logout');?>">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
 </body>
 
@@ -133,7 +124,7 @@
 <script>
      $(document).ready(function(){
         $( ".diperintah" ).autocomplete({
-          source: "<?php echo site_url('sppdController/getPegawai/?');?>"
+          source: "<?php echo site_url('SuratTugasController/getPegawai/?');?>"
         });
     });
 
@@ -150,7 +141,7 @@
    
 	$('input[name="pengikut"]').amsifySuggestags({
     suggestionsAction : {
-						url : '<?php echo site_url('sppdController/getPegawaiAll');?>'
+						url : '<?php echo site_url('SuratTugasController/getPegawaiAll');?>'
 					}
 		//suggestions: ['Malang', 'Kediri', 'Madiun', 'Surabaya', 'Jayapura', 'Timika']
 	});

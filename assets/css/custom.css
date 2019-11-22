@@ -1,6 +1,9 @@
 ul.ui-autocomplete {
     z-index: 1100;
 }
+.select2-container--open {
+    z-index: 9999999
+}
 .bg-gradient-primary{
     background-color:#b333a288;
     background-image:-webkit-gradient(linear,left top,left bottom,color-stop(10%,#124149),to(#0d5555));
@@ -33,7 +36,7 @@ ul.ui-autocomplete {
     margin: 20% 5%;
     height:30px;
 }
-@media only screen and (min-height: 550px) and (min-width: 720px) {
+@media only screen and (min-height: 480px) and (min-width: 360px) {
     .py-10{
         margin: 4.5% 0px 5% 0px;
     }
@@ -47,6 +50,27 @@ ul.ui-autocomplete {
     }
     .py-9{
         padding: 5% 2% 5% 0%;
+    }
+  }
+
+@media only screen and (min-width: 1000px) {
+    .btn-action{
+        width: 70px;
+        height: 30px;
+        font-size: 12px;
+    }
+    .fa-sm{
+        font-size: 10px;
+    }
+  }
+@media only screen and (min-width: 1600px) {
+    .btn-action{
+        width: 100px;
+        height: 30px;
+        font-size: 14px;
+    }
+    .fa-sm{
+        font-size: 10px;
     }
   }
 .card-header h6, .card-header input{
@@ -69,4 +93,10 @@ ul.ui-autocomplete {
     display: flex;
     position: absoulte;
     left: 5000px;
+}
+#btnFindRekap{
+    margin-left: 0.5%;
+}
+#btn-margin-unduh{
+    margin-left: 1.0%;
 }

@@ -25,7 +25,7 @@ require_once 'templates/session.php';
           <?php foreach ($peserta as $p) {
             
           ?>
-          <div class="card shadow mb-4">
+          <div class="card shadow mb-4" id="peserta<?php echo $p->ID_PESERTA ?>">
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary"><?php echo $p->NAMA?></h6>
                 </div>
@@ -64,7 +64,7 @@ require_once 'templates/session.php';
                             <tbody>
                               <?php $count = 0;
                               foreach ($list as $li) {
-                                if (($li->JENIS == 'Transportasi')&& ($li->ID_PESERTA == $p->ID_PESERTA)) {
+                                if (($li->JENIS == 'Transportasi')&& ($li->ID_PESERTA == $p->ID_PESERTA) && ($li->NO_TIKET)) {
                                   echo "                                
                                   <tr>
                                   <td>".$li->NO_TIKET."</td>
@@ -128,7 +128,7 @@ require_once 'templates/session.php';
                             <?php
                                 $count2=0;
                                 foreach ($list as $li) {
-                                  if (($li->JENIS != 'Transportasi') && ($li->ID_PESERTA == $p->ID_PESERTA)) {
+                                  if ((!$li->NO_TIKET) && ($li->ID_PESERTA == $p->ID_PESERTA)) {
                                     $bukti = $li->BUKTI_PEMBAYARAN ? "Ada":"Tidak ada";
                                     echo "
                                     <tr>
@@ -164,7 +164,6 @@ require_once 'templates/session.php';
           <?php } ?>
 
         <!-- /.container-fluid -->
-
 
       </div>
       <!-- End of Main Content -->
@@ -203,6 +202,8 @@ require_once 'templates/session.php';
     </div>
   </div>
 
+
+
 </body>
   <?php 
     foreach ($peserta as $p) {
@@ -213,7 +214,7 @@ require_once 'templates/session.php';
           <div class="modal-content">
             <div class="modal-body">
             <div class="tab-pane active" id="tab_1">  
-                      <form method="POST" role="form" action="<?php echo site_url('sppdController/tambahTransportasi');?>">
+                      <form method="POST" role="form" action="<?php echo site_url('RincianController/tambahTransportasi');?>">
                       <div class="form-group">
                         <div class="row">
                           <div class="col-sm-8">
@@ -316,7 +317,7 @@ require_once 'templates/session.php';
           <div class="modal-content">
             <div class="modal-body">
             <div class="tab-pane active" id="tab_1">  
-                      <form method="POST" role="form" action="<?php echo site_url('sppdController/tambahRincian');?>">
+                      <form method="POST" role="form" action="<?php echo site_url('RincianController/tambahRincian');?>">
                       <div class="form-group">
                         <div class="row">
                           <div class="col-sm-8">
@@ -330,13 +331,13 @@ require_once 'templates/session.php';
                           <div class="col-sm-8">
                             <label>Jenis</label>
                             <select class="form-control sc-input-required" name="jenis">
+                              <option> -- </option>
                               <option>Uang Harian</option>
                               <option>Uang Representatif</option>
                               <option>Penginapan</option>
                               <option>BBM</option>
                               <option>Tol</option>
                             </select>
-                              
                           </div>
                         </div>
                       </div>
@@ -345,14 +346,13 @@ require_once 'templates/session.php';
                         <div class="row">
                           <div class="col-sm-5">
                             <label>Jumlah</label>
-                            <input type="number" min="1" max ="99" step="any" name="jumlah" class=" form-control sc-input-required" placeholder="0">
+                            <input type="number" min="1" max ="99" required step="any" name="jumlah" class=" form-control sc-input-required" placeholder="0">
                           </div>
                           <div class="col-sm-5">
-                            <label>Harga</label>  
+                            <label>Harga per item</label>  
                             <span class="input-group-addon">
-                              <i class="fa fa-eur">tes</i>
                             </span>
-                            <input type="number" min="1" step="any" name="harga" class="form-control sc-input-required" placeholder="Rp.">
+                            <input type="number" min="1" step="any" required name="harga" class="form-control sc-input-required" placeholder="Rp.">
                           </div>
                         </div>
                       </div>
@@ -382,7 +382,7 @@ require_once 'templates/session.php';
   ?>
   <?php
     foreach ($list as $li) {
-      if ($li->JENIS == 'Transportasi') {
+      if ($li->NO_TIKET!=NULL) {
           ?>
         <!-- Edit Transportasi Modal-->
         <div class="modal fade " id="editTransportasi<?php echo $li->ID_RINCIAN?>" tabindex="-1" role="dialog"  aria-hidden="true">
@@ -390,7 +390,7 @@ require_once 'templates/session.php';
             <div class="modal-content">
               <div class="modal-body">
               <div class="tab-pane active" id="tab_1">  
-                        <form method="POST" role="form" action="<?php echo site_url('sppdController/editTransportasi');?>">
+                        <form method="POST" role="form" action="<?php echo site_url('RincianController/editTransportasi');?>">
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-8">
@@ -499,7 +499,7 @@ require_once 'templates/session.php';
               </div>
               <div class="modal-body">Anda akan menghapus transportasi dengan nomor tiket <?php echo $li->NO_TIKET;?>.</div>
               <div class="modal-footer">
-              <form method="post" action="<?php echo site_url('sppdController/hapusTransportasi');?>">
+              <form method="post" action="<?php echo site_url('RincianController/hapusTransportasi');?>">
                   <input type="hidden" name="idrincian" value="<?php echo $li->ID_RINCIAN; ?>">
                   <input type="hidden" name="idsppd" value="<?php echo $li->ID_SPPD; ?>">
                   <input type="hidden" name="idpeserta" value="<?php echo $li->ID_PESERTA; ?>">
@@ -520,7 +520,7 @@ require_once 'templates/session.php';
             <div class="modal-content">
               <div class="modal-body">
               <div class="tab-pane active" id="tab_1">  
-                        <form method="POST" role="form" action="<?php echo site_url('sppdController/editRincian');?>">
+                        <form method="POST" role="form" action="<?php echo site_url('RincianController/editRincian');?>">
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-8">
@@ -532,48 +532,45 @@ require_once 'templates/session.php';
                         </div>
                         <div class="form-group">
                           <div class="row">
-                            <div class="col-sm-8">
+                            <div class="col-sm-5">
                               <label>Jenis</label>
-                              <select class="form-control sc-input-required" name="jenis" value="<?php echo $li->JENIS;?>">
-                                <option>Uang Harian</option>
-                                <option>Uang Representatif</option>
-                                <option>Penginapan</option>
-                                <option>BBM</option>
-                                <option>Tol</option>
-                              </select>
-                                
+                              <input type="text" name="jenis" class="form-control sc-input-required" placeholder="Jenis" value="<?php echo $li->JENIS?>" list="jenis" required>
+                              <datalist id="jenis">
+                                <option value="Uang Harian">Uang Harian</option>
+                                <option value="Uang Representatif">Uang Representatif</option>
+                                <option value="Penginapan">Penginapan</option>
+                                <option value="Transportasi">Transportasi</option>
+                              </datalist>
                             </div>
                           </div>
                         </div>
-
                         <div class="form-group input-group">
                           <div class="row">
                             <div class="col-sm-5">
                               <label>Jumlah</label>
-                              <input type="number" min="1" max ="99" step="any" name="jumlah" class=" form-control sc-input-required" placeholder="0" value="<?php echo $li->JUMLAH;?>">
+                              <input type="number" id="jumlah" min="1" max ="99" step="any" name="jumlah" class=" form-control sc-input-required" placeholder="0" value="<?php echo $li->JUMLAH;?>">
                             </div>
                             <div class="col-sm-5">
-                              <label>Harga</label>  
+                              <label>Harga per item</label>  
                               <span class="input-group-addon">
-                                <i class="fa fa-eur">tes</i>
                               </span>
-                              <input type="number" min="1" step="any" name="harga" class="form-control sc-input-required" placeholder="Rp." value="<?php echo $li->HARGA;?>">
+                              <input type="number" min="1" id="harga" step="any" name="harga" class="form-control sc-input-required" placeholder="Rp." value="<?php echo $li->HARGA;?>">
                             </div>
                           </div>
                         </div>
                         <div class="form-group">
-                          <input type="checkbox" name="bukti" class="checkbox" value="1"<?php echo $retVal = ($li->BUKTI_PEMBAYARAN == 1) ? 'checked' : '' ;?>>
+                          <input type="checkbox" name="bukti" id="bukti" class="checkbox" value="1"<?php echo $retVal = ($li->BUKTI_PEMBAYARAN == 1) ? 'checked' : '' ;?>>
                           <label>Bukti Pembayaran</label>
                           
                         </div>
                         <div class="form-group">
-                          <label>Keterangan &nbsp;&nbsp;<small style="opacity:.7"><i>(optional)</i></small></label>
+                          <label>Keterangan &nbsp;&nbsp;<small id="keterangan" style="opacity:.7"><i>(optional - nama hotel, bbm, tol, dll)</i></small></label>
                           <input type="text" name="keterangan" class="form-control" placeholder="Keterangan" value="<?php echo $li->KETERANGAN?>">
                         </div>
                         <div class="modal-footer">
-                          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                          <button class="btn btn-secondary" id="cancel" type="button" data-dismiss="modal">Cancel</button>
                           <input type="submit" value="Simpan" class="btn btn-primary">
-                        </div>
+                        </div>  
                         </form>
                       </div>
                 </button>
@@ -581,7 +578,7 @@ require_once 'templates/session.php';
             </div>
           </div>
         </div>
-        <!-- Hapus Rincian Modal-->
+        <!-- Hapus Rincian Modal--> 
         <div class="modal fade" id="hapus<?php echo $li->ID_RINCIAN;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -593,7 +590,7 @@ require_once 'templates/session.php';
               </div>
               <div class="modal-body">Anda akan menghapus data rincian <?php echo $li->JENIS?>.</div>
               <div class="modal-footer">
-                <form method="post" action="<?php echo site_url('sppdController/hapusRincian');?>">
+                <form method="post" action="<?php echo site_url('RincianController/hapusRincian');?>">
                   <input type="hidden" name="idrincian" value="<?php echo $li->ID_RINCIAN; ?>">
                   <input type="hidden" name="idsppd" value="<?php echo $li->ID_SPPD; ?>">
                   <input type="hidden" name="idpeserta" value="<?php echo $li->ID_PESERTA; ?>">
@@ -604,7 +601,8 @@ require_once 'templates/session.php';
               </div>
             </div>
           </div>
-        </div> 
+        </div>
+
         <?php
     
       }
@@ -637,5 +635,16 @@ require_once 'templates/session.php';
         response(results.slice(0, 10));
     }
   });
+
+    if(window.location.hash) {
+    var hash = window.location.hash;
+
+    $('html, body').animate({
+      scrollTop: $(hash).offset().top
+    }, 1500, 'swing');
+  }
+  var timeout = 4000; // in miliseconds (3*1000)
+
+  $('.alert').delay(timeout).fadeOut(500);
 </script>
 </html>

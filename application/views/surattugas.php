@@ -31,27 +31,37 @@
                 </div>
                 <div class="card-body">
                 <div class="tab-pane active full-height" id="tab_1">  
-                <form method="POST" role="form" action="<?php echo site_url('sppdController/insertSurattugas');?>">
+                <form method="POST" role="form" action="<?php echo site_url('SuratTugasController/insertSurattugas');?>">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <label>Tanggal pembuatan surat</label>
-                                    <input type="text" name="tanggal"
+                                    <input required type="text" name="tanggal"
                                     class="input-tanggal form-control sc-input-required sc-date tanggal" value=""
                                     placeholder="Tgl Berangkat" >
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <label>Nomor Surat</label>
+                              <input type="text" name="nosurat"
+                              class="form-control sc-input-required" value=""
+                              placeholder="" >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
                             <label>Dasar</label>
-                            <textarea rows="2" cols="" name="dasar"
+                            <textarea required rows="2" cols="" name="dasar"
                             class="form-control  sc-input-required"></textarea>
                         </div>
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-4">
                               <label>Pegawai yang diperintah</label>
-                              <select id="selectPegawai" name="diperintah" class=" diperintah form-control sc-input-required">
+                              <select required id="selectPegawai" name="diperintah" class=" diperintah form-control sc-input-required">
                                 <option></option>
                                 <?php foreach ($data as $op) {
                                   echo "<option>".$op->NAMA."</option>";
@@ -69,7 +79,7 @@
                         </div>
                         <div class="form-group">
                             <label>Untuk</label>
-                            <textarea rows="2" cols="130" name="untuk"
+                            <textarea required rows="2" cols="130" name="untuk"
                             class="form-control  sc-input-required"></textarea>
                         </div>
 
@@ -142,7 +152,7 @@
    
 	$('input[name="pengikut"]').amsifySuggestags({
     suggestionsAction : {
-						url : '<?php echo site_url('sppdController/getPegawaiAll');?>'
+						url : '<?php echo site_url('SuratTugasController/getPegawaiAll');?>'
 					},
           whiteList: true
 		//suggestions: ['Malang', 'Kediri', 'Madiun', 'Surabaya', 'Jayapura', 'Timika']

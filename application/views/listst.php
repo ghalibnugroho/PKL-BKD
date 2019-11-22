@@ -56,44 +56,23 @@
                             <td>" .$li->DASAR."</td>
                             <td>" .$li->TANGGAL." </td> 
                             <td>
-                            <a href=".site_url('sppdController/readST/'.$li->ID_ST)." class=\"d-none d-sm-inline-block btn btn-sm btn-info\">
+                            <a href=".site_url('SuratTugasController/readST/'.$li->ID_ST)." class=\"d-none d-sm-inline-block btn btn-sm btn-info\">
                               <i class=\"fas fa-sm fa-edit\"></i> Edit 
                             </a>"
                       ?>
                             <a href="" data-target="#modal<?php echo $li->ID_ST;?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger">
                             <i class="fas fa-sm fa-trash"></i> Hapus
                             </a>
-                            <a href="<?php echo site_url('sppdController/exportST/'.$li->ID_ST);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
+                            <a href="<?php echo site_url('SuratTugasController/exportST/'.$li->ID_ST);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
                             <i class="fas fa-sm  fa-download "></i> Unduh </a>
                           </td></tr>
 
-                                <!-- Logout Modal-->
-                                <div class="modal fade" id="modal<?php echo $li->ID_ST;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                  <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Anda yakin ingin menghapus Surat Tugas?</h5>
-                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">×</span>
-                                        </button>
-                                      </div>
-                                      <div class="modal-body">Pilih "Hapus" untuk menghapus Surat Tugas.</div>
-                                      <div class="modal-footer">
 
-                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                                        <a class="btn btn-primary" href="<?php echo site_url('sppdController/deleteST/'.$li->ID_ST);?>">Hapus</a>
-                                      
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
                             
                   <?php           
                     }
                   ?>
-                  <script language="javascript">
-                  
-                  </script>
+
                   </tbody>
                 </table>
               </div>
@@ -146,3 +125,8 @@
 </body>
 
 </html>
+<script>
+  var timeout = 4000; // in miliseconds (3*1000)
+
+$('.alert').delay(timeout).fadeOut(500);
+</script>
