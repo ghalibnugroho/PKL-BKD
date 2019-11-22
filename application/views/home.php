@@ -289,6 +289,12 @@ require_once('templates/session.php');
         $c[] +=  $total->dinas_dalam;
       }
     } else {
+      foreach ($label_graphic_user as $bt) {
+        $a[] = $bt['bulan_tahun'];
+      }
+      foreach ($value_count_user as $vc) {
+        $b[] = $vc['jumlah_sppd'];
+      }
       foreach ($total_sppd_dinas_dalam_bidang as $total) {
         $c[] += $total->dinas_dalam;
       }

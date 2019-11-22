@@ -116,9 +116,27 @@ class SppdModel extends CI_Model
     }
     public function bulan_tahun_sppd()
     {
-        $query = $this->db->query('SELECT DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd where TGL_BERANGKAT is NOT NULL ORDER BY STR_TO_DATE( bulan_tahun, "%M-%Y" ) DESC limit 12 ');
+        $query = $this->db->query('SELECT DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd where TGL_BERANGKAT is NOT NULL ORDER BY TGL_BERANGKAT DESC limit 5 ');
         return $query->result_array();
     }
+    public function bulan_tahun_sppd_user($user)
+    {
+        $query = $this->db->select("DISTINCT date_format(TGL_BERANGKAT, '%M-%Y') as bulan_tahun")
+            ->from('sppd')
+            ->join('surattugas', 'sppd.ID_ST=surattugas.ID_ST')
+            ->join('bidang', 'bidang.ID_BIDANG=surattugas.ID_BIDANG')
+            ->where('bidang.NAMA_BIDANG', $user)
+            ->where('TGL_BERANGKAT is NOT NULL')
+            ->order_by('TGL_BERANGKAT', 'DESC')
+            ->limit(5)
+            ->get();
+        if ($query->num_rows() != 0) {
+            return $query->result_array();
+        }
+    }
+
+    // SELECT DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd join surattugas on sppd.ID_ST = surattugas.ID_ST join bidang on surattugas.ID_BIDANG = bidang.ID_BIDANG where bidang.NAMA_BIDANG = 'SEKRETARIAT' && TGL_BERANGKAT is NOT NULL ORDER BY STR_TO_DATE( bulan_tahun, "%M-%Y" ) DESC limit 12
+
     public function jumlah_sppd_berangkat($bulan, $tahun)
     {
         // $query = $this->db->query('SELECT count(*) as jumlah_sppd from `sppd` where date_format(TGL_BERANGKAT, "%M") = ' + $bulan + '&& YEAR(TGL_BERANGKAT) =' + $tahun);
