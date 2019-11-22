@@ -1,4 +1,12 @@
-  <!DOCTYPE html>
+  
+  <?php
+      if(null == $this->session->userdata('username')){
+        redirect(base_url());
+      }else{
+        redirect('home');
+      }
+  ?>
+<!DOCTYPE html>
   <html lang="en">
   <?php $this->load->view("templates/auth_header") ?>
 
@@ -34,13 +42,6 @@
                       Login
                     </button>
                   </form>
-                  <hr>
-                  <div class="text-center">
-                    <a class="small" href="forgot-password.html">Forgot Password?</a>
-                  </div>
-                  <div class="text-center">
-                    <a class="small" href="auth/registration">Create an Account!</a>
-                  </div>
                 </div>
               </div>
             </div>
