@@ -279,7 +279,7 @@ require_once 'templates/session.php';
                       <div class="form-group">
                         <div class="row">
                           <div class="col-sm-6">
-                            <input type="checkbox" name="bukti" class="sc-input-required" value="Bukti Pembayaran">
+                            <input type="checkbox" name="bukti" class="sc-input-required" value="1">
                             <label>Bukti Pembayaran</label>
                           </div>
                         </div>
