@@ -1,3 +1,8 @@
+<?php 
+  if(!null == $this->session->userdata('username')){
+    redirect('home');
+  }
+?>
   <!DOCTYPE html>
   <html lang="en">
   <?php $this->load->view("templates/auth_header") ?>

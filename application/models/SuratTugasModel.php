@@ -29,7 +29,7 @@ class SuratTugasModel extends CI_Model
     }
     public function getListST($user)
     {
-        $query = $this->db->select("surattugas.ID_ST,DASAR,DATE_FORMAT(TANGGAL,'%d-%m-%Y') as TANGGAL,NAMA")
+        $query = $this->db->select("surattugas.ID_ST,DASAR,NOMOR_SURAT,NAMA")
             ->from('surattugas')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
