@@ -44,7 +44,7 @@
                     <tr>
                       <th>Pegawai yang Diperintah</th>
                       <th>Dasar</th>
-                      <th>Tanggal</th>
+                      <th>Nomor</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
