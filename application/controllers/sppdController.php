@@ -261,7 +261,7 @@ class sppdController extends CI_Controller
 
         $pdf->Cell(10, 6, '5.', 'LTR', 0, 'C'); //baris 5
         $pdf->Cell(80, 6, ' ' . 'Alat angkut yang dipergunakan', 'TR', 0, 'L');
-        $pdf->Cell(100, 6, ' ' . $data[0]->ALAT_ANGKUT, 'TR', 1, 'L');
+        $pdf->Cell(100, 6, ' Angkutan ' . $data[0]->ALAT_ANGKUT, 'TR', 1, 'L');
 
         $pdf->Cell(10, 6, '6.', 'LTR', 0, 'C'); //baris 6
         $pdf->Cell(80, 6, ' ' . 'a. Tempat berangkat', 'TR', 0, 'L');

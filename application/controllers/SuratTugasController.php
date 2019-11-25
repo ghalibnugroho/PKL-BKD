@@ -200,6 +200,7 @@ class SuratTugasController extends CI_Controller
         //$id=$this->input->get('id');
         $where = array('ID_ST' => $id);
         $data['st'] = $this->UserModel->read($where, 'surattugas');
+        $data['all'] = $this->SuratTugasModel->getPeserta();
         $data['peserta'] = $this->SuratTugasModel->getPeserta($id);
         $this->load->view('edit_st', $data);
     }

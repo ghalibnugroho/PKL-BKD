@@ -52,15 +52,22 @@ class SuratTugasModel extends CI_Model
             ->get();
         return $query->result();
     }
-    public function getPeserta($id)
+
+    public function getPeserta()
     {
-        $query = $this->db->select("NAMA,peserta.NIP, peserta.ID_PESERTA,sppd.ID_SPPD,SEBAGAI")
+        if(func_num_args()==1){
+            $id = func_get_arg(0);
+            $query = $this->db->select("NAMA,peserta.NIP, peserta.ID_PESERTA,sppd.ID_SPPD,SEBAGAI")
             ->from('pegawai')
             ->join('peserta', 'peserta.NIP = pegawai.NIP')
             ->join('sppd', 'sppd.ID_ST = peserta.ID_ST')
             ->where('sppd.ID_ST', $id)
             ->get();
-
+        } else{
+            $query = $this->db->select("NAMA, NIP")
+            ->from('pegawai')
+            ->get();
+        }
         return $query->result();
     }
     public function total_st()

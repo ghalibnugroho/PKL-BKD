@@ -69,7 +69,7 @@
                             <label>Pegawai yang diperintah </label>
                               <select required id="selectPegawai" name="diperintah" class=" diperintah form-control sc-input-required">
                                 <option><?php echo $peserta[0]->NAMA;?></option>
-                                <?php foreach ($data as $op) {
+                                <?php foreach ($all as $op) {
                                   echo "<option>".$op->NAMA."</option>";
                                 }
                                 ?>
