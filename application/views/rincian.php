@@ -279,7 +279,7 @@ require_once 'templates/session.php';
                       <div class="form-group">
                         <div class="row">
                           <div class="col-sm-6">
-                            <input type="checkbox" name="bukti" class="sc-input-required" value="Bukti Pembayaran">
+                            <input type="checkbox" name="bukti" class="sc-input-required" value="1">
                             <label>Bukti Pembayaran</label>
                           </div>
                         </div>
@@ -335,6 +335,7 @@ require_once 'templates/session.php';
                               <option>Uang Harian</option>
                               <option>Uang Representatif</option>
                               <option>Penginapan</option>
+                              <option>Transportasi</option>
                               <option>Lain-lain</option>
                             </select>
                           </div>
@@ -455,7 +456,7 @@ require_once 'templates/session.php';
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-6">
-                              <input type="checkbox" name="bukti" class="sc-input-required" value="1"<?php echo $retVal = ($li->BUKTI_PEMBAYARAN == 1) ? 'checked' : '' ;?>>
+                              <input type="checkbox" name="bukti" class="sc-input-required" value="1"<?php echo ($li->BUKTI_PEMBAYARAN == 1) ? 'checked' : '' ;?>>
                               <label>Bukti Pembayaran</label>
                             </div>
                           </div>
@@ -465,8 +466,8 @@ require_once 'templates/session.php';
                             <div class="col-sm-12">
                               <label>Status</label>
                               <select name="status" class="form-control sc-input-required" value="<?php echo $li->STATUS; ?>">
-                                <option> Pergi </option>
-                                <option> Pulang </option>
+                                <option <?php echo $li->STATUS=="Pergi"?"selected":"" ?>> Pergi </option>
+                                <option <?php echo $li->STATUS=="Pulang"?"selected":"" ?>> Pulang </option>
                               </select>
                             </div>
                           </div>
@@ -533,13 +534,13 @@ require_once 'templates/session.php';
                           <div class="row">
                             <div class="col-sm-5">
                               <label>Jenis</label>
-                              <input type="text" name="jenis" class="form-control sc-input-required" placeholder="Jenis" value="<?php echo $li->JENIS?>" list="jenis" required>
-                              <datalist id="jenis">
-                                <option value="Uang Harian">Uang Harian</option>
-                                <option value="Uang Representatif">Uang Representatif</option>
-                                <option value="Penginapan">Penginapan</option>
-                                <option value="Transportasi">Transportasi</option>
-                              </datalist>
+                              <select class="form-control sc-input-required" name="jenis">
+                                <option <?php echo $li->JENIS=='Uang Harian'?'selected':'';?> >Uang Harian</option>
+                                <option <?php echo $li->JENIS=='Uang Representatif'?'selected':'';?>>Uang Representatif</option>
+                                <option <?php echo $li->JENIS=='Penginapan'?'selected':'';?>>Penginapan</option>
+                                <option <?php echo $li->JENIS=='Transportasi'?'selected':'';?>>Transportasi</option>
+                                <option <?php echo $li->JENIS=='Lainlain'?'selected':'';?>>Lain-lain</option>
+                              </select>
                             </div>
                           </div>
                         </div>

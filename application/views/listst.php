@@ -44,7 +44,7 @@
                     <tr>
                       <th>Pegawai yang Diperintah</th>
                       <th>Dasar</th>
-                      <th>Tanggal</th>
+                      <th>Nomor</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -54,7 +54,7 @@
                       echo "<tr>
                             <td>" .$li->NAMA."</td>
                             <td>" .$li->DASAR."</td>
-                            <td>" .$li->TANGGAL." </td> 
+                            <td>" .$li->NOMOR_SURAT." </td> 
                             <td>
                             <a href=".site_url('SuratTugasController/readST/'.$li->ID_ST)." class=\"d-none d-sm-inline-block btn btn-sm btn-info\">
                               <i class=\"fas fa-sm fa-edit\"></i> Edit 
@@ -63,13 +63,33 @@
                             <a href="" data-target="#modal<?php echo $li->ID_ST;?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger">
                             <i class="fas fa-sm fa-trash"></i> Hapus
                             </a>
-                            <a href="<?php echo site_url('SuratTugasController/exportST/'.$li->ID_ST);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
+                            <a href="<?php echo site_url('SuratTugasController/exportST/'.$li->ID_ST);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success" target="_blank">
                             <i class="fas fa-sm  fa-download "></i> Unduh </a>
                           </td></tr>
+                          
+                          <div class="modal fade" id="modal<?php echo $li->ID_ST ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h6 class="modal-title" id="exampleModalLabel">Apakah anda yakin menghapus Surat Tugas?</h6>
+                                          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">×</span>
+                                          </button>
+                                      </div>
+                                      <div class="modal-body">Hapus Surat Tugas dengan nomor <span style="color: blue"=><?php echo $li->NOMOR_SURAT ?></span>? 
+                                      <br>
+                                      <span style="color: red"=> SPPD dan Rincian yang bersangkutan juga akan terhapus</span>
+                                      </div>
+                                      <div class="modal-footer">
 
-
-                            
-                  <?php           
+                                          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                          <a class="btn btn-danger" href="<?= base_url('SuratTugasController/deleteST/' . $li->ID_ST); ?>">Hapus</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                  <?php          
+                   
                     }
                   ?>
 

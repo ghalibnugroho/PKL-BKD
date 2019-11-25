@@ -71,7 +71,7 @@ class SuratTugasController extends CI_Controller
         }
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
         <b>Sukses! </b>Data berhasil dimasukkan </div>');
-        $this->listst();
+        redirect('list-st');
     }
     function konversi_nip($nip)
     {
@@ -193,7 +193,7 @@ class SuratTugasController extends CI_Controller
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
         <b>Sukses! </b>Data berhasil diupdate </div>');
-        $this->listst();
+        redirect('list-st');
     }
     public function readST($id)
     {
@@ -226,7 +226,7 @@ class SuratTugasController extends CI_Controller
         $pdf->SetFont('Times', 'BU', '18');
         $pdf->Cell(0, 15, 'SURAT PERINTAH TUGAS', 0, 1, 'C');
         $pdf->SetFont('Times', '', '12');
-        $pdf->Cell(0, 5, 'Nomor : 800/      /35.73.403/2019', 0, 1, 'C');
+        $pdf->Cell(0, 5, 'Nomor : '.$data[0]->NOMOR_SURAT, 0, 1, 'C');
         $pdf->Ln(10);
         $pdf->Cell(5);
         $pdf->Cell(30, 7, 'Dasar                : ', 0, 0, 'L');
@@ -261,7 +261,8 @@ class SuratTugasController extends CI_Controller
             $pdf->Cell(30, 7, '', 0, 0, 'L');
             $pdf->Cell(10, 7, '', 0, 0, 'L');
             $pdf->Cell(35, 7, 'Jabatan', 0, 0, 'L');
-            $pdf->Cell(0, 7, ':  ' . $value->JABATAN, 0, 1, 'L');
+            $pdf->Cell(3, 7, ': ', 0, 0, 'L');
+            $pdf->MultiCell(0, 7, $value->JABATAN, 0, 'L', false);
         }
 
         $pdf->Cell(5);
