@@ -46,7 +46,7 @@ class UserController extends CI_Controller
                 redirect(base_url('home')); // home -> halaman utama user
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                    Wrong password!</div>');
+                    Password! Salah</div>');
                 redirect(base_url());
             }
         } else if ($admin) {
@@ -59,12 +59,12 @@ class UserController extends CI_Controller
                 redirect(base_url('home')); // home -> halaman utama user
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-                    Wrong password!</div>');
+                Pastikan Username dan Password anda sudah benar!</div>');
                 redirect(base_url());
             }
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-            Your Username is not registered!</div>');
+            Username anda tidak terdaftar!</div>');
             redirect(base_url());
         }
     }

@@ -71,7 +71,7 @@ class SuratTugasController extends CI_Controller
         }
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
         <b>Sukses! </b>Data berhasil dimasukkan </div>');
-        $this->listst();
+        redirect('list-st');
     }
     function konversi_nip($nip)
     {
@@ -193,7 +193,7 @@ class SuratTugasController extends CI_Controller
 
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
         <b>Sukses! </b>Data berhasil diupdate </div>');
-        $this->listst();
+        redirect('list-st');
     }
     public function readST($id)
     {

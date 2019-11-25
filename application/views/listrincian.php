@@ -51,6 +51,7 @@
                             <td>" .$li->NAMA."</td>
                             <td>" .$li->TUJUAN." </td>
                             <td><a href=\"".site_url("RincianController/rincian/").$li->ID_SPPD."\" class=\"d-none d-sm-inline-block btn btn-sm btn-info\"><i class=\"fas fa-sm fa-edit\"></i> Edit </a>"; 
+                            if($li->KODE != NULL){
                             ?>
                             <a href="<?php echo site_url('RincianController/exportRincianPeserta/'.$li->ID_SPPD);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success">
                             <i class="fas fa-sm  fa-download "></i> Rincian Peserta </a>
@@ -63,7 +64,7 @@
                             </td>
                             </tr>
                             <?php
-                            
+                            }
                     }
                   ?>
 

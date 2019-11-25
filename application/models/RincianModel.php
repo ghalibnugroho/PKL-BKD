@@ -79,7 +79,7 @@ class RincianModel extends CI_Model
     
     public function getListRincian($user)
     {
-        $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,TUJUAN,NAMA")
+        $query = $this->db->select("surattugas.ID_ST,sppd.ID_SPPD,TUJUAN,NAMA,sppd.KODE")
             ->from('surattugas')
             ->join('peserta', 'surattugas.ID_ST=peserta.ID_ST')
             ->join('pegawai', 'pegawai.NIP=peserta.NIP')
