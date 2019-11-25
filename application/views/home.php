@@ -229,6 +229,7 @@ require_once('templates/session.php');
           <div class="card-body">
             <div class="chart-pie pt-4 pb-2">
               <canvas id="myPieChart"></canvas>
+              <p id="message_pie" style="color: black; text-align: center; padding-top: 70px; font-size: 20px; font-weight: bold;"></p>
             </div>
             <div class="mt-4 text-center small">
               <span class="mr-2">
@@ -272,6 +273,7 @@ require_once('templates/session.php');
     <?php
     $a = [];
     $b = [];
+    $c = [];
     //looping graphic label
     if ($this->session->userdata('priority') == 1) {
       foreach ($label_graphic as $bt) {
@@ -280,15 +282,50 @@ require_once('templates/session.php');
       foreach ($value_count as $vc) {
         $b[] = $vc['jumlah_sppd'];
       }
+      foreach ($total_sppd_kat_dinas_luar as $total) {
+        $c[] +=  $total->dinas_luar;
+      }
+      foreach ($total_sppd_kat_dinas_dalam as $total) {
+        $c[] +=  $total->dinas_dalam;
+      }
+    } else {
+      foreach ($label_graphic_user as $bt) {
+        $a[] = $bt['bulan_tahun'];
+      }
+      foreach ($value_count_user as $vc) {
+        $b[] = $vc['jumlah_sppd'];
+      }
+      foreach ($total_sppd_dinas_dalam_bidang as $total) {
+        $c[] += $total->dinas_dalam;
+      }
+      foreach ($total_sppd_dinas_luar_bidang as $total) {
+        $c[] += $total->dinas_luar;
+      }
+      $c = array_reverse($c);
     }
 
     ?>
     let a = <?php echo json_encode($a); ?>; //label
-    let b = <?php echo json_encode($b); ?>; //data
+    let b = <?php echo json_encode($b); ?>;
+    let c = <?php echo json_encode($c); ?>; //data
+    var message_pie = document.getElementById('message_pie');
     <?php
     if ($this->session->userdata('priority') == 1) { ?>
       BarGraphic();
-      PieGraphic();
+      if (c[0] == 0 && c[1] == 0) {
+        $('#myPieChart').remove();
+        message_pie.innerHTML = "Chart values is Empty";
+      } else {
+        PieGraphic();
+      }
+    <?php } else if ($this->session->userdata('priority') == 2) { ?>
+      BarGraphic();
+      if (c[0] == 0 && c[1] == 0) {
+        $('#myPieChart').remove();
+        message_pie.innerHTML = "Chart values is Empty";
+      } else {
+        PieGraphic();
+      }
     <?php } ?>
 
     function addData(chart, label, data) {
@@ -413,11 +450,7 @@ require_once('templates/session.php');
         data: {
           labels: ["Dinas Luar", "Dinas Dalam"],
           datasets: [{
-            data: [<?php foreach ($total_sppd_kat_dinas_luar as $total) {
-                      echo $total->dinas_luar;
-                    } ?>, <?php foreach ($total_sppd_kat_dinas_dalam as $total) {
-                            echo $total->dinas_dalam;
-                          } ?>],
+            data: c,
             backgroundColor: ['#e74a3b', '#f6c23e'],
             hoverBackgroundColor: ['#17a673', '#17a673'],
             hoverBorderColor: "rgba(234, 236, 244, 1)",

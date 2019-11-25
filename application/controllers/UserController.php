@@ -100,13 +100,33 @@ class UserController extends CI_Controller
             for ($i = 0; $i < count($countJumlahSppdBerangkat); $i++) {
                 $value_count[] = $countJumlahSppdBerangkat[$i][0];
             }
-            print_r($value_count);
             $data['value_count'] = $value_count;
         } else {
             $user = $this->session->userdata('username');
             $idBidang = $this->UserModel->getIdBidang($user);
             $data['total_stBidang'] = $this->SuratTugasModel->countGetListST($user);
             $data['total_sppdBidang'] = $this->SppdModel->countGetSppd($idBidang);
+            $data['total_sppd_dinas_dalam_bidang'] = $this->SppdModel->total_kategori_dinas_dalam_bidang($user);
+            $data['total_sppd_dinas_luar_bidang'] = $this->SppdModel->total_kategori_dinas_luar_bidang($user);
+            $unReverseBulanTahun = $this->SppdModel->bulan_tahun_sppd_user($user);
+            $data['label_graphic_user'] = array_reverse($unReverseBulanTahun);
+            foreach ($data['label_graphic_user'] as $bt) {
+                $value[] = $bt['bulan_tahun'];
+            }
+            foreach ($value as $val) {
+                $bulan_tahun[] = explode('-', $val);
+            }
+            for ($i = 0; $i < count($bulan_tahun); $i++) {
+                $bulan[] = $bulan_tahun[$i][0];
+                $tahun[] = $bulan_tahun[$i][1];
+            }
+            for ($i = 0; $i < count($bulan_tahun); $i++) {
+                $countJumlahSppdBerangkat[] = $this->SppdModel->jumlah_sppd_berangkat($bulan[$i], $tahun[$i]);
+            }
+            for ($i = 0; $i < count($countJumlahSppdBerangkat); $i++) {
+                $value_count[] = $countJumlahSppdBerangkat[$i][0];
+            }
+            $data['value_count_user'] = $value_count;
         }
         $this->load->view('home', $data);
     }
