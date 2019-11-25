@@ -92,7 +92,7 @@ require_once('templates/session.php');
                         </div>
                       </div>
                     </div>
-                    
+
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4" id="instansi">
                       <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
@@ -104,9 +104,9 @@ require_once('templates/session.php');
                           <span class="text">Tambah Instansi Tujuan</span>
                         </a>
                       </div>
-                      
+
                       <div class="card-body">
-                      <?=$this->session->flashdata('instansi');?>
+                        <?= $this->session->flashdata('instansi'); ?>
                         <div class="table-responsive">
                           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <col width="10%">
@@ -122,23 +122,24 @@ require_once('templates/session.php');
                               </tr>
                             </thead>
                             <tbody>
-                            <?php 
-                              $num=1;
-                              foreach($instansi as $in){
-                                echo "<tr><td>".$num++."</td>
-                                      <td>" .$in->INSTANSI."</td>
-                                      <td>" .$in->TANGGAL."</td>
+                              <?php
+                                $num = 1;
+                                foreach ($instansi as $in) {
+                                  echo "<tr><td>" . $num++ . "</td>
+                                      <td>" . $in->INSTANSI . "</td>
+                                      <td>" . $in->TANGGAL . "</td>
                                       <td>"
-                                ?>
-                                      <a href="" data-target="#modalhapus<?php echo $in->ID_INSTANSI;?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger">
-                                      <i class="fas fa-sm fa-trash"></i> Hapus
-                                      </a>
-                                    </td></tr>
-                                      
+                                  ?>
+                                <a href="" data-target="#modalhapus<?php echo $in->ID_INSTANSI; ?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger">
+                                  <i class="fas fa-sm fa-trash"></i> Hapus
+                                </a>
+                                </td>
+                                </tr>
 
-                            <?php           
-                              }
-                            ?>
+
+                              <?php
+                                }
+                                ?>
 
                             </tbody>
                           </table>
@@ -150,11 +151,8 @@ require_once('templates/session.php');
                         <div class="col-sm-4">
                           <label>Kategori Dinas</label>
                           <select required name="kategori" class="form-control sc-input-required">
-                          <option value="none" selected disabled hidden> 
-                              Pilih Jenis Dinas 
-                          </option>
-                            <option value="DALAM" <?php echo $li->KATEGORI=="DALAM"? "selected":" " ?>>Dalam Daerah</option>
-                            <option value="LUAR" <?php echo $li->KATEGORI=="LUAR"? "selected":" " ?>>Luar Daerah</option>
+                            <option value="Dinas Dalam" <?php echo $li->KATEGORI == 'Dinas Dalam' ? 'selected' : '' ?>>Dinas Dalam</option>
+                            <option value="Dinas Luar" <?php echo $li->KATEGORI == 'Dinas Luar' ? 'selected' : '' ?>>Dinas Luar</option>
                           </select>
                         </div>
                       </div>
@@ -171,43 +169,43 @@ require_once('templates/session.php');
             </div>
           </div>
           <!-- /.container-fluid -->
-          
+
         </div>
         <!-- End of Main Content -->
         <!-- Modal Tambah Instansi-->
-        <div class="modal fade " id="modaltambah" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal fade " id="modaltambah" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-body">
-              <div class="tab-pane active" id="tab_1">  
-                        <form method="POST" role="form" action="<?php echo site_url('sppdController/tambahInstansi');?>">
-                        <div class="form-group">
-                          <div class="row">
-                            <div class="col-sm-8">
-                            <input type="hidden" name="idst" value="<?php echo $list[0]->ID_ST; ?>">
-                            <input type="hidden" name="idsppd" value="<?php echo $list[0]->ID_SPPD; ?>">
-                            </div>
-                          </div>
+                <div class="tab-pane active" id="tab_1">
+                  <form method="POST" role="form" action="<?php echo site_url('sppdController/tambahInstansi'); ?>">
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-8">
+                          <input type="hidden" name="idst" value="<?php echo $list[0]->ID_ST; ?>">
+                          <input type="hidden" name="idsppd" value="<?php echo $list[0]->ID_SPPD; ?>">
                         </div>
-
-                        <div class="form-group input-group">
-                          <div class="row">
-                            <div class="col-sm-5">
-                              <label>Instansi Tujuan</label>
-                              <input type="text"  required name="minstansi" class=" form-control sc-input-required" >
-                            </div>
-                            <div class="col-sm-5">
-                              <label>Tanggal</label>  
-                              <input type="date" required name="mtanggal" class="form-control sc-input-required" >
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                          <input type="submit" value="Simpan" class="btn btn-primary">
-                        </div>
-                        </form>
                       </div>
+                    </div>
+
+                    <div class="form-group input-group">
+                      <div class="row">
+                        <div class="col-sm-5">
+                          <label>Instansi Tujuan</label>
+                          <input type="text" required name="minstansi" class=" form-control sc-input-required">
+                        </div>
+                        <div class="col-sm-5">
+                          <label>Tanggal</label>
+                          <input type="date" required name="mtanggal" class="form-control sc-input-required">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                      <input type="submit" value="Simpan" class="btn btn-primary">
+                    </div>
+                  </form>
+                </div>
                 </button>
               </div>
             </div>
@@ -229,57 +227,55 @@ require_once('templates/session.php');
     </a>
 
     <?php
-    foreach($instansi as $in){
-    ?>
-      <div class="modal fade" id="modalhapus<?php echo $in->ID_INSTANSI;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    foreach ($instansi as $in) {
+      ?>
+      <div class="modal fade" id="modalhapus<?php echo $in->ID_INSTANSI; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Anda yakin ingin menghapus data instansi?</h5>
               <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
+                <span aria-hidden="true">×</span>
               </button>
             </div>
-            <div class="modal-body">Anda akan menghapus instansi <?php echo $in->INSTANSI;?>.</div>
-              <div class="modal-footer">
-                <form method="post" action="<?php echo site_url('sppdController/hapusInstansi');?>">
-                  <input type="hidden" name="idinstansi" value="<?php echo $in->ID_INSTANSI; ?>">
-                  <input type="hidden" name="idst" value="<?php echo $list[0]->ID_ST; ?>">
-                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                  <input type="submit" value="Hapus" class="btn btn-danger">
-                </form>
-              </div>
+            <div class="modal-body">Anda akan menghapus instansi <?php echo $in->INSTANSI; ?>.</div>
+            <div class="modal-footer">
+              <form method="post" action="<?php echo site_url('sppdController/hapusInstansi'); ?>">
+                <input type="hidden" name="idinstansi" value="<?php echo $in->ID_INSTANSI; ?>">
+                <input type="hidden" name="idst" value="<?php echo $list[0]->ID_ST; ?>">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                <input type="submit" value="Hapus" class="btn btn-danger">
+              </form>
             </div>
-          </div>
-        </div> 
-      </div>  
-    <?php
-    }
-    ?>
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="<?= base_url('auth/logout'); ?>">Logout</a>
           </div>
         </div>
       </div>
+  </div>
+<?php
+}
+?>
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-footer">
+
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" href="<?= base_url('auth/logout'); ?>">Logout</a>
+      </div>
     </div>
+  </div>
+</div>
 
 </body>
 <script>
-
-
   $(document).ready(function() {
     $(".pegawai_diperintah").autocomplete({
       source: "<?php echo site_url('sppdController/getPegawai/?'); ?>"
@@ -329,7 +325,7 @@ require_once('templates/session.php');
     width: '100%',
   });
 
-  if(window.location.hash) {
+  if (window.location.hash) {
     var hash = window.location.hash;
 
     $('html, body').animate({
