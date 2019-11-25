@@ -153,8 +153,8 @@ require_once('templates/session.php');
                           <option value="none" selected disabled hidden> 
                               Pilih Jenis Dinas 
                           </option>
-                            <option value="DALAM" <?php echo $li->KATEGORI=="DALAM"? "selected":" " ?>>Dalam Daerah</option>
-                            <option value="LUAR" <?php echo $li->KATEGORI=="LUAR"? "selected":" " ?>>Luar Daerah</option>
+                            <option value="Dinas Dalam" <?php echo $li->KATEGORI=="Dinas Dalam"? "selected":" " ?>>Dalam Daerah</option>
+                            <option value="Dinas Luar" <?php echo $li->KATEGORI=="Dinas Luar"? "selected":" " ?>>Luar Daerah</option>
                           </select>
                         </div>
                       </div>

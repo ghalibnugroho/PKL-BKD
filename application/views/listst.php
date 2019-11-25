@@ -60,7 +60,7 @@
                               <i class=\"fas fa-sm fa-edit\"></i> Edit 
                             </a>"
                       ?>
-                            <a href="" data-target="#modal<?php echo $li->ID_ST;?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger">
+                            <a href="<?php echo site_url('SuratTugasController/deleteST/'.$li->ID_ST);?>" data-target="#modal<?php echo $li->ID_ST;?>" data-toggle="modal" class="d-none d-sm-inline-block btn btn-sm btn-danger">
                             <i class="fas fa-sm fa-trash"></i> Hapus
                             </a>
                             <a href="<?php echo site_url('SuratTugasController/exportST/'.$li->ID_ST);?>"  class="d-none d-sm-inline-block btn btn-sm btn-success" target="_blank">

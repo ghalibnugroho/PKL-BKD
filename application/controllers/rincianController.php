@@ -234,7 +234,7 @@ class RincianController extends CI_Controller
         $spreadsheet = $reader->load('template/rincian_temp.xls');
         $currentContentRow = 9;
         $spreadsheet->getActiveSheet()->getStyle('A1:A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $spreadsheet->getActiveSheet()->setCellValue('A1', "RINCIAN BIAYA PERJALANAN DINAS " . $sppd[0]->KATEGORI);
+        $spreadsheet->getActiveSheet()->setCellValue('A1', "RINCIAN BIAYA PERJALANAN DINAS " . ($sppd[0]->KATEGORI=="Dinas Dalam"?"DALAM DAERAH":"LUAR DAERAH"));
 
         $spreadsheet->getActiveSheet()->setCellValue('A2', $sppd[0]->DASAR);
 
@@ -344,7 +344,7 @@ class RincianController extends CI_Controller
 
         header('Content-Type: application/vnd.openxmlformat-officedocument.spreadsheetml.sheet');
 
-        header('Content-Disposition: attachment;filename="rincian.xlsx"');
+        header('Content-Disposition: attachment;filename="Rincian-'.$sppd[0]->NOMOR_SURAT.'.xlsx"');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 
@@ -467,7 +467,7 @@ class RincianController extends CI_Controller
 
         header('Content-Type: application/vnd.openxmlformat-officedocument.spreadsheetml.sheet');
 
-        header('Content-Disposition: attachment;filename="kwitansi.xlsx"');
+        header('Content-Disposition: attachment;filename="kwitansi-'.$sppd[0]->NOMOR_SURAT.'.xlsx"');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 
@@ -487,7 +487,7 @@ class RincianController extends CI_Controller
 
         $spreadsheet = $reader->load('template/nominatif_temp.xlsx');
 
-        $spreadsheet->getActiveSheet()->setCellValue('A1', "DAFTAR NOMINATIF PERJALANAN DINAS " . $sppd[0]->KATEGORI);
+        $spreadsheet->getActiveSheet()->setCellValue('A1', "DAFTAR NOMINATIF PERJALANAN DINAS " . ($sppd[0]->KATEGORI=="Dinas Dalam"?"DALAM DAERAH":"LUAR DAERAH"));
         $spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
         $height_row = ceil(strlen($sppd[0]->DASAR) / 200) * 12;
         $spreadsheet->getActiveSheet()->getRowDimension(2)->setRowHeight($height_row);
@@ -657,7 +657,7 @@ class RincianController extends CI_Controller
 
         $spreadsheet->getDefaultStyle()->getFont()->setName('Arial')->setSize(10);
         $spreadsheet->getActiveSheet()->getStyle('A1:C3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $spreadsheet->getActiveSheet()->setCellValue('A1', "DAFTAR TERIMA PERJALANAN DINAS" . $sppd[0]->KATEGORI);
+        $spreadsheet->getActiveSheet()->setCellValue('A1', "DAFTAR TERIMA PERJALANAN DINAS " . ($sppd[0]->KATEGORI=="Dinas Dalam"?"DALAM DAERAH":"LUAR DAERAH"));
 
         $spreadsheet->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $spreadsheet->getActiveSheet()->getStyle('A2')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
@@ -894,7 +894,7 @@ class RincianController extends CI_Controller
         $spreadsheet->getActiveSheet()->setCellValue('C7', ': ' . $this->konversi_nip($data[0]->NIP));
         $spreadsheet->getActiveSheet()->setCellValue('A8', 'Jabatan');
         $spreadsheet->getActiveSheet()->setCellValue('C8', ': ' . $data[0]->JABATAN);
-        $spreadsheet->getActiveSheet()->setCellValue('A10', 'Berdasarkan Surat Perintah Tugas Nomor: '.$sppd[0]->NOMOR_SURAT.' '. $tanggal_berangkat[2] . ' dengan ini kami menyatakan
+        $spreadsheet->getActiveSheet()->setCellValue('A10', 'Berdasarkan Surat Perintah Tugas Nomor: '.$sppd[0]->NOMOR_SURAT.' dengan ini kami menyatakan
         ');
         $spreadsheet->getActiveSheet()->setCellValue('A11', 'dengan sesungguhnya bahwa : ');
         $spreadsheet->getActiveSheet()->setCellValue('A13', '1.');
@@ -953,7 +953,7 @@ class RincianController extends CI_Controller
 
         header('Content-Type: application/vnd.openxmlformat-officedocument.spreadsheetml.sheet');
 
-        header('Content-Disposition: attachment;filename="nominatif.xlsx"');
+        header('Content-Disposition: attachment;filename="Nominatif-'.$sppd[0]->NOMOR_SURAT.'.xlsx"');
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 
@@ -1013,7 +1013,7 @@ class RincianController extends CI_Controller
                     $instansi .= $temp_ins->INSTANSI;
                     $count_ins++;
                 }
-                if ($value->KATEGORI == 'LUAR') {
+                if ($value->KATEGORI == 'Dinas Luar') {
                     $spreadsheet->setActiveSheetIndex(1);
                     $count_luar++;
                     if ($count_luar > 1) {
@@ -1087,7 +1087,7 @@ class RincianController extends CI_Controller
                 $lain2 = 0;
             }
 
-            if ($value->KATEGORI == 'LUAR') {
+            if ($value->KATEGORI == 'Dinas Luar') {
                 if ($value->JENIS == 'Uang Harian') {
                     $spreadsheet->getActiveSheet()->setCellValue('O' . $currentRowL, $value->TOTAL);
                 } else if ($value->JENIS == 'Transportasi' && $value->NO_TIKET) {

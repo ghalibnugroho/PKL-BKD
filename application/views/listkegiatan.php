@@ -143,8 +143,15 @@ require_once 'templates/session.php';
                                         </div>
                                         <div class=" col-6">
                                             <label>NIP</label>
-                                            <input required type="text" name="nip_pegawai" placeholder="NIP Pegawai" class="form-control sc-input-required sc-select" value="<?php echo $li->nip_pptk ?>">
-                                        </div>
+                                            <select required id="nip" name="nip_pegawai" class="form-control sc-input-required sc-select">
+                                            <option value="none" selected disabled hidden> 
+                                            <?php echo $li->nip_pptk?> </option>
+                                            <?php 
+                                            foreach($NIP as $n){
+                                                echo "<option>".$n->NIP."</option>";
+                                            };
+                                            ?>
+                                        </select>                                        </div>
                                         <div class=" col-6">
                                             <label>Nama Kegiatan</label>
                                             <input required type="text" name="nama_kegiatan" placeholder="Nama Kegiatan" class="form-control sc-input-required sc-select" value="<?php echo $li->nama_kegiatan ?>">

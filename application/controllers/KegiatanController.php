@@ -116,7 +116,7 @@ class KegiatanController extends CI_Controller
         $where = array('KODE' => $kode);
         $this->UserModel->delete($where, 'kegiatan');
         $this->session->set_flashdata('hapusKegiatan', '<div class="alert alert-danger" role="alert">
-        Pegawai berhasil dihapus </div>');
+        Kegiatan berhasil dihapus </div>');
         redirect('daftar-kegiatan');
     }
 }
