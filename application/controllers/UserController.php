@@ -75,6 +75,8 @@ class UserController extends CI_Controller
         $data['total_pegawai'] = $this->PegawaiModel->total_pegawai();
         $data['total_kegiatan'] = $this->KegiatanModel->total_kegiatan();
         $value = [];
+        $bulan_tahun = [];
+        $value_count = [];
         $countJumlahSppdBerangkat = [];
         if ($this->session->userdata('priority') == 1) {
             $data['total_st'] = $this->SuratTugasModel->total_st();

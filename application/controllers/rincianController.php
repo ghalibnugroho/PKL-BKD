@@ -1013,7 +1013,7 @@ class RincianController extends CI_Controller
                     $instansi .= $temp_ins->INSTANSI;
                     $count_ins++;
                 }
-                if ($value->KATEGORI == 'LUAR') {
+                if ($value->KATEGORI == 'Dinas Luar') {
                     $spreadsheet->setActiveSheetIndex(1);
                     $count_luar++;
                     if ($count_luar > 1) {
@@ -1087,7 +1087,7 @@ class RincianController extends CI_Controller
                 $lain2 = 0;
             }
 
-            if ($value->KATEGORI == 'LUAR') {
+            if ($value->KATEGORI == 'Dinas Luar') {
                 if ($value->JENIS == 'Uang Harian') {
                     $spreadsheet->getActiveSheet()->setCellValue('O' . $currentRowL, $value->TOTAL);
                 } else if ($value->JENIS == 'Transportasi' && $value->NO_TIKET) {

@@ -132,9 +132,8 @@ class SppdModel extends CI_Model
             ->order_by('TGL_BERANGKAT', 'DESC')
             ->limit(5)
             ->get();
-        if ($query->num_rows() != 0) {
-            return $query->result_array();
-        }
+        return $query->result_array();
+        
     }
 
     // SELECT DISTINCT date_format(TGL_BERANGKAT, "%M-%Y") as bulan_tahun FROM sppd join surattugas on sppd.ID_ST = surattugas.ID_ST join bidang on surattugas.ID_BIDANG = bidang.ID_BIDANG where bidang.NAMA_BIDANG = 'SEKRETARIAT' && TGL_BERANGKAT is NOT NULL ORDER BY STR_TO_DATE( bulan_tahun, "%M-%Y" ) DESC limit 12
