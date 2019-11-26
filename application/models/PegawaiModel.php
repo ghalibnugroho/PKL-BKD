@@ -22,7 +22,8 @@ class PegawaiModel extends CI_Model
     function fetch_data($query)
     {
         $this->db->select("*");
-        $this->db->from("pegawai");
+        $this->db->from("pegawai")
+        ->where('AKTIF', 1);
         if ($query != '') {
             $this->db->like('NAMA', $query);
             $this->db->or_like('GOLONGAN', $query);
@@ -30,6 +31,7 @@ class PegawaiModel extends CI_Model
             $this->db->or_like('JABATAN', $query);
             $this->db->or_like('TANGGALLAHIR', $query);
             $this->db->or_like('NIP', $query);
+            
         }
         $this->db->order_by('NAMA', 'ASC');
         return $this->db->get();

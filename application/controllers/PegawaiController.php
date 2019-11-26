@@ -154,7 +154,8 @@ class PegawaiController extends CI_Controller
     public function hapusPegawai($nip)
     {
         $where = array('NIP' => $nip);
-        $this->UserModel->delete($where, 'pegawai');
+        $data = array('AKTIF'=> 0 );
+        $this->UserModel->update($where, 'pegawai',$data);
         $this->session->set_flashdata('hapusPegawai', '<div class="alert alert-success" role="alert">
         Pegawai berhasil dihapus </div>');
         $this->daftarpegawai();

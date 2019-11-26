@@ -70,11 +70,7 @@
     <div class="sidebar-heading">
       Surat Tugas
     </div>
-    <li class="nav-item">
-      <a class="nav-link" href="<?php echo site_url('surat-tugas') ?>">
-        <i class="fas fa-fw fa-table"></i>
-        <span>Buat Surat Tugas</span></a>
-    </li>
+
     <li class="nav-item">
       <a class="nav-link" href="<?php echo site_url('list-st') ?>">
         <i class="fas fa-fw fa-table"></i>
@@ -90,15 +86,16 @@
       Surat Perintah Perjalanan Dinas
     </div>
     <li class="nav-item">
-      <a class="nav-link" href="<?php echo site_url('list-rincian') ?>">
-        <i class="fas fa-fw fa-table"></i>
-        <span>List Rincian</span></a>
-    </li>
-    <li class="nav-item">
       <a class="nav-link" href="<?php echo site_url('list-sppd') ?>">
         <i class="fas fa-fw fa-table"></i>
         <span>List SPPD</span></a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="<?php echo site_url('list-rincian') ?>">
+        <i class="fas fa-fw fa-table"></i>
+        <span>List Rincian</span></a>
+    </li>
+
 
     <hr class="sidebar-divider">
   <?php }
