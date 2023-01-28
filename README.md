@@ -9,14 +9,14 @@ Project Used:
  - PHP (Which support CI3 version)
  - Codeigniter3 Framework
 	
-	Aktor: 
-	- Pegawai (Admin tiap bidang)
-	- Sekretaris
-	
-	Fungsionalitas:
-	- Membuat Surat Tugas (CRUD & Unduh)
-	- Membuat Surat Perintah Perjalanan Dinas (CRUD & Unduh)
-	- Membuat Rincian Perjalanan Dinas (CRUD & Unduh)
-	- Membuat Kegiatan (CRUD)
-	- Menambah Pegawai (CRUD)
-	- Mengunduh Rekap Keuangan (Admin)
+Aktor: 
+- Pegawai (Admin tiap bidang)
+- Sekretaris
+
+Fungsionalitas:
+- Membuat Surat Tugas (CRUD & Unduh)
+- Membuat Surat Perintah Perjalanan Dinas (CRUD & Unduh)
+- Membuat Rincian Perjalanan Dinas (CRUD & Unduh)
+- Membuat Kegiatan (CRUD)
+- Menambah Pegawai (CRUD)
+- Mengunduh Rekap Keuangan (Admin)
